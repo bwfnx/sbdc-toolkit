@@ -1,0 +1,12 @@
+{
+  "name": "maryland-sbdc",
+  "description": "Maryland SBDC advisor toolkit marketplace by Brandon Mason.",
+  "owner": { "name": "Brandon Mason" },
+  "plugins": [
+    {
+      "name": "sbdc-toolkit",
+      "source": "./",
+      "description": "Maryland SBDC advisor toolkit: 14 skills for client follow-up emails, meeting notes, SOPs, re-engagement, underwriting, debt workouts, grants, business model canvas, TAM-SAM-SOM, marketing plans, government proposals, success stories, referrals, and training newsletters."
+    }
+  ]
+}
