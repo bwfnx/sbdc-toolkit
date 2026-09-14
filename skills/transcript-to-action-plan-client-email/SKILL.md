@@ -52,6 +52,14 @@ For the subject line, pull the client ID code and company name from the transcri
 
 **Relevant Links from Our Meeting** — any resources, documents, or URLs that came up, each with a title and the link.
 
+## Check Maryland good standing (counselor click-through)
+
+Automated good-standing lookups against SDAT / Maryland Business Express are blocked by Cloudflare, so don't try to fetch the status. Instead, surface the SDAT Business Entity Search link so the consultant can click it and read the **Status** field themselves:
+
+- Maryland Business Entity Search — https://egov.maryland.gov/BusinessExpress/EntitySearch
+
+When the consultant confirms the business is **not in good standing** (Forfeited, Not in Good Standing, or Dissolved), add a Next Steps line telling the client to resolve it — usually by filing the overdue Annual Report / Personal Property Return and paying any late penalties through Maryland Business Express (businessexpress.maryland.gov). If the business is in good standing, add nothing.
+
 ## Milestones
 
 Anything in the transcript that matches one of these gets pulled into the accomplishments section, worded plainly rather than left in transcript jargon. This list is not illustrative — it mirrors Neoserra's actual milestone categories, so match it exactly rather than paraphrasing a category into something close:
@@ -108,9 +116,20 @@ Produce a copiable table with one row per milestone and these columns: Milestone
 
 ## After the email: offer a follow-up menu
 
-Once the draft email is delivered, present a lettered table of follow-up options for the consultant — additional generative-AI deliverables that would help this specific client, generated from what actually came up in the transcript (examples: a 30-day project management sprint with a Gantt chart, a market and industry analysis and competitive review, a grant eligibility and search summary). Assign each option a letter so the consultant can continue the conversation by just naming a letter.
+Once the draft email is delivered, present a short lettered table of follow-up options for the consultant — the additional deliverables that would actually help *this* client, drawn from what came up in the transcript. Keep it tight: aim for six to eight letters total, not an exhaustive catalog. Assign each option a letter so the consultant can continue the conversation by just naming a letter.
 
-Always include two specific options in that table:
+Build the menu from three kinds of options.
 
-- One lettered option that maps the meeting directly to Nexus/Neoserra milestone and counseling dropdown selections, and auto-generates the exact Neoserra dropdown selections to enter.
-- One lettered option explicitly framed as "high value, minimum effort."
+**1. Standing options — include the ones the transcript actually supports, and skip any that don't fit the meeting.** Don't force a financial scorecard onto a meeting that had nothing financial in it.
+
+- **Capital-readiness scorecard** — when financing, a loan, credit, pricing, or investor readiness came up. Score the business on what a typical SBA 7(a) lender scrutinizes (proof of demand, pricing, market category, letters of intent, management, DSCR) and turn it into a plain-language "here's what to fix before you approach a lender" list. It works for investor pitches too. For a deeper, file-backed version, hand off to the **Underwriter and Capital Coach** skill.
+- **Recommended training plan** — a top-ten list of SBDC webinars matched to what this client needs, each with the date and a one-line reason, sequenced in the order they should take them. If the consultant supplies the current Neoserra Training Events export, use it — and remind them to export the **next six months, not the fiscal year**, or it will recommend events that already passed. Offer a client-facing version reformatted as an email they can send directly.
+- **Funding and grant search** — when the client needs capital or grant funding. When the **Maryland Community Business Compass** connector is available, run the search live through it — its funding-search and program-recommendation tools cover ~700 Maryland programs and can match by county, industry, and business profile — rather than listing programs from memory. For grant-readiness plus matched opportunities, hand off to the **Funding Match / grant finder** skill.
+- **Hand off to another SBDC Toolkit skill** — when the meeting points squarely at one, name it: Success Story (a fundable win worth writing up), Business Model Canvas Helper (early-stage client with no canvas yet), Proposal Buddy (government contracting, bid/no-bid), Marketing Plan Generator, or TAM-SAM-SOM. Only surface the one or two that genuinely fit.
+
+**2. Chaotic-good options — always generate two or three deliverables invented from this specific transcript**, not pulled from the standing list: the sharp, non-obvious things this particular meeting calls for (a 30-day sprint with a Gantt chart, a competitor teardown, a one-page pitch aimed at a specific lender, a hiring plan — whatever the conversation actually implies). This is where the skill earns its keep, so keep these fresh and client-specific rather than defaulting back to the standing options.
+
+**3. Two required options, always present:**
+
+- One that maps the meeting directly to Nexus/Neoserra milestone and counseling dropdown selections, and auto-generates the exact Neoserra dropdown selections to enter.
+- One explicitly framed as "high value, minimum effort."
