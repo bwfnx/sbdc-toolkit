@@ -131,5 +131,12 @@ Build the menu from three kinds of options.
 
 **3. Two required options, always present:**
 
-- One that maps the meeting directly to Nexus/Neoserra milestone and counseling dropdown selections, and auto-generates the exact Neoserra dropdown selections to enter.
+- One that maps the meeting to Nexus/Neoserra. When the consultant picks it, produce BOTH (a) the exact milestone + counseling dropdown selections to enter, AND (b) the full third-person EDMIS/Neoserra counseling session narrative described below — never the dropdown table alone. Producing only the dropdowns is a drift error.
 - One explicitly framed as "high value, minimum effort."
+
+## Neoserra / EDMIS counseling narrative
+
+The Neoserra-mapping option must always include a substantive, third-person, audit-grade session narrative that would survive an SBA EDMIS / Form 641 review — not just the dropdown table. Include a header and then prose:
+
+- Header: client name + Neoserra client ID (HOxxxx) + center + counselor; session date; session type (Initial vs Follow-up — attach a returning/referred client to their existing HOxxxx); counseling method (In-Person / Telephone / Email / Online-Virtual); **Contact hours and Prepare hours recorded SEPARATELY** — leave Prepare for the consultant, never invent a figure; client stage; special designations (veteran/SDVOSB and demographic) when known; primary + secondary topic areas mapped to SBA/Neoserra categories.
+- Narrative: an objective third-person account of the topics discussed, advice given, referrals made, and next steps. Exclude anything said after the client left and any subjective judgment about the client. Record referrals and any milestones or economic impact (jobs, capital, sales, business formed) as confirm-before-recording — never assert an unverified milestone.
