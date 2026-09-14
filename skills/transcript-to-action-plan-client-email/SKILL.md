@@ -104,7 +104,7 @@ This list is not exhaustive of everything a client might accomplish, but it is t
 
 ## Mining milestones from an uploaded Neoserra client file
 
-Sometimes there is no transcript — the consultant uploads a Neoserra client record (an "All Activity by Client" report or a Survey Response report, usually PDF, sometimes Word) and wants every milestone and capital infusion pulled out of it. Handle that as a document-extraction mode of this same milestone work, matching against the milestone list above (the SBA and Neoserra definitions behind those categories are in `references/milestone-mapping-reference.pdf`).
+Sometimes there is no transcript — the consultant uploads a Neoserra client record (an "All Activity by Client" report or a Survey Response report, usually PDF, sometimes Word) and wants every milestone and capital infusion pulled out of it. Handle that as a document-extraction mode of this same milestone work, matching against the milestone list above (the SBA and Neoserra definitions behind those categories are in `references/milestone-mapping-reference.md`).
 
 Produce a copiable table with one row per milestone and these columns: Milestone, Date achieved or reported, Dollar value, Increase amount (for changes in sales, profits, staff, or exports), New hires (count, for staffing changes), and Source citation. The citation can be a direct quote, a section reference, or a general file reference tied to the client-file record date. Rules:
 
@@ -120,10 +120,14 @@ Once the draft email is delivered, present a short lettered table of follow-up o
 
 Build the menu from three kinds of options.
 
-**1. Standing options — include the ones the transcript actually supports, and skip any that don't fit the meeting.** Don't force a financial scorecard onto a meeting that had nothing financial in it.
+**1a. Always-present options — put these three in every menu, no matter what the meeting covered:**
 
-- **Capital-readiness scorecard** — when financing, a loan, credit, pricing, or investor readiness came up. Score the business on what a typical SBA 7(a) lender scrutinizes (proof of demand, pricing, market category, letters of intent, management, DSCR) and turn it into a plain-language "here's what to fix before you approach a lender" list. It works for investor pitches too. For a deeper, file-backed version, hand off to the **Underwriter and Capital Coach** skill.
+- **Capital-readiness scorecard** — score the business on what a typical SBA 7(a) lender scrutinizes (proof of demand, pricing, market category, letters of intent, management, DSCR) and turn it into a plain-language "here's what to fix before you approach a lender" list. It works for investor pitches too. Offer it even when little financial came up — frame it as a proactive readiness check. For a deeper, file-backed version, hand off to the **Underwriter and Capital Coach** skill.
 - **Recommended training plan** — a top-ten list of SBDC webinars matched to what this client needs, each with the date and a one-line reason, sequenced in the order they should take them. If the consultant supplies the current Neoserra Training Events export, use it — and remind them to export the **next six months, not the fiscal year**, or it will recommend events that already passed. Offer a client-facing version reformatted as an email they can send directly.
+- **Maryland good-standing check** — always give the SDAT Business Entity Search link (https://egov.maryland.gov/BusinessExpress/EntitySearch) so the consultant can verify the entity's status (see the good-standing section above). If they confirm it's Not in Good Standing, Forfeited, or Dissolved, that becomes a Next Steps line.
+
+**1b. Conditional standing options — include only when the transcript supports them:**
+
 - **Funding and grant search** — when the client needs capital or grant funding. When the **Maryland Community Business Compass** connector is available, run the search live through it — its funding-search and program-recommendation tools cover ~700 Maryland programs and can match by county, industry, and business profile — rather than listing programs from memory. For grant-readiness plus matched opportunities, hand off to the **Funding Match / grant finder** skill.
 - **Hand off to another SBDC Toolkit skill** — when the meeting points squarely at one, name it: Success Story (a fundable win worth writing up), Business Model Canvas Helper (early-stage client with no canvas yet), Proposal Buddy (government contracting, bid/no-bid), Marketing Plan Generator, or TAM-SAM-SOM. Only surface the one or two that genuinely fit.
 
@@ -131,12 +135,12 @@ Build the menu from three kinds of options.
 
 **3. Two required options, always present:**
 
-- One that maps the meeting to Nexus/Neoserra. When the consultant picks it, produce BOTH (a) the exact milestone + counseling dropdown selections to enter, AND (b) the full third-person EDMIS/Neoserra counseling session narrative described below — never the dropdown table alone. Producing only the dropdowns is a drift error.
+- One that maps the meeting to Nexus/Neoserra. When the consultant picks it, produce BOTH (a) the exact milestone + counseling dropdown selections to enter, AND (b) the full third-person Nexus/Neoserra counseling session narrative described below — never the dropdown table alone. Producing only the dropdowns is a drift error.
 - One explicitly framed as "high value, minimum effort."
 
-## Neoserra / EDMIS counseling narrative
+## Neoserra / Nexus counseling narrative
 
-The Neoserra-mapping option must always include a substantive, third-person, audit-grade session narrative that would survive an SBA EDMIS / Form 641 review — not just the dropdown table. Include a header and then prose:
+The Neoserra-mapping option must always include a substantive, third-person, audit-grade session narrative that would survive an SBA Nexus / Form 641 review — not just the dropdown table. Include a header and then prose:
 
 - Header: client name + Neoserra client ID (HOxxxx) + center + counselor; session date; session type (Initial vs Follow-up — attach a returning/referred client to their existing HOxxxx); counseling method (In-Person / Telephone / Email / Online-Virtual); **Contact hours and Prepare hours recorded SEPARATELY** — leave Prepare for the consultant, never invent a figure; client stage; special designations (veteran/SDVOSB and demographic) when known; primary + secondary topic areas mapped to SBA/Neoserra categories.
 - Narrative: an objective third-person account of the topics discussed, advice given, referrals made, and next steps. Exclude anything said after the client left and any subjective judgment about the client. Record referrals and any milestones or economic impact (jobs, capital, sales, business formed) as confirm-before-recording — never assert an unverified milestone.
