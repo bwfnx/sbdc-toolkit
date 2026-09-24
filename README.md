@@ -1,10 +1,22 @@
 # SBDC Toolkit
 
-A Claude Code plugin of 14 skills for Maryland SBDC advising work — turning client meetings into follow-up emails and file notes, coaching on capital and debt, drafting grants and government proposals, building business-model and market-sizing analyses, and producing marketing plans, success stories, referrals, and training newsletters. The skills speak in Brandon Mason's consulting voice and map to Neoserra milestones and fields.
+14 skills for SBDC advising work — turning client meetings into follow-up emails and file notes, coaching on capital and debt, drafting grants and government proposals, building business-model and market-sizing analyses, and producing marketing plans, success stories, referrals, and training newsletters. Written for Maryland SBDC practice, in Brandon Mason's consulting voice, mapped to Neoserra milestones and fields.
 
-## Install
+**A skill here is a plain Markdown file, not an app.** Each one is instructions an assistant reads and follows, so the same file works in Claude Code, the Claude desktop app, or ChatGPT — and in anything else that accepts custom instructions. Pick whichever you already pay for; the outputs are the same.
 
-In Claude Code, add the marketplace and install the plugin:
+**[How to actually use each skill →](https://bwfnx.github.io/sbdc-toolkit/)** — one guide per skill: what to have ready, what to say, what comes back, and what it will never do.
+
+Other SBDCs are welcome to use and adapt these (MIT). They encode Maryland practice, so check anything touching your own CRM, programs, or reporting rules before you rely on it.
+
+## Use it where you already work
+
+### ChatGPT
+No install. Open any skill file in [`skills/`](skills/) — for example [`skills/tam-sam-som/SKILL.md`](skills/tam-sam-som/SKILL.md) — copy the whole file, and paste it into a **Project**'s instructions (or a custom GPT). Start a chat and say what you want. One skill per Project keeps them from bleeding together.
+
+### Claude desktop app
+Download `sbdc-toolkit.plugin` from the [latest release](https://github.com/bwfnx/sbdc-toolkit/releases/latest), drag it into a chat, click **Accept**. No GitHub account needed.
+
+### Claude Code
 
 ```
 /plugin marketplace add https://github.com/bwfnx/sbdc-toolkit.git
@@ -13,15 +25,14 @@ In Claude Code, add the marketplace and install the plugin:
 /plugin install sbdc-toolkit@maryland-sbdc
 ```
 
-That's it — the repo is public, so no GitHub account or authentication is required.
+The repo is public, so no authentication is required.
+
+### Anything else
+Copy the skill text into whatever system prompt, project instruction, or agent config your assistant uses. There is nothing vendor-specific inside the files.
 
 ## Update
 
-When a new version ships, pull the latest:
-
-```
-/plugin marketplace update maryland-sbdc
-```
+Claude Code: `/plugin marketplace update maryland-sbdc`. Desktop app: download the newer `.plugin` from the [latest release](https://github.com/bwfnx/sbdc-toolkit/releases/latest) and Accept again. ChatGPT: re-paste the changed skill file.
 
 ## The 14 skills
 
@@ -43,6 +54,8 @@ When a new version ships, pull the latest:
 | `sbdc-training-newsletter` | Drafts training and workshop newsletters. |
 
 ## Notes
+
+The guides in [`docs/`](docs/) are generated; they are published at <https://bwfnx.github.io/sbdc-toolkit/>.
 
 This public toolkit intentionally excludes the internal `sbdc-second-brain` knowledge skill, which bundles private SBDC wiki material and is distributed separately.
 
