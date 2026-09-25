@@ -15,7 +15,7 @@ Other SBDCs are welcome to use and adapt these (MIT). They encode Maryland pract
 ### ChatGPT
 Skills replace custom GPTs (OpenAI is retiring GPTs on Enterprise workspaces **December 11, 2026**). Two ways in:
 
-1. **Install from GitHub** — paste this into the chat:
+1. **Install from GitHub** — switch the chat to **Work mode** (a regular chat can't install from GitHub), then paste:
    ```
    install https://github.com/bwfnx/sbdc-toolkit
    ```
