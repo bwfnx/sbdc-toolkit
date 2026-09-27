@@ -1,16 +1,10 @@
-# SBDC Toolkit
+# Turn a client meeting into the follow-up email and the file note, plus twelve more advising jobs, in the chat you already use.
 
-14 skills for SBDC advising work — turning client meetings into follow-up emails and file notes, coaching on capital and debt, drafting grants and government proposals, building business-model and market-sizing analyses, and producing marketing plans, success stories, referrals, and training newsletters. Written for Maryland SBDC practice, in Brandon Mason's consulting voice, mapped to Neoserra milestones and fields.
-
-**A skill here is a plain Markdown file, not an app.** Each one is instructions an assistant reads and follows, so the same file works in ChatGPT, the Claude desktop app, Claude Code — and anything else that accepts custom instructions. Pick whichever you already pay for; the outputs are the same.
-
-**Migrating off custom GPTs?** That is exactly what these are. OpenAI is retiring GPTs on Enterprise workspaces on **December 11, 2026**; each skill here is already in the SKILL.md shape that replaces them, so you can install the set rather than rebuild 14 GPTs by hand.
-
-**[How to actually use each skill →](https://bwfnx.github.io/sbdc-toolkit/)** — one guide per skill: what to have ready, what to say, what comes back, and what it will never do.
-
-Other SBDCs are welcome to use and adapt these (MIT). They encode Maryland practice, so check anything touching your own CRM, programs, or reporting rules before you rely on it.
+![What comes back from the transcript skill: the follow-up email an advisor posts into Neoserra, drafted from a thirty-minute triage meeting with a fictional bakery](docs/img/hero-followup.png)
 
 ## Use it where you already work
+
+One guide per skill, what to have ready and what comes back: https://bwfnx.github.io/sbdc-toolkit/
 
 ### ChatGPT
 Skills replace custom GPTs (OpenAI is retiring GPTs on Enterprise workspaces **December 11, 2026**). Two ways in:
@@ -41,6 +35,18 @@ The repo is public, so no authentication is required.
 
 ### Anything else
 Copy the skill text into whatever system prompt, project instruction, or agent config your assistant uses. There is nothing vendor-specific inside the files.
+
+## What this is
+
+14 skills for SBDC advising work — turning client meetings into follow-up emails and file notes, coaching on capital and debt, drafting grants and government proposals, building business-model and market-sizing analyses, and producing marketing plans, success stories, referrals, and training newsletters. Written for Maryland SBDC practice, in Brandon Mason's consulting voice, mapped to Neoserra milestones and fields.
+
+**A skill here is a plain Markdown file, not an app.** Each one is instructions an assistant reads and follows, so the same file works in ChatGPT, the Claude desktop app, Claude Code — and anything else that accepts custom instructions. Pick whichever you already pay for; the outputs are the same.
+
+**Migrating off custom GPTs?** That is exactly what these are. OpenAI is retiring GPTs on Enterprise workspaces on **December 11, 2026**; each skill here is already in the SKILL.md shape that replaces them, so you can install the set rather than rebuild 14 GPTs by hand.
+
+**[How to actually use each skill →](https://bwfnx.github.io/sbdc-toolkit/)** — one guide per skill: what to have ready, what to say, what comes back, and what it will never do.
+
+Other SBDCs are welcome to use and adapt these (MIT). They encode Maryland practice, so check anything touching your own CRM, programs, or reporting rules before you rely on it.
 
 ## Update
 
