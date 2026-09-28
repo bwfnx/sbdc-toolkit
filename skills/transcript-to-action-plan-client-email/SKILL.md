@@ -7,6 +7,12 @@ description: Turn a client meeting transcript into the professional follow-up em
 
 This email is not just correspondence — it's the record that gets posted into Neoserra, and the milestones flagged in it are the same categories SBDC reports up to funders and government partners. A vague summary or a missed milestone isn't a formatting slip; it's data that never gets counted. Read the transcript closely and write like the email is the file.
 
+## When to use it — and when not to
+
+- **Use it** for a client meeting transcript, recording, or notes that should become the client-facing follow-up email; or for a Neoserra client file whose milestones need pulling out (see the client-file mode below).
+- **Not for** internal meeting notes (use `transcript-to-meeting-notes`), a re-engagement email to a lapsed client (use `client-follow-up-and-reengagement`), or turning a walkthrough into a procedure (use `transcript-to-sop`).
+- If no transcript or file is attached yet, ask for it before drafting anything.
+
 ## Draft the email
 
 Write it as the Maryland SBDC consultant, in first person, to the client. Summarize the meeting in detail and sort what was discussed into the right section below — don't just dump chronological notes. Vary the paragraph phrasing to fit the tone of the actual transcript rather than reusing the same boilerplate every time; a terse, transactional meeting and a long exploratory one shouldn't read identically.
@@ -50,7 +56,9 @@ For the subject line, pull the client ID code and company name from the transcri
 
 **Things We Have Accomplished Since Our Last Meeting** — milestones only (see below). The source instructions named this section two slightly different ways — "Accomplishments Since Our Last Meeting" in one place, "Things we have accomplished since our last meeting" in the worked example — and listed the four sections in a different order than the example used. This skill follows the worked example's wording and order (Next Steps, Notes, Things We Have Accomplished Since Our Last Meeting, Relevant Links) since that's the literal text meant for posting; flag this for Brandon if he prefers the other phrasing.
 
-**Relevant Links from Our Meeting** — any resources, documents, or URLs that came up, each with a title and the link.
+Only **confirmed** milestones go in the client email. Partial, inferred, or "Potential" ones go in a short note to the consultant after the email, for them to verify — never mixed into the client-facing section. A first meeting usually has no accomplishments yet; say so plainly instead of leaving the section blank or padding it.
+
+**Relevant Links from Our Meeting** — any resources, documents, or URLs that came up, each with a title and the link. Speech-to-text often garbles names, so resolve misheard people, programs, and organizations to the real ones before linking. When the client's entity documents came up, link their own SDAT entity page.
 
 ## Check Maryland good standing (counselor click-through)
 
@@ -58,7 +66,7 @@ Automated good-standing lookups against SDAT / Maryland Business Express are blo
 
 - Maryland Business Entity Search — https://egov.maryland.gov/BusinessExpress/EntitySearch
 
-When the consultant confirms the business is **not in good standing** (Forfeited, Not in Good Standing, or Dissolved), add a Next Steps line telling the client to resolve it — usually by filing the overdue Annual Report / Personal Property Return and paying any late penalties through Maryland Business Express (businessexpress.maryland.gov). If the business is in good standing, add nothing.
+When the consultant confirms the business is **not in good standing** (Forfeited, Not in Good Standing, or Dissolved), add a Next Steps line telling the client to resolve it — usually by filing the overdue Annual Report / Personal Property Return and paying any late penalties through Maryland Business Express (businessexpress.maryland.gov). If the business is in good standing, or has no registered entity yet, add nothing.
 
 ## Milestones
 
@@ -144,3 +152,15 @@ The Neoserra-mapping option must always include a substantive, third-person, aud
 
 - Header: client name + Neoserra client ID (HOxxxx) + center + counselor; session date; session type (Initial vs Follow-up — attach a returning/referred client to their existing HOxxxx); counseling method (In-Person / Telephone / Email / Online-Virtual); **Contact hours and Prepare hours recorded SEPARATELY** — leave Prepare for the consultant, never invent a figure; client stage; special designations (veteran/SDVOSB and demographic) when known; primary + secondary topic areas mapped to SBA/Neoserra categories.
 - Narrative: an objective third-person account of the topics discussed, advice given, referrals made, and next steps. Exclude anything said after the client left and any subjective judgment about the client. Record referrals and any milestones or economic impact (jobs, capital, sales, business formed) as confirm-before-recording — never assert an unverified milestone.
+
+## Guardrails
+
+Every "never" in this skill, in one place:
+
+- Never guess a missing client ID code — use the literal "Client ID".
+- Never paraphrase a milestone category, and never file something that doesn't map to one as a milestone — it goes in Notes.
+- Never put a potential or inferred milestone in the client email — it goes in the note to the consultant.
+- Never fetch SDAT / Maryland Business Express status automatically; add a "not in good standing" Next Steps line only after the consultant confirms it.
+- Never deliver the Neoserra mapping as dropdowns alone — always with the full narrative.
+- Never invent Prepare hours; never include what was said after the client left, or a subjective judgment about the client, in the narrative.
+- Never use emojis, and never dump chronological notes in place of the template's sections.
