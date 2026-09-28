@@ -48,6 +48,23 @@ Copy the skill text into whatever system prompt, project instruction, or agent c
 
 Other SBDCs are welcome to use and adapt these (MIT). They encode Maryland practice, so check anything touching your own CRM, programs, or reporting rules before you rely on it.
 
+### Adapting for your state
+
+These are the Maryland-specific parts. Swap them for your own and the rest works anywhere.
+
+| Maryland-specific | Swap in | Where it appears |
+|---|---|---|
+| **Neoserra** CRM, its milestone list, and the Nexus / EDMIS counseling narrative | Your CRM's milestone categories and session-note rules | `transcript-to-action-plan-client-email` (milestone list, `references/milestone-mapping-reference.md`), `transcript-to-meeting-notes`, `transcript-to-sop`, `client-follow-up-and-reengagement`, `sbdc-success-story`, `sbdc-training-newsletter`, `business-service-provider-referral-engine` |
+| **SDAT / Maryland Business Express** good-standing link | Your Secretary of State business entity search | `transcript-to-action-plan-client-email` |
+| **Maryland Community Business Compass** funding search | Your state's program directory, or remove the line | `transcript-to-action-plan-client-email` |
+| **Maryland MBE and MDOT** certifications | Your state's certification programs | `transcript-to-action-plan-client-email`, `transcript-to-meeting-notes`, `client-follow-up-and-reengagement` |
+| **TEDCO, DHCD, Maryland Commerce** grant programs | Your state's economic development programs | `sbdc-grant-advisor`, `sbdc-success-story` |
+| **"Maryland SBDC"** name, signature, and funding acknowledgment | Your center's name and required acknowledgment | `sbdc-grant-advisor`, `sbdc-success-story`, `sbdc-training-newsletter`, `business-service-provider-referral-engine`, `proposal-buddy` |
+
+Ready to use as-is: `business-model-canvas-helper`, `mdsbdc-debt-helper`, `sbdc-underwriter-and-capital-coach`, `tam-sam-som`. `sbdc-marketing-plan-generator` has one Maryland mention.
+
+Quick check after you adapt: search the `skills/` folder for "Maryland", "Neoserra", "SDAT", and "TEDCO". Anything left is something you haven't swapped yet.
+
 ## Update
 
 Claude Code: `/plugin marketplace update maryland-sbdc`. Desktop app: download the newer `.plugin` from the [latest release](https://github.com/bwfnx/sbdc-toolkit/releases/latest) and Accept again. ChatGPT: re-paste the changed skill file.
