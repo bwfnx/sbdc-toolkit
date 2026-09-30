@@ -3,6 +3,17 @@
 // It deletes every question and recreates them; the header image and theme stay.
 // Guard: it refuses to run once the form has responses, so live answers are never orphaned.
 
+// Your organization: copy these values from org.json (SKILL.md step 0). Same values in followup_email.gs.
+var ORG = {
+  name: "Maryland SBDC",
+  contactEmail: "bwmason@umd.edu",
+  advisingQuestion: "Would you like free one-on-one advising from a Maryland SBDC consultant?",
+  alreadyClient: ORG.alreadyClient,
+  areaLabel: "County",
+  areas: ["Allegany", "Anne Arundel", "Baltimore City", "Baltimore County", "Calvert", "Caroline", "Carroll", "Cecil", "Charles", "Dorchester", "Frederick", "Garrett", "Harford", "Howard", "Kent", "Montgomery", "Prince George's", "Queen Anne's", "St. Mary's", "Somerset", "Talbot", "Washington", "Wicomico", "Worcester", "Outside Maryland"],
+  certifications: ["8(a)", "Maryland MBE", "DBE", "WOSB / EDWOSB", "SDVOSB / VOSB", "HUBZone", "None yet"]
+};
+
 var CLASS = {
   title: 'Team Roles and Responsibilities — Class Worksheet',
   series: 'Winning That Government Contracting Award',
@@ -20,7 +31,7 @@ var CLASS = {
       ] }
   ],
   series_sessions: ['Session 3: How to read an RFP (Fri, Oct 2)', 'Session 4: Basics of proposal writing (Mon, Oct 5)'],
-  confirmation: 'Thanks — you\'re in. Watch your inbox for the slides, the template, and today\'s links. Questions: bwmason@umd.edu'
+  confirmation: 'Thanks — you\'re in. Watch your inbox for the slides, the template, and today\'s links. Questions: ' + ORG.contactEmail
 };
 
 function buildWorksheet() {
@@ -29,7 +40,7 @@ function buildWorksheet() {
   f.getItems().forEach(function (i) { f.deleteItem(i); });
 
   f.setTitle(CLASS.title);
-  f.setDescription(CLASS.series + ' · ' + CLASS.session + ' · Maryland SBDC\n\n' +
+  f.setDescription(CLASS.series + ' · ' + CLASS.session + ' · ' + ORG.name + '\n\n' +
     'How this works: fill in the first page now, before we begin. Keep this tab open — we come back to it during the class. ' +
     'Hit Submit at the end and we email you the slides, the template, and every link from today.');
   f.setConfirmationMessage(CLASS.confirmation);
@@ -42,14 +53,12 @@ function buildWorksheet() {
   f.addTextItem().setTitle('Business name');
   f.addMultipleChoiceItem().setTitle('Where is your business today?').setRequired(true)
     .setChoiceValues(['Idea stage', 'Just started (under 2 years)', 'Established (2+ years)', 'Already doing government work']);
-  f.addListItem().setTitle('County').setRequired(true).setChoiceValues(['Allegany', 'Anne Arundel', 'Baltimore City', 'Baltimore County',
-    'Calvert', 'Caroline', 'Carroll', 'Cecil', 'Charles', 'Dorchester', 'Frederick', 'Garrett', 'Harford', 'Howard', 'Kent', 'Montgomery',
-    "Prince George's", "Queen Anne's", "St. Mary's", 'Somerset', 'Talbot', 'Washington', 'Wicomico', 'Worcester', 'Outside Maryland']);
+  f.addListItem().setTitle(ORG.areaLabel).setRequired(true).setChoiceValues(ORG.areas);
   f.addMultipleChoiceItem().setTitle('Have you gone after a government contract before?').setRequired(true)
     .setChoiceValues(['No, this is my first look', "I've searched SAM.gov or eMMA but haven't bid", "I've bid but haven't won yet", "I've won government work"]);
   f.addTextItem().setTitle('Primary NAICS code').setHelpText("If you know it. Leave blank if you don't.");
   f.addCheckboxItem().setTitle('Certifications you hold or are pursuing')
-    .setChoiceValues(['8(a)', 'Maryland MBE', 'DBE', 'WOSB / EDWOSB', 'SDVOSB / VOSB', 'HUBZone', 'None yet']).showOtherOption(true);
+    .setChoiceValues(ORG.certifications).showOtherOption(true);
 
   // ---- Class-specific checkpoints ----
   CLASS.checkpoints.forEach(function (s) {
@@ -66,11 +75,11 @@ function buildWorksheet() {
   f.addParagraphTextItem().setTitle("What's still unclear?");
 
   f.addPageBreakItem().setTitle('Staying in touch').setHelpText('Last page. Then hit Submit.');
-  f.addMultipleChoiceItem().setTitle('Would you like free one-on-one advising from a Maryland SBDC consultant?').setRequired(true)
+  f.addMultipleChoiceItem().setTitle(ORG.advisingQuestion).setRequired(true)
     .setHelpText('Free and confidential. No sales pitch.')
     .setChoiceValues(['Yes, send me the sign-up link', "I'm already an SBDC client", 'Not right now']);
   if (CLASS.series_sessions.length) f.addCheckboxItem().setTitle('Joining the rest of the series?').setChoiceValues(CLASS.series_sessions);
-  f.addMultipleChoiceItem().setTitle('May we contact you about Maryland SBDC programs?').setRequired(true).setChoiceValues(['Yes', 'No']);
+  f.addMultipleChoiceItem().setTitle('May we contact you about ' + ORG.name + ' programs?').setRequired(true).setChoiceValues(['Yes', 'No']);
 
   Logger.log('Built %s items. Live link: %s', f.getItems().length, f.getPublishedUrl());
 }

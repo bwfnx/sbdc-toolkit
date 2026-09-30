@@ -59,7 +59,7 @@ These are the Maryland-specific parts. Swap them for your own and the rest works
 | **Maryland Community Business Compass** funding search | Your state's program directory, or remove the line | `transcript-to-action-plan-client-email` |
 | **Maryland MBE and MDOT** certifications | Your state's certification programs | `transcript-to-action-plan-client-email`, `transcript-to-meeting-notes`, `client-follow-up-and-reengagement` |
 | **TEDCO, DHCD, Maryland Commerce** grant programs | Your state's economic development programs | `sbdc-grant-advisor`, `sbdc-success-story` |
-| **Maryland SBDC deck design, logo, sign-up link, and county list** | Your brand colors, logo file, registration link, and service area | `sbdc-workshops` (`scripts/deck/engine.py`, `scripts/apps-script/form_builder.gs`) |
+| **Maryland SBDC deck design, logo, sign-up link, and county list** | Nothing to edit by hand: the first run asks for your name, colors, logo, sign-up link and service area, and saves them to `org.json` | `sbdc-workshops` (`org.example.json` is the Maryland version) |
 | **"Maryland SBDC"** name, signature, and funding acknowledgment | Your center's name and required acknowledgment | `sbdc-grant-advisor`, `sbdc-success-story`, `sbdc-training-newsletter`, `business-service-provider-referral-engine`, `proposal-buddy` |
 
 Ready to use as-is: `business-model-canvas-helper`, `mdsbdc-debt-helper`, `sbdc-underwriter-and-capital-coach`, `tam-sam-som`. `sbdc-marketing-plan-generator` has one Maryland mention.

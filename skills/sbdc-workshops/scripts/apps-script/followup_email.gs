@@ -1,10 +1,22 @@
 // SBDC Workshops: follow-up email, sent automatically when someone submits the class worksheet.
 // Paste into the SAME bound script as the form (after buildWorksheet is done, delete buildWorksheet from the file
 // so nobody reruns it over live responses). Edit EMAIL below, save, then:
-//   1. run installTrigger once (turns on sending; Brandon approves the permission prompt)
+//   1. run installTrigger once (turns on sending; you approve the permission prompt)
 //   2. run sendTestEmail (sample answers, to you only)
 //   3. after one real submission, run sendLatestToMe (real answers, to you only)
 // If Gmail hiccups mid-class: run resendFailed.
+
+// Your organization: copy these values from org.json (SKILL.md step 0). Same values in form_builder.gs.
+var ORG = {
+  name: "Maryland SBDC",
+  sender: "Brandon Mason",
+  replyTo: "bwmason@umd.edu",
+  signupUrl: "https://mdsbdc.ecenterdirect.com/signup",
+  primary: "#002d62",
+  accent: "#d11142",
+  advisingQuestion: "Would you like free one-on-one advising from a Maryland SBDC consultant?",
+  fundingNotice: "Funded in part through a Cooperative Agreement with the U.S. Small Business Administration. All opinions, conclusions, and/or recommendations expressed herein are those of the author(s) and do not necessarily reflect the views of the SBA."
+};
 
 var EMAIL = {
   subject: 'Your Session 2 worksheet, the links, and what comes next',
@@ -24,8 +36,8 @@ var EMAIL = {
   deckFileId: '',      // Drive ID of the deck PDF. Blank = not attached.
   attachedLabel: ['the template from today', "today's slides"]
 };
-var REPLY_TO = 'bwmason@umd.edu';
-var SIGNUP_URL = 'https://mdsbdc.ecenterdirect.com/signup';
+var REPLY_TO = ORG.replyTo;
+var SIGNUP_URL = ORG.signupUrl;
 var LINKS = [
   ['SAM.gov', 'https://sam.gov', 'Federal opportunities and your entity registration'],
   ['eMaryland Marketplace Advantage (eMMA)', 'https://emma.maryland.gov', 'Maryland state procurements, $30k+'],
@@ -60,7 +72,7 @@ function sendFor_(response) {
 }
 
 function send_(to, subject, a) {
-  var opts = { name: 'Brandon Mason, Maryland SBDC', replyTo: REPLY_TO, htmlBody: html_(a) };
+  var opts = { name: ORG.sender + ', ' + ORG.name, replyTo: REPLY_TO, htmlBody: html_(a) };
   var files = attachments_();
   if (files.length) opts.attachments = files;
   MailApp.sendEmail(to, subject, text_(a), opts);
@@ -110,8 +122,8 @@ function sendLatestToMe() {
 // Test: sample answers built from EMAIL.rows, sent only to you.
 function sendTestEmail() {
   var me = Session.getActiveUser().getEmail();
-  var a = { 'Your name': 'Test Person', 'Your email': me,
-            'Would you like free one-on-one advising from a Maryland SBDC consultant?': 'Yes, send me the sign-up link' };
+  var a = { 'Your name': 'Test Person', 'Your email': me };
+  a[ORG.advisingQuestion] = 'Yes, send me the sign-up link';
   EMAIL.rows.forEach(function (r) { a[r[1]] = '(sample answer)'; });
   var n = send_(me, '[TEST] ' + EMAIL.subject, a);
   Logger.log('Test sent to ' + me + ' with ' + n + ' attachment(s).');
@@ -123,7 +135,7 @@ function first_(a) { return String(a['Your name'] || '').trim().split(/\s+/)[0] 
 function esc_(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 function html_(a) {
-  var blue = '#002d62', red = '#d11142', ink = '#313438', mute = '#6a6d71', line = '#e2e4e7';
+  var blue = ORG.primary, red = ORG.accent, ink = '#313438', mute = '#6a6d71', line = '#e2e4e7';
   var row = function (k, v) {
     return v ? '<tr><td style="padding:10px 0;border-top:1px solid ' + line + ';color:' + mute + ';font-size:13px;width:38%;vertical-align:top">' + esc_(k) +
       '</td><td style="padding:10px 0;border-top:1px solid ' + line + ';color:' + ink + ';font-size:15px">' + esc_(v) + '</td></tr>' : '';
@@ -136,7 +148,7 @@ function html_(a) {
   var links = LINKS.map(function (l) {
     return '<li style="margin:0 0 10px"><a href="' + l[1] + '" style="color:' + red + ';font-weight:bold">' + esc_(l[0]) + '</a><br><span style="color:' + mute + ';font-size:13px">' + esc_(l[2]) + '</span></li>';
   }).join('');
-  var advising = /^Yes/.test(a['Would you like free one-on-one advising from a Maryland SBDC consultant?'] || '')
+  var advising = /^Yes/.test(a[ORG.advisingQuestion] || '')
     ? '<p style="margin:0 0 8px;font-size:15px;color:' + ink + '">You asked for free one-on-one advising. Register here and we will match you with a consultant:</p>' +
       '<p style="margin:0 0 4px"><a href="' + SIGNUP_URL + '" style="display:inline-block;background:' + red + ';color:#fff;text-decoration:none;font-weight:bold;padding:12px 20px">Register for advising</a></p>'
     : '<p style="margin:0;font-size:15px;color:' + ink + '">Free, confidential one-on-one advising is always open: <a href="' + SIGNUP_URL + '" style="color:' + red + '">' + SIGNUP_URL.replace('https://', '') + '</a></p>';
@@ -145,7 +157,7 @@ function html_(a) {
 
   return '<div style="background:#f4f6f8;padding:24px 12px;font-family:Arial,Helvetica,sans-serif">' +
     '<div style="max-width:600px;margin:0 auto;background:#fff">' +
-    '<div style="background:' + blue + ';padding:22px 28px"><span style="display:inline-block;background:' + red + ';color:#fff;font-weight:bold;font-size:12px;letter-spacing:2px;padding:5px 10px">MARYLAND SBDC</span>' +
+    '<div style="background:' + blue + ';padding:22px 28px"><span style="display:inline-block;background:' + red + ';color:#fff;font-weight:bold;font-size:12px;letter-spacing:2px;padding:5px 10px">' + esc_(ORG.name.toUpperCase()) + '</span>' +
     '<div style="color:#fff;font-size:24px;font-weight:bold;margin-top:14px">' + EMAIL.heading + '</div>' +
     '<div style="color:#b8c8dd;font-size:13px;margin-top:4px">' + EMAIL.subline + '</div></div>' +
     '<div style="padding:26px 28px">' +
@@ -158,9 +170,9 @@ function html_(a) {
     '<li style="margin:0"><b>Your county and city</b><br><span style="color:' + mute + ';font-size:13px">Search "[your county] procurement bid opportunities". Local buys start around $15k.</span></li></ul>' +
     '<div style="font-size:12px;font-weight:bold;letter-spacing:1.5px;color:' + red + ';margin:26px 0 10px">NEXT</div>' +
     '<p style="margin:0 0 14px;font-size:15px;color:' + ink + '">' + EMAIL.next + '</p>' + advising +
-    '<p style="margin:22px 0 0;font-size:15px;color:' + ink + '">Questions? Just reply to this email.<br>Brandon Mason, Maryland SBDC</p>' +
+    '<p style="margin:22px 0 0;font-size:15px;color:' + ink + '">Questions? Just reply to this email.<br>' + esc_(ORG.sender + ', ' + ORG.name) + '</p>' +
     '</div>' +
-    '<div style="padding:16px 28px;border-top:1px solid ' + line + ';color:' + mute + ';font-size:11px;line-height:1.5">Funded in part through a Cooperative Agreement with the U.S. Small Business Administration. All opinions, conclusions, and/or recommendations expressed herein are those of the author(s) and do not necessarily reflect the views of the SBA.</div>' +
+    '<div style="padding:16px 28px;border-top:1px solid ' + line + ';color:' + mute + ';font-size:11px;line-height:1.5">' + ORG.fundingNotice + '</div>' +
     '</div></div>';
 }
 
@@ -170,6 +182,6 @@ function text_(a) {
   (a['__grid'] || []).forEach(function (r) { lines.push(r[0] + ' ' + (r[1] || '-') + '/5'); });
   lines.push('', 'WHERE TO LOOK');
   LINKS.forEach(function (l) { lines.push(l[0] + ': ' + l[1]); });
-  lines.push('', 'NEXT: ' + EMAIL.next.replace(/<[^>]+>/g, ''), 'Free one-on-one advising: ' + SIGNUP_URL, '', 'Brandon Mason, Maryland SBDC');
+  lines.push('', 'NEXT: ' + EMAIL.next.replace(/<[^>]+>/g, ''), 'Free one-on-one advising: ' + SIGNUP_URL, '', ORG.sender + ', ' + ORG.name);
   return lines.join('\n');
 }

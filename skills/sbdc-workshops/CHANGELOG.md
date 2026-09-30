@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4
+- first-run setup (SKILL.md step 0): org.json holds name, presenter, colors, logo, sign-up link, service area, certifications and funding notice; the deck engine, Session 1 example and both Apps Scripts read it. Maryland output unchanged byte-for-byte
+- drive renames: use the drive connector's update_file
+
 ## v1.3
 - moved from bwfnx/agent-skills into bwfnx/sbdc-toolkit; this is now the only copy
 

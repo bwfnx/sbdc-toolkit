@@ -1,13 +1,26 @@
-# SBDC Workshops deck engine: Maryland SBDC design system, fixed 16:9 stage, click-by-click reveal,
+# SBDC Workshops deck engine: brand from org.json (Maryland SBDC by default), fixed 16:9 stage, click-by-click reveal,
 # worksheet QR checkpoints, presenter window (P), print-to-PDF.
 # A class file calls setup(form_url), then `from engine import *`, adds slides, calls render().
-import base64, html, io, pathlib
+import base64, html, io, json, pathlib
 import qrcode, qrcode.image.svg
 
 HERE = pathlib.Path(__file__).parent
-SIGNUP_URL = "https://mdsbdc.ecenterdirect.com/signup"
-SIGNUP_LABEL = "mdsbdc.ecenterdirect.com/signup"
-LOGO = base64.b64encode((HERE / "logo-reverse-900.png").read_bytes()).decode()
+
+
+def _org_path():
+    # org.json in the class folder or up to three folders above it; else the bundled Maryland example
+    here = pathlib.Path.cwd()
+    for d in [here, *here.parents][:4]:
+        if (d / "org.json").exists():
+            return d / "org.json"
+    return HERE.parent.parent / "org.example.json"
+
+
+ORG_PATH = _org_path()
+ORG = json.loads(ORG_PATH.read_text(encoding="utf-8"))
+SIGNUP_URL = ORG["signup_url"]
+SIGNUP_LABEL = ORG["signup_label"]
+LOGO = base64.b64encode((ORG_PATH.parent / ORG["logo"]).read_bytes()).decode()
 VIEWPORT_BASE = (HERE / "viewport-base.css").read_text()
 FORM_URL = FORM_LABEL = QR_FORM = ""
 
@@ -85,6 +98,19 @@ CSS = r"""
 """
 
 CSS += VIEWPORT_BASE
+
+# Another org's two brand colors: re-derive every tint from them. Maryland colors leave the CSS untouched.
+_P, _A = ORG["primary_color"], ORG["accent_color"]
+if (_P.lower(), _A.lower()) != ("#002d62", "#d11142"):
+    def _mix(c, pct, base):
+        return f"color-mix(in srgb,{c} {pct}%,{base})"
+    CSS += ":root{--sbdc-blue:%s;--sbdc-red:%s;" % (_P, _A)
+    CSS += "".join(f"--red-{k}:{_mix(_A, v, b)};" for k, v, b in
+                   [(50, 8, "#fff"), (100, 20, "#fff"), (200, 40, "#fff"), (600, 85, "#000"), (700, 70, "#000")])
+    CSS += "".join(f"--blue-{k}:{_mix(_P, v, b)};" for k, v, b in
+                   [(50, 8, "#fff"), (100, 22, "#fff"), (200, 45, "#fff"), (300, 70, "#fff"), (400, 85, "#fff"),
+                    (600, 85, "#000"), (700, 70, "#000"), (800, 50, "#000"), (900, 25, "#000")])
+    CSS += "--stage-bg:var(--blue-900)}\n"
 
 CSS += r"""
 /* === SLIDE FRAME: 120px side margins, blue footer band with page number === */
@@ -298,6 +324,10 @@ h3{font:800 40px/1.15 var(--font-display);color:var(--sbdc-blue);letter-spacing:
 .hint{position:fixed;right:16px;bottom:12px;font:600 13px/1 var(--font-display);color:rgba(255,255,255,.35);z-index:1000;letter-spacing:.04em}
 """
 
+if (_P.lower(), _A.lower()) != ("#002d62", "#d11142"):  # the dark-slide glow is a fixed Maryland blue; derive it
+    CSS += (".dark{background:radial-gradient(ellipse at 85% 10%,color-mix(in srgb,var(--blue-400) 55%,transparent),transparent 55%),"
+            "linear-gradient(160deg,var(--sbdc-blue),var(--blue-800) 70%)}\n")
+
 JS = r"""
 /* === SLIDE CONTROLLER: arrows/space/PageUp/PageDown/Home/End, click, swipe, wheel.
        F = fullscreen. P = presenter window with notes, timer, next slide (share only the deck window in Zoom). === */
@@ -373,7 +403,7 @@ def render(out, title, footer):
     parts = []
     n = len(SLIDES)
     for i, (kind, body, notes, label) in enumerate(SLIDES, 1):
-        foot = f'<div class="foot"><span class="band-mini">Maryland SBDC</span><span>{footer}</span><span class="pg">{i:02d} / {n:02d}</span></div>'
+        foot = f'<div class="foot"><span class="band-mini">{html.escape(ORG["name"])}</span><span>{footer}</span><span class="pg">{i:02d} / {n:02d}</span></div>'
         parts.append(
             f'<section class="slide {kind}" data-title="{html.escape(label)}" aria-label="Slide {i}: {html.escape(label)}">\n'
             f'  <div class="frame">{body}</div>{foot}\n'

@@ -1,7 +1,7 @@
 # Session 1 class file: the worked example. Copy it for a new class, rewrite the slides, keep the helpers.
-# Build:  py <this file>   (writes the deck into the current folder)
+# Build:  py <this file>   (writes the deck into the current folder; brand comes from org.json, see SKILL.md step 0)
 import pathlib, sys
-sys.path.insert(0, str(pathlib.Path.home() / ".claude" / "skills" / "sbdc-workshops" / "scripts" / "deck"))
+sys.path.insert(0, str(pathlib.Path.home() / ".claude" / "skills" / "sbdc-workshops" / "scripts" / "deck"))  # installed as a plugin? point this at the skill's scripts/deck folder
 import engine
 engine.setup("https://docs.google.com/forms/d/e/1FAIpQLSdrHxAlHzmWBIHfZtOeAnl4bywdPei0Q934hxf16uWAZwKs3g/viewform")
 from engine import *
@@ -9,13 +9,13 @@ from engine import *
 # ============================ SLIDES ============================
 
 slide("dark title", f'''
-  <img class="logo r" alt="America's SBDC Maryland" src="data:image/png;base64,{LOGO}">
+  <img class="logo r" alt="{ORG['logo_alt']}" src="data:image/png;base64,{LOGO}">
   <div class="title-grid">
     <div>
       <p class="eyebrow light r">Winning That Government Contracting Award &middot; Session 1 of 4</p>
       <h1 class="r">Business Development Lifecycle</h1>
       <div class="band r"></div>
-      <p class="byline r">Brandon Mason &middot; Maryland Small Business Development Center<br>Monday, September 28, 2026</p>
+      <p class="byline r">{ORG['presenter']} &middot; {ORG['full_name']}<br>Monday, September 28, 2026</p>
     </div>
     <div class="qr-card r">{QR_FORM}<span>Scan now: your worksheet</span></div>
   </div>''',
@@ -352,17 +352,17 @@ slide("light", f'''
   eyebrow="What's next", title="Submit your worksheet")
 
 slide("dark title close", f'''
-  <img class="logo r" alt="America's SBDC Maryland" src="data:image/png;base64,{LOGO}">
+  <img class="logo r" alt="{ORG['logo_alt']}" src="data:image/png;base64,{LOGO}">
   <div class="title-grid">
     <div>
       <h1 class="r">Questions?</h1>
       <div class="band r"></div>
-      <p class="byline r">Brandon Mason &middot; Maryland SBDC<br>bwmason@umd.edu</p>
+      <p class="byline r">{ORG['presenter']} &middot; {ORG['name']}<br>{ORG['presenter_email']}</p>
       <p class="byline small r">No-cost, one-on-one consulting. Register as an SBDC client: {SIGNUP_LABEL}</p>
     </div>
     <div class="qr-card r">{QR_SIGNUP}<span>Register for 1:1 advising</span></div>
   </div>
-  <p class="sba r">Funded in part through a Cooperative Agreement with the U.S. Small Business Administration. All opinions, conclusions, and/or recommendations expressed herein are those of the author(s) and do not necessarily reflect the views of the SBA. Reasonable accommodations for persons with disabilities will be made if requested at least two weeks in advance.</p>''',
+  <p class="sba r">{ORG['funding_notice']} {ORG['accommodations_notice']}</p>''',
   "Open it up. Let the conversation go where it needs to go. Remind them to submit the worksheet if they haven't.", label="Questions")
 
 engine.render(pathlib.Path.cwd() / "Business-Development-Lifecycle.html",

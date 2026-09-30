@@ -1,6 +1,6 @@
 # SBDC Workshops
 
-Version: v1.0
+Version: v1.4
 
 ## Purpose
 
@@ -12,7 +12,7 @@ Turns an old SBDC class deck or script into the full modern package: a branded H
 gh repo clone bwfnx/sbdc-toolkit "$TEMP/sbdc-toolkit" && cp -r "$TEMP/sbdc-toolkit/skills/sbdc-workshops" ~/.claude/skills/
 ```
 
-Then say "SBDC Workshops, do Session 2" in Claude Code.
+Then say "SBDC Workshops, set up workshops for my center" in Claude Code. The first run asks for your name, colors, logo and sign-up link and saves them to `org.json`; after that, "do Session 2".
 
 Needs: Python with `qrcode` (and `pymupdf` for the PDF check), Microsoft Edge for the PDF export, and Claude in Chrome signed in to the Google account that owns the forms.
 

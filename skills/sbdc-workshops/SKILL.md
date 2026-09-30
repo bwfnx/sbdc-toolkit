@@ -1,11 +1,11 @@
 ---
 name: sbdc-workshops
-description: rebuild a maryland sbdc class (e.g. the "winning that government contracting award" series) the new way - html deck in the maryland sbdc design system with click-by-click reveal, a google form worksheet behind qr checkpoints, an automatic branded follow-up email with the attendee's own answers plus the handout and slides attached, a pdf of the deck, and a run sheet. use when brandon says "sbdc workshops", "do the next session", "rebuild the class for wednesday/friday", or hands over an old deck/script for a workshop.
+description: rebuild a workshop or class (sbdc, vboc, wbc or any small business center; maryland sbdc's "winning that government contracting award" series is the worked example) the new way - html deck in your organization's colors and logo with click-by-click reveal, a google form worksheet behind qr checkpoints, an automatic branded follow-up email with the attendee's own answers plus the handout and slides attached, a pdf of the deck, and a run sheet. first run asks a few questions and saves your organization's brand to org.json. use when the user says "sbdc workshops", "do the next session", "set up workshops for my center", "rebuild the class for wednesday/friday", or hands over an old deck/script for a workshop.
 ---
 
 # SBDC Workshops
 
-One class = five deliverables, built the same way every time. Session 1 (Business Development Lifecycle, 2026-09-28) is the worked example; everything here was proven on it.
+One class = five deliverables, built the same way every time. Session 1 (Business Development Lifecycle, 2026-09-28, Maryland SBDC) is the worked example; everything here was proven on it. "BRANDON" below means the presenter, whoever runs the class; Maryland paths, people and dates are the example setup.
 
 | # | Deliverable | Where it comes from |
 |---|---|---|
@@ -27,6 +27,22 @@ Output folder per class: `Claude Playground\sbdc-advising\outputs\<YYYY-MM-DD>-g
 | 4 Basics of Proposal Writing | Mon Oct 5, 10:00-11:30 | `2026-05-01-session-4-basics-of-proposal-writing.md` |
 
 Confirm the date and Zoom link on the UMD calendar before trusting this table. Handouts for each session sit in `FINAL DRAFT PRESENTATIONS AND HANDOUTS\`.
+
+## Step 0: set up your organization (first run only, about 10 minutes)
+
+Look for `org.json` in the user's workshop folder (the class folder or up to three folders above it; the deck engine searches the same way). Found it: skip to step 1. Not found and the user is Maryland SBDC: copy `org.example.json` there as `org.json` and go on. Otherwise ask these, one at a time, and write `org.json` with the same fields as `org.example.json`:
+
+1. Your organization's short name (goes in the slide footer and email band) and full name. Example: "Mid-Atlantic VBOC" / "Mid-Atlantic Veterans Business Outreach Center".
+2. Presenter name and the email attendees should reply to.
+3. Two brand colors as hex codes: a dark primary (footer, headings) and a bright accent (bars, highlights). No codes? Ask for the website and read them from its CSS, then confirm.
+4. Your logo, the white or reversed version for dark backgrounds, as a PNG. Save it next to `org.json` and put the filename in `logo`.
+5. The link attendees use to sign up for one-on-one help, and how to show it on a slide (short form, no https://).
+6. The sign-up question on the form (e.g. "Would you like free one-on-one counseling from Mid-Atlantic VBOC?") and the "already a client" answer.
+7. Your service area: the label ("County", "State", "Region") and the list of choices.
+8. Certifications to list on the intake page (8(a), VOSB / SDVOSB, WOSB, state programs...).
+9. The funding acknowledgment your grant requires, word for word, and your accommodations line.
+
+Then build one test slide set from `scripts/deck/session1_example.py` and show the user the title slide and one light slide before any real class. When pasting `form_builder.gs` and `followup_email.gs` in steps 3 and 4, fill each file's `ORG` block from `org.json` first; Apps Script cannot read the file. Everything else (slides, LINKS, the Maryland series below) is class content the user supplies per class.
 
 ## Steps (about 2-3 hours of Claude time; Brandon's hands-on time is about 10 minutes, marked BRANDON)
 
@@ -65,7 +81,7 @@ Confirm the date and Zoom link on the UMD calendar before trusting this table. H
 - Save with the "Save project to Drive" button (find it by name). Ctrl+S often does not register. An account popup ("You're currently signed in as...") can swallow the click; press its OK first.
 - The function dropdown ignores clicks on options. It defaults to the first function in the file, so put the function you need to run first - or temporarily append `yourFn(); // TEMP` inside the selected function, run, then remove it and save again.
 - Reading another project's source (e.g. the VOSBTC `Code.gs`) through `javascript_tool` is blocked by the safety classifier. Do not try to route around it; these templates replace it.
-- The Make a copy dialog ignores a typed name and Drive renames through the browser tools fail; the respondent-facing title comes from `CLASS.title`, so only Brandon's Drive list shows "Copy of ...". Tell him to rename it.
+- The Make a copy dialog ignores a typed name and Drive renames through the browser tools fail. Rename the copy with the Google Drive connector instead (`update_file` with a new `title`, e.g. "How to Read a Federal RFP — Class Worksheet"; worked 2026-09-30). The respondent-facing title still comes from `CLASS.title`.
 - Do not push binaries into Drive by base64 through tool calls (transcription errors); Brandon drags files in and pastes links.
 
 ## Delivery rules (from the Session 1 and 2 audits, 2026-09-28 / 09-30)
