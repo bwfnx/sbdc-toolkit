@@ -38,11 +38,11 @@ Copy the skill text into whatever system prompt, project instruction, or agent c
 
 ## What this is
 
-14 skills for SBDC advising work — turning client meetings into follow-up emails and file notes, coaching on capital and debt, drafting grants and government proposals, building business-model and market-sizing analyses, and producing marketing plans, success stories, referrals, and training newsletters. Written for Maryland SBDC practice, in Brandon Mason's consulting voice, mapped to Neoserra milestones and fields.
+15 skills for SBDC advising work — turning client meetings into follow-up emails and file notes, coaching on capital and debt, drafting grants and government proposals, building business-model and market-sizing analyses, and producing marketing plans, success stories, referrals, training newsletters, and full workshop packages (deck, worksheet, follow-up email). Written for Maryland SBDC practice, in Brandon Mason's consulting voice, mapped to Neoserra milestones and fields.
 
 **A skill here is a plain Markdown file, not an app.** Each one is instructions an assistant reads and follows, so the same file works in ChatGPT, the Claude desktop app, Claude Code — and anything else that accepts custom instructions. Pick whichever you already pay for; the outputs are the same.
 
-**Migrating off custom GPTs?** That is exactly what these are. OpenAI is retiring GPTs on Enterprise workspaces on **December 11, 2026**; each skill here is already in the SKILL.md shape that replaces them, so you can install the set rather than rebuild 14 GPTs by hand.
+**Migrating off custom GPTs?** That is exactly what these are. OpenAI is retiring GPTs on Enterprise workspaces on **December 11, 2026**; each skill here is already in the SKILL.md shape that replaces them, so you can install the set rather than rebuild 15 GPTs by hand.
 
 **[How to actually use each skill →](https://bwfnx.github.io/sbdc-toolkit/)** — one guide per skill: what to have ready, what to say, what comes back, and what it will never do.
 
@@ -59,6 +59,7 @@ These are the Maryland-specific parts. Swap them for your own and the rest works
 | **Maryland Community Business Compass** funding search | Your state's program directory, or remove the line | `transcript-to-action-plan-client-email` |
 | **Maryland MBE and MDOT** certifications | Your state's certification programs | `transcript-to-action-plan-client-email`, `transcript-to-meeting-notes`, `client-follow-up-and-reengagement` |
 | **TEDCO, DHCD, Maryland Commerce** grant programs | Your state's economic development programs | `sbdc-grant-advisor`, `sbdc-success-story` |
+| **Maryland SBDC deck design, logo, sign-up link, and county list** | Your brand colors, logo file, registration link, and service area | `sbdc-workshops` (`scripts/deck/engine.py`, `scripts/apps-script/form_builder.gs`) |
 | **"Maryland SBDC"** name, signature, and funding acknowledgment | Your center's name and required acknowledgment | `sbdc-grant-advisor`, `sbdc-success-story`, `sbdc-training-newsletter`, `business-service-provider-referral-engine`, `proposal-buddy` |
 
 Ready to use as-is: `business-model-canvas-helper`, `mdsbdc-debt-helper`, `sbdc-underwriter-and-capital-coach`, `tam-sam-som`. `sbdc-marketing-plan-generator` has one Maryland mention.
@@ -69,7 +70,7 @@ Quick check after you adapt: search the `skills/` folder for "Maryland", "Neoser
 
 Claude Code: `/plugin marketplace update maryland-sbdc`. Desktop app: download the newer `.plugin` from the [latest release](https://github.com/bwfnx/sbdc-toolkit/releases/latest) and Accept again. ChatGPT: re-paste the changed skill file.
 
-## The 14 skills
+## The 15 skills
 
 | Skill | What it does |
 |---|---|
@@ -87,6 +88,7 @@ Claude Code: `/plugin marketplace update maryland-sbdc`. Desktop app: download t
 | `sbdc-success-story` | Crafts success stories, press releases, legislative letters, and social posts from client wins. |
 | `business-service-provider-referral-engine` | Matches clients to the right service providers and partners. |
 | `sbdc-training-newsletter` | Drafts training and workshop newsletters. |
+| `sbdc-workshops` | Rebuilds an old class deck into a click-by-click HTML deck, a QR-linked Google Form worksheet, an automatic follow-up email with each attendee's answers, a PDF, and a run sheet. |
 
 ## Notes
 
