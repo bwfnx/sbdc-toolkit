@@ -1,0 +1,109 @@
+{
+  "slug": "sbdc-workshops",
+  "title": "Workshops",
+  "type": "plugin",
+  "type_blurb": "The first run is a ten-minute setup conversation that saves your organization's name, colors, logo and sign-up link to <code>org.json</code>, a file that is yours. After that, every class comes out in your brand.",
+  "plugin": {
+    "name": "sbdc-toolkit",
+    "label": "Maryland SBDC Toolkit",
+    "install_cowork": "sbdc-toolkit.plugin",
+    "install_code": [
+      "/plugin marketplace add bwfnx/sbdc-toolkit",
+      "/plugin install sbdc-toolkit@maryland-sbdc"
+    ]
+  },
+  "updated": "2026-09-30",
+  "source": "sbdc-toolkit/skills/sbdc-workshops/SKILL.md",
+  "version": " (v1.4)",
+  "tagline": "Turn an old class deck or script into a click-by-click slide deck, a QR worksheet, an automatic follow-up email with each attendee's own answers, a PDF, and a run sheet.",
+  "summary": [
+    "Hand it the old deck or script for a class and you get five things back: a single-file HTML deck that reveals one idea per click (press <b>P</b> for your notes and a timer), a Google Form worksheet the room opens from QR codes on the slides, a follow-up email that sends itself when someone hits Submit, carrying their own answers plus the handout and slides, a PDF of the deck, and a run sheet for the day.",
+    "Built and proven on Maryland SBDC's four-part <i>Winning That Government Contracting Award</i> series. The lessons from each session's audit are baked in: the link goes in chat at minute 0, checkpoints get a scripted pause, Submit is called at :20, and every attachment is checked by filename before the class."
+  ],
+  "never": [
+    "Never approves a Google permission prompt for you. You click Allow yourself, twice: once for the form, once for the email.",
+    "Never rebuilds a worksheet that already has responses. The builder refuses, so live answers are never orphaned.",
+    "Never uploads your files to Drive through the chat. You drag the handout and deck PDF in and paste the links.",
+    "Never sends a test email to anyone but you. The [TEST] and [PREVIEW] emails go to your own inbox."
+  ],
+  "have_ready": [
+    "The old deck or script for the class, with speaker notes if you have them.",
+    "The handout for the session (xlsx or pdf), ready to drag into Drive.",
+    "The class date and Zoom link, on your calendar.",
+    "Claude in Chrome, signed in to the Google account that owns your forms.",
+    "First run only: your logo (the white version for dark backgrounds, as a PNG), your two brand colors, your sign-up link, and your grant's funding acknowledgment, word for word."
+  ],
+  "connects": [
+    {
+      "source": "Google Forms + Apps Script",
+      "reads": "The copied worksheet form",
+      "does": "Builds the worksheet questions, then installs the script that emails each attendee on Submit. <b>Writes and sends</b>, after you approve the permission prompts"
+    },
+    {
+      "source": "Google Drive",
+      "reads": "The title of every file link you paste",
+      "does": "Confirms each handout is the file its label names before it is attached, and renames the form copy"
+    },
+    {
+      "source": "Gmail",
+      "reads": "The [TEST] email it sent you",
+      "does": "Checks each attachment's filename against its label"
+    }
+  ],
+  "connects_note": "Two rows here write. The rest only read.",
+  "setup": {
+    "first_say": "SBDC Workshops, set up workshops for my center.",
+    "asks": [
+      "Your organization's short and full name.",
+      "Presenter name and the email attendees reply to.",
+      "Two brand colors (a dark primary and a bright accent). No hex codes? It reads them from your website.",
+      "Your logo, the white or reversed PNG.",
+      "Your sign-up link, the sign-up question for the form, and your \"already a client\" answer.",
+      "Your service area (county, state or region list) and the certifications to list.",
+      "Your funding acknowledgment and accommodations line."
+    ],
+    "note": "It saves the answers to <code>org.json</code> in your workshop folder and shows you a test title slide and one content slide before any real class. Maryland SBDC staff: it uses the Maryland settings as-is, so there is nothing to answer."
+  },
+  "use": {
+    "say": [
+      "SBDC Workshops, do the next session.",
+      "Rebuild the class for Wednesday.",
+      "Here's the old deck for my class. Rebuild it."
+    ],
+    "returns": [
+      "<b>The deck</b>: one HTML file in your colors, a title slide with the worksheet QR, 2 or 3 worksheet checkpoints, takeaways, a Submit slide, and a Questions slide with your sign-up QR and funding notice.",
+      "<b>The worksheet</b>: a live Google Form with a page-1 intake, one section per checkpoint, and a before-you-leave page.",
+      "<b>The follow-up email</b>: sent automatically on Submit, with the attendee's answers, the day's links, your sign-up button, and the handout and slides attached.",
+      "<b>A PDF of the deck</b> and <b>a run sheet</b>: checklists for the night before and 20 minutes before, the run of show, and the chat message with the live link."
+    ],
+    "then": [
+      "Approve the two Google permission prompts when it asks.",
+      "Drag the handout and the deck PDF into Drive and paste the links.",
+      "Open the [TEST] email in your inbox and check both attachments.",
+      "After class, ask for the audit. It reads the Zoom transcript and chat and lists what to fix for the next session."
+    ],
+    "tips": [
+      "Plan on about 10 minutes of your own time per class. The rest is the assistant's.",
+      "Paste the chat message yourself at the start, before you say hello. It holds the worksheet link.",
+      "Tell the room \"don't hit Submit until the last slide.\" Submitting early mails them a near-empty worksheet."
+    ]
+  },
+  "faq": [
+    {
+      "q": "We're not an SBDC. Does it still work?",
+      "a": "Yes. The first run asks for your organization's name, colors, logo and sign-up link, so a VBOC, a Women's Business Center or any small business center gets decks and emails in its own brand."
+    },
+    {
+      "q": "Does it need Claude, or will ChatGPT work?",
+      "a": "The deck builds anywhere Python runs. Building the form and email needs a browser the assistant can drive (Claude in Chrome), so Claude is the smoother fit."
+    },
+    {
+      "q": "Can I change the worksheet questions?",
+      "a": "Yes. The checkpoint questions come from your class. The page-1 intake is written for government contracting, so change it for other topics. One question per field: two-part prompts get half-answered."
+    },
+    {
+      "q": "It did something odd. Who do I ask?",
+      "a": "Brandon Mason. Say which skill and what you said to start it; a screenshot of the reply helps."
+    }
+  ]
+}
