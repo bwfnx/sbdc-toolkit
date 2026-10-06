@@ -41,6 +41,9 @@ strategies discussed]
 Things We Have Accomplished Since Our Last Meeting-
 [Milestones — see list below]
 
+[Other Progress Worth Celebrating-
+ Only when the client-wins toggle is on — see below]
+
 Relevant Links from Our Meeting-
 [Link title]
 [URL]
@@ -57,6 +60,20 @@ For the subject line, pull the client ID code and company name from the transcri
 **Things We Have Accomplished Since Our Last Meeting** — milestones only (see below). The source instructions named this section two slightly different ways — "Accomplishments Since Our Last Meeting" in one place, "Things we have accomplished since our last meeting" in the worked example — and listed the four sections in a different order than the example used. This skill follows the worked example's wording and order (Next Steps, Notes, Things We Have Accomplished Since Our Last Meeting, Relevant Links) since that's the literal text meant for posting; flag this for Brandon if he prefers the other phrasing.
 
 Only **confirmed** milestones go in the client email. Partial, inferred, or "Potential" ones go in a short note to the consultant after the email, for them to verify — never mixed into the client-facing section. A first meeting usually has no accomplishments yet; say so plainly instead of leaving the section blank or padding it.
+
+## Client-wins toggle (off by default)
+
+By default the accomplishments section is strictly Neoserra milestones. That is a compliance guardrail: the email is posted as the record, and the milestones in it are what SBDC reports upward. The trade-off is that real client progress that is not a Neoserra category (getting an EIN, opening a business bank account, a first sale, launching a website, finishing a course) drops out of the email, and the email reads more generic for it.
+
+The toggle brings that progress back without touching the milestone section:
+
+- **Turn it on** when the consultant asks for it in any words: "include client wins", "all milestones", "celebrate their progress", "add the things they got done", or by picking the client-wins letter from the follow-up menu. Once it is on, keep it on for every later email in the same conversation until the consultant turns it off.
+- **When it is on**, add a separate section directly after the milestones: **Other Progress Worth Celebrating-**. List the client's confirmed accomplishments that do not map to a milestone category, each in one plain, warm line that credits the client ("You got your EIN and opened your business checking account — that's the groundwork done."). Write it in the same first-person voice as the rest of the email.
+- **Match milestones first.** Anything that maps to a Neoserra category still goes in the milestone section, worded exactly. Registering a new business, for example, is usually **Business Established**, not a client win. Only what is left over goes in the new section, so nothing is double-counted.
+- **Confirmed only.** The same rule as milestones applies: things the client said they plan to do, or that you are inferring, stay out. If nothing qualifies, omit the section rather than padding it.
+- **When it is off**, those accomplishments can still appear as context in Notes, but never as a list of wins.
+
+The new section is part of the client email, not the Neoserra mapping. Never carry its items into the milestone dropdowns or the Nexus narrative as milestones.
 
 **Relevant Links from Our Meeting** — any resources, documents, or URLs that came up, each with a title and the link. Speech-to-text often garbles names, so resolve misheard people, programs, and organizations to the real ones before linking. When the client's entity documents came up, link their own SDAT entity page.
 
@@ -137,6 +154,7 @@ Build the menu from three kinds of options.
 **1b. Conditional standing options — include only when the transcript supports them:**
 
 - **Funding and grant search** — when the client needs capital or grant funding. When the **Maryland Community Business Compass** connector is available, run the search live through it — its funding-search and program-recommendation tools cover ~700 Maryland programs and can match by county, industry, and business profile — rather than listing programs from memory. For grant-readiness plus matched opportunities, hand off to the **Funding Match / grant finder** skill.
+- **Add client wins** — when the toggle is off and the transcript contains confirmed client progress that is not a Neoserra milestone. Name one or two of the wins in the option so the consultant can see what they would get. Picking it turns the client-wins toggle on and re-issues the email with the Other Progress Worth Celebrating section.
 - **Hand off to another SBDC Toolkit skill** — when the meeting points squarely at one, name it: Success Story (a fundable win worth writing up), Business Model Canvas Helper (early-stage client with no canvas yet), Proposal Buddy (government contracting, bid/no-bid), Marketing Plan Generator, or TAM-SAM-SOM. Only surface the one or two that genuinely fit.
 
 **2. Chaotic-good options — always generate two or three deliverables invented from this specific transcript**, not pulled from the standing list: the sharp, non-obvious things this particular meeting calls for (a 30-day sprint with a Gantt chart, a competitor teardown, a one-page pitch aimed at a specific lender, a hiring plan — whatever the conversation actually implies). This is where the skill earns its keep, so keep these fresh and client-specific rather than defaulting back to the standing options.
@@ -160,6 +178,7 @@ Every "never" in this skill, in one place:
 - Never guess a missing client ID code — use the literal "Client ID".
 - Never paraphrase a milestone category, and never file something that doesn't map to one as a milestone — it goes in Notes.
 - Never put a potential or inferred milestone in the client email — it goes in the note to the consultant.
+- Never put a client win in the milestone section, or carry it into the Neoserra mapping as a milestone; client wins appear only in Other Progress Worth Celebrating, and only when the toggle is on.
 - Never fetch SDAT / Maryland Business Express status automatically; add a "not in good standing" Next Steps line only after the consultant confirms it.
 - Never deliver the Neoserra mapping as dropdowns alone — always with the full narrative.
 - Never invent Prepare hours; never include what was said after the client left, or a subjective judgment about the client, in the narrative.

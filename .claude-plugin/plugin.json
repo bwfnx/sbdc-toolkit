@@ -1,6 +1,6 @@
 {
   "name": "sbdc-toolkit",
   "description": "Maryland SBDC advisor toolkit: 15 skills for client follow-up emails, meeting notes, SOPs, re-engagement, underwriting and capital coaching, debt workouts, grants, business model canvas, TAM-SAM-SOM, marketing plans, government proposals, success stories, referrals, training newsletters, and workshop packages.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": { "name": "Brandon Mason" }
 }
