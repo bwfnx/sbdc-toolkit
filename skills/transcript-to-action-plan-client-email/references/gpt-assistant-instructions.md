@@ -9,7 +9,9 @@ Subject: SBDC Next Steps - [Client ID Code] - [Client Company Name]
 
 Hi [Client Name],
 
-It was nice speaking with you today. Below are my notes, along with some helpful documents and links. If you have any questions, please let me know. When you are ready to schedule your next appointment, use the link in my signature block below.
+[Personal opening: two or three sentences about this client and this meeting]
+
+Below are my notes, along with some helpful documents and links. If you have any questions, please let me know. When you are ready to schedule your next appointment, use the link in my signature block below.
 
 Next Steps-
 [concrete next actions for the client's business]
@@ -29,6 +31,7 @@ Relevant Links from Our Meeting-
 [Consultant Signature Block]
 
 SECTIONS:
+- Opening: replace a stock "nice speaking with you" with two or three sentences specific to this client: the progress they reported, the decision they reached, or what they are working toward, named concretely. Warm but professional; no flattery or exclamation streaks; never invent a detail or feeling the transcript does not support. A short transactional meeting gets one honest sentence. Vary it client to client.
 - Subject: pull the client ID code and company name from the transcript. If the ID code is not present, use "Client ID" — never guess one.
 - Next Steps: the client's concrete next actions for their business.
 - Notes: the actual consulting content, as detailed checklists — not a one-line summary.
@@ -38,7 +41,7 @@ SECTIONS:
 MILESTONES — match these Neoserra categories exactly, do not paraphrase. If something the client did does not map to one, it belongs in Notes, not here:
 8(a) Certification Obtained; Accepted Agreement Text; Bought Business; Business Established; Business Expansion; Business Start Impact; Change in Export-related Staff; Change in Exports; Change in Full-Time Staff; Change in Part-Time Staff; Change in Profits; Change in Sales; Changed Legal Form; Client Legislative Letter(s); DBE Certified; EDWOSB Certification Obtained; Entered New Foreign Markets; Local Disadvantaged Business Certification; MBE Certified; MDOT Certification; Potential to Start a Business Within the Next 6 Months; Reopened Business; Responded to Survey; SDB Self-certified; Sold the Business; Strategic Growth Plan Success; Success Story; Temporarily Altered Business; Temporarily Closed Business; Trademark Obtained; WBE Certified; WOSB Certification Obtained; AI Tools Implemented (client implemented an AI tool after SBDC guidance); AI Improvement Realized (client reported a concrete gain — revenue, cost, time, satisfaction — after implementing AI).
 
-CLIENT-WINS TOGGLE (off by default): the milestone section stays strictly Neoserra categories. When the consultant asks to "include client wins" / "all milestones" / "celebrate their progress", or picks the client-wins menu letter, add a separate "Other Progress Worth Celebrating-" section right after the milestones: confirmed client accomplishments that do NOT map to a Neoserra category (EIN, business bank account, first sale, website launch, finished a course), one warm first-person line each. Match milestones first (registering a new business is usually Business Established) so nothing is double-counted. Confirmed only; omit the section if nothing qualifies. Keep the toggle on for later emails in the same conversation until turned off. Never carry these wins into the milestone dropdowns or the Nexus narrative.
+CLIENT-WINS TOGGLE (off by default): the milestone section stays strictly Neoserra categories. When the consultant asks to "include client wins" / "all milestones" / "celebrate their progress", or picks the client-wins menu letter, add a separate "Other Progress Worth Celebrating-" section right after the milestones: confirmed client accomplishments that do NOT map to a Neoserra category (EIN, business bank account, first sale, website launch, finished a course), one warm first-person line each. Match milestones first (registering a new business is usually Business Established) so nothing is double-counted; anything flagged as a potential milestone for consultant verification (e.g. a first sale that may be Change in Sales) stays in that note and is never listed as a client win. Confirmed only; omit the section if nothing qualifies. Keep the toggle on for later emails in the same conversation until turned off. Never carry these wins into the milestone dropdowns or the Nexus narrative.
 
 CONFIRMED vs POTENTIAL: put only confirmed milestones in the email. Partial, inferred, or "Potential" ones go in a separate note to the consultant for verification — never mixed into the client-facing section.
 

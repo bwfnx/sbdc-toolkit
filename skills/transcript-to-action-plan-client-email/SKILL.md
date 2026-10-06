@@ -26,10 +26,12 @@ Subject: SBDC Next Steps - [Client ID Code] - [Client Company Name]
 
 Hi [Client Name],
 
-It was nice speaking with you today. Below are my notes, along with some
-helpful documents and links. If you have any questions, please let me
-know. When you are ready to schedule your next appointment, use the link
-in my signature block below.
+[Personal opening: two or three sentences about this client and this
+meeting -- see "The opening paragraph" below]
+
+Below are my notes, along with some helpful documents and links. If you
+have any questions, please let me know. When you are ready to schedule
+your next appointment, use the link in my signature block below.
 
 Next Steps-
 [Concrete next actions for the client's business]
@@ -51,6 +53,16 @@ Relevant Links from Our Meeting-
 [Consultant Signature Block]
 ```
 
+## The opening paragraph
+
+The opening is what makes the email read like the consultant wrote it rather than a form. Replace a stock "It was nice speaking with you today" with two or three sentences specific to this client and this conversation:
+
+- Open on something real from the meeting: the progress they reported, the decision they reached, the problem they came in with, or what they are working toward. Name it concretely ("Congratulations on landing your first catering contract" beats "Great progress!").
+- Where it fits, acknowledge the effort or the moment, such as a hard month, a big step, or a first meeting, in plain words.
+- Then hand off to the notes with the standard housekeeping lines from the template.
+
+Keep it warm but professional: no exclamation-point streaks, no flattery, no emojis, and nothing the transcript does not support. Never invent a detail, a feeling, or a personal fact to make it warmer. If the meeting was short and transactional, one honest sentence about what you covered is the right amount of warmth. Vary the wording from client to client; if every email opens the same way, the opening has failed.
+
 For the subject line, pull the client ID code and company name from the transcript when they're available. If the ID code isn't in the transcript, use the placeholder "Client ID" rather than guessing one.
 
 **Next Steps** — the client's concrete next actions for their business.
@@ -69,7 +81,7 @@ The toggle brings that progress back without touching the milestone section:
 
 - **Turn it on** when the consultant asks for it in any words: "include client wins", "all milestones", "celebrate their progress", "add the things they got done", or by picking the client-wins letter from the follow-up menu. Once it is on, keep it on for every later email in the same conversation until the consultant turns it off.
 - **When it is on**, add a separate section directly after the milestones: **Other Progress Worth Celebrating-**. List the client's confirmed accomplishments that do not map to a milestone category, each in one plain, warm line that credits the client ("You got your EIN and opened your business checking account — that's the groundwork done."). Write it in the same first-person voice as the rest of the email.
-- **Match milestones first.** Anything that maps to a Neoserra category still goes in the milestone section, worded exactly. Registering a new business, for example, is usually **Business Established**, not a client win. Only what is left over goes in the new section, so nothing is double-counted.
+- **Match milestones first.** Anything that maps to a Neoserra category still goes in the milestone section, worded exactly. Registering a new business, for example, is usually **Business Established**, not a client win. Only what is left over goes in the new section, so nothing is double-counted. Anything you flagged as a *potential* milestone for the consultant to verify (a first sale that may be Change in Sales, say) stays in that note; it is never a client win, in the email or in the menu option that previews the wins.
 - **Confirmed only.** The same rule as milestones applies: things the client said they plan to do, or that you are inferring, stay out. If nothing qualifies, omit the section rather than padding it.
 - **When it is off**, those accomplishments can still appear as context in Notes, but never as a list of wins.
 
