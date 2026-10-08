@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thank You — Weekly AI Co-Working Session</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root {
+    --navy: var(--sbdc-blue, #002d62);
+    --navy-deep: #001026;
+    --red: var(--sbdc-red, #d11142);
+    --disp: var(--font-display, 'Archivo', 'Helvetica Neue', Arial, sans-serif);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: #000; font-family: var(--disp); overflow: hidden; cursor: default; }
+
+  #stage { position: fixed; inset: 0; background: #000; }
+  #slide {
+    position: absolute; top: 50%; left: 50%;
+    width: 1920px; height: 1080px;
+    transform-origin: center center;
+    transform: translate(-50%, -50%) scale(1);
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 80% -10%, #0a3f86 0%, rgba(10,63,134,0) 55%),
+      radial-gradient(100% 80% at 0% 110%, #061c3d 0%, rgba(6,28,61,0) 60%),
+      linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #fff; isolation: isolate;
+  }
+
+  .glow { position: absolute; border-radius: 50%; filter: blur(140px); z-index: 0; pointer-events: none; will-change: transform; }
+  .glow.red  { width: 820px; height: 820px; background: var(--red);  top: -260px; right: -180px; opacity: .42; }
+  .glow.blue { width: 920px; height: 920px; background: #1d6fd0; bottom: -340px; left: -240px; opacity: .5; }
+  .glow.mid  { width: 560px; height: 560px; background: #0e4ea0; top: 38%; left: 44%; opacity: .35; }
+  .grid {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,.10) 1.4px, transparent 1.4px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(120% 120% at 50% 45%, #000 35%, transparent 78%);
+            mask-image: radial-gradient(120% 120% at 50% 45%, #000 35%, transparent 78%);
+    opacity: .5;
+  }
+  .vignette { position: absolute; inset: 0; z-index: 0; pointer-events: none; box-shadow: inset 0 0 360px 80px rgba(0,8,24,.6); }
+
+  .frame { position: relative; z-index: 2; height: 100%; padding: 84px 110px; display: flex; flex-direction: column; }
+  header { display: flex; align-items: flex-start; justify-content: space-between; }
+  .logo { height: 116px; width: auto; display: block; filter: drop-shadow(0 6px 20px rgba(0,0,0,.35)); }
+  .livetag { display: inline-flex; align-items: center; gap: 16px; background: var(--red); color: #fff; padding: 14px 26px; font-weight: 800; font-size: 25px; letter-spacing: .18em; box-shadow: 0 14px 40px rgba(209,17,66,.35); }
+
+  main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin-top: -8px; }
+
+  .thankyou { font-weight: 800; font-size: 62px; letter-spacing: -.01em; color: rgba(255,255,255,.92); line-height: 1; white-space: nowrap; }
+
+  .phrase-wrap { min-height: 230px; display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 6px; }
+  .phrase {
+    font-weight: 900; font-size: 104px; line-height: .98; letter-spacing: -.022em;
+    color: #fff; max-width: 1560px; text-wrap: balance;
+    text-shadow: 0 10px 50px rgba(0,0,0,.4);
+    opacity: 1; transition: opacity .42s ease, transform .42s cubic-bezier(.22,.61,.36,1);
+  }
+  .phrase .accent { color: var(--red); }
+  .phrase.hide { opacity: 0; }
+
+  .rule { height: 6px; width: 168px; background: var(--red); border-radius: 2px; margin-top: 30px; }
+
+  .sub { font-family: var(--font-body, Arial, sans-serif); font-weight: 400; font-size: 30px; color: rgba(255,255,255,.82); margin-top: 34px; max-width: 1080px; text-wrap: balance; }
+  .meta { display: flex; align-items: center; gap: 14px; margin-top: 24px; font-size: 25px; font-weight: 600; color: rgba(255,255,255,.9); white-space: nowrap; }
+  .meta svg { width: 28px; height: 28px; stroke: var(--red); flex: none; }
+
+  footer { display: flex; align-items: center; justify-content: space-between; font-size: 25px; color: rgba(255,255,255,.7); font-weight: 600; }
+  footer .left { display: inline-flex; align-items: center; gap: 13px; }
+  footer .left svg { width: 27px; height: 27px; stroke: rgba(255,255,255,.7); }
+  footer .rule2 { height: 4px; width: 88px; background: var(--red); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .glow.red  { animation: drift1 26s ease-in-out infinite alternate; }
+    .glow.blue { animation: drift2 32s ease-in-out infinite alternate; }
+    .glow.mid  { animation: drift3 22s ease-in-out infinite alternate; }
+    .phrase.hide { transform: translateY(16px); }
+  }
+  @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-120px,80px) scale(1.12); } }
+  @keyframes drift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(140px,-90px) scale(1.1); } }
+  @keyframes drift3 { from { transform: translate(0,0); } to { transform: translate(-90px,-60px); } }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <div id="slide">
+      <div class="glow red"></div>
+      <div class="glow blue"></div>
+      <div class="glow mid"></div>
+      <div class="grid"></div>
+      <div class="vignette"></div>
+
+      <div class="frame">
+        <header>
+          <img class="logo" src="assets/logos/sbdc-maryland-reverse.png" alt="America's SBDC Maryland">
+          <div class="livetag">THAT'S A WRAP</div>
+        </header>
+
+        <main>
+          <div class="thankyou">Thank you for</div>
+          <div class="phrase-wrap"><div class="phrase" id="phrase">joining us today</div></div>
+          <div class="rule"></div>
+
+          <div class="sub">From all of us at the Maryland SBDC — keep building, and we'll see you next session.</div>
+          <div class="meta">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg>
+            Mondays · 9:00 AM ET
+          </div>
+        </main>
+
+        <footer>
+          <span class="left">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            marylandsbdc.org
+          </span>
+          <span class="rule2"></span>
+          <span>Hosted by Your Name · @MarylandSBDC</span>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const slide = document.getElementById('slide');
+    function fit() {
+      const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      slide.style.transform = `translate(-50%, -50%) scale(${s})`;
+    }
+    window.addEventListener('resize', fit);
+    fit();
+
+    // A bank of warm, on-brand "Thank you for ___" phrases.
+    // The first plays once; after that it shuffles through the rest so it
+    // never feels like a fixed list, and the warm ones land in varied order.
+    const PHRASES = [
+      'joining us today',
+      'betting on yourself',
+      'owning a business',
+      'building something of your own',
+      'showing up and doing the work',
+      'bringing your big questions',
+      'expanding what you know',
+      'chasing the bigger idea',
+      'creating jobs that matter',
+      'serving your community',
+      'investing in your future',
+      'starting, growing &amp; thriving',
+      'making Maryland stronger',
+      'turning a dream into a plan',
+      'co-working with us',
+      'believing it&rsquo;s possible',
+      'being part of this',
+    ];
+
+    const phraseEl = document.getElementById('phrase');
+    let order = [];
+    let pos = 0;
+
+    function reshuffle() {
+      // shuffle indices 1..n-1 (keep 0 = "joining us today" as the opener once)
+      const rest = PHRASES.map((_, i) => i).slice(1);
+      for (let i = rest.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [rest[i], rest[j]] = [rest[j], rest[i]];
+      }
+      order = rest;
+      pos = 0;
+    }
+    reshuffle();
+
+    function nextPhrase() {
+      phraseEl.classList.add('hide');
+      setTimeout(() => {
+        if (pos >= order.length) reshuffle();
+        const idx = order[pos++];
+        phraseEl.innerHTML = PHRASES[idx];
+        requestAnimationFrame(() => phraseEl.classList.remove('hide'));
+      }, 430);
+    }
+
+    // Hold the opener a beat longer, then cycle.
+    setTimeout(() => { nextPhrase(); setInterval(nextPhrase, 3400); }, 2600);
+  </script>
+</body>
+</html>

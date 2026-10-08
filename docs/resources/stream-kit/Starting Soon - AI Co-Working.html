@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starting Soon — Weekly AI Co-Working Session</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root {
+    --navy: var(--sbdc-blue, #002d62);
+    --navy-deep: #001026;
+    --red: var(--sbdc-red, #d11142);
+    --disp: var(--font-display, 'Archivo', 'Helvetica Neue', Arial, sans-serif);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: #000;
+    font-family: var(--disp);
+    overflow: hidden;
+    cursor: default;
+  }
+
+  /* ---- Stage: full viewport, letterboxes the 1920×1080 slide ---- */
+  #stage {
+    position: fixed; inset: 0;
+    background: #000;
+  }
+  #slide {
+    position: absolute; top: 50%; left: 50%;
+    width: 1920px; height: 1080px;
+    transform-origin: center center;
+    transform: translate(-50%, -50%) scale(1);
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 80% -10%, #0a3f86 0%, rgba(10,63,134,0) 55%),
+      radial-gradient(100% 80% at 0% 110%, #061c3d 0%, rgba(6,28,61,0) 60%),
+      linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #fff;
+    isolation: isolate;
+  }
+
+  /* ---- Ambient background motion ---- */
+  .glow {
+    position: absolute; border-radius: 50%;
+    filter: blur(140px); opacity: .55; z-index: 0; pointer-events: none;
+    will-change: transform;
+  }
+  .glow.red  { width: 820px; height: 820px; background: var(--red);  top: -260px; right: -180px; opacity: .42; }
+  .glow.blue { width: 920px; height: 920px; background: #1d6fd0; bottom: -340px; left: -240px; opacity: .5; }
+  .glow.mid  { width: 560px; height: 560px; background: #0e4ea0; top: 38%; left: 44%; opacity: .35; }
+
+  .grid {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,.10) 1.4px, transparent 1.4px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(120% 120% at 50% 45%, #000 35%, transparent 78%);
+            mask-image: radial-gradient(120% 120% at 50% 45%, #000 35%, transparent 78%);
+    opacity: .5;
+  }
+  .vignette {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    box-shadow: inset 0 0 360px 80px rgba(0,8,24,.6);
+  }
+
+  /* ---- Foreground layout ---- */
+  .frame {
+    position: relative; z-index: 2;
+    height: 100%;
+    padding: 84px 110px;
+    display: flex; flex-direction: column;
+  }
+
+  header { display: flex; align-items: flex-start; justify-content: space-between; }
+  .logo { height: 116px; width: auto; display: block; filter: drop-shadow(0 6px 20px rgba(0,0,0,.35)); }
+
+  .livetag {
+    display: inline-flex; align-items: center; gap: 16px;
+    background: var(--red); color: #fff;
+    padding: 14px 26px 14px 22px;
+    font-weight: 800; font-size: 25px; letter-spacing: .18em;
+    box-shadow: 0 14px 40px rgba(209,17,66,.35);
+  }
+  .livedot {
+    width: 16px; height: 16px; border-radius: 50%; background: #fff;
+    box-shadow: 0 0 0 0 rgba(255,255,255,.7);
+  }
+
+  /* ---- Center hero ---- */
+  main {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    gap: 6px;
+    margin-top: -10px;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 18px; white-space: nowrap;
+    color: #fff; font-weight: 700; font-size: 30px; letter-spacing: .34em;
+    text-transform: uppercase; opacity: .92;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: ""; width: 64px; height: 3px; background: var(--red); display: inline-block;
+  }
+  h1 {
+    color: #fff; white-space: nowrap;
+    font-weight: 900; letter-spacing: -.02em; line-height: 1;
+    font-size: 64px; margin: 16px 0 0;
+    text-shadow: 0 8px 36px rgba(0,0,0,.35);
+  }
+  h1 .accent { color: #fff; }
+
+  .timer {
+    font-weight: 900; line-height: .9;
+    font-size: 210px; letter-spacing: -.01em;
+    font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1;
+    margin: 18px 0 6px;
+    text-shadow: 0 18px 60px rgba(0,0,0,.45);
+  }
+  .timer .colon { color: var(--red); display: inline-block; padding: 0 .04em; }
+
+  .bars { display: flex; align-items: flex-end; gap: 12px; height: 46px; margin: 4px 0 26px; }
+  .bars i {
+    display: block; width: 12px; border-radius: 3px;
+    background: linear-gradient(180deg, #fff, var(--red));
+    height: 40%;
+  }
+
+  .sub { font-family: var(--font-body, Arial, sans-serif); font-weight: 400; font-size: 30px; color: rgba(255,255,255,.82); }
+
+  .meta {
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    margin-top: 38px;
+  }
+  .meta .item { display: inline-flex; align-items: center; gap: 14px; font-size: 27px; font-weight: 600; color: #fff; white-space: nowrap; }
+  .meta .item svg { width: 30px; height: 30px; stroke: var(--red); flex: none; }
+  .meta .dot { display: none; }
+
+  /* ---- Footer ---- */
+  footer {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 25px; color: rgba(255,255,255,.7); font-weight: 600;
+  }
+  footer .left { display: inline-flex; align-items: center; gap: 13px; }
+  footer .left svg { width: 27px; height: 27px; stroke: rgba(255,255,255,.7); }
+  footer .rule { height: 4px; width: 88px; background: var(--red); }
+
+  /* ---- Controls (outside the slide, auto-hide) ---- */
+  #controls {
+    position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%);
+    z-index: 50;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    background: rgba(8,18,38,.86);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 16px 50px rgba(0,0,0,.5);
+    font-family: var(--disp);
+    transition: opacity .4s ease, transform .4s ease;
+  }
+  #controls.hidden { opacity: 0; transform: translateX(-50%) translateY(14px); pointer-events: none; }
+  #controls button {
+    font-family: inherit; font-weight: 700; font-size: 14px;
+    color: #fff; background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12); border-radius: 9px;
+    padding: 9px 14px; cursor: pointer; letter-spacing: .02em;
+    transition: background .15s ease, transform .08s ease;
+  }
+  #controls button:hover { background: rgba(255,255,255,.18); }
+  #controls button:active { transform: translateY(1px); }
+  #controls button.primary { background: var(--red); border-color: transparent; }
+  #controls button.primary:hover { background: #b30d38; }
+  #controls .sep { width: 1px; height: 24px; background: rgba(255,255,255,.16); margin: 0 4px; }
+  #controls .label { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.5); padding: 0 6px 0 2px; }
+  #controls .preset.active { background: var(--red); border-color: transparent; }
+  #hint {
+    position: fixed; left: 50%; bottom: 92px; transform: translateX(-50%);
+    z-index: 49; color: rgba(255,255,255,.4); font-size: 13px; letter-spacing: .04em;
+    font-family: var(--font-body, Arial, sans-serif);
+    transition: opacity .4s ease; pointer-events: none;
+  }
+  #hint.hidden { opacity: 0; }
+
+  /* ---- Live / done state ---- */
+  #slide.is-live .timer { color: #fff; }
+  #slide.is-live .livetag { animation: none; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .glow.red  { animation: drift1 26s ease-in-out infinite alternate; }
+    .glow.blue { animation: drift2 32s ease-in-out infinite alternate; }
+    .glow.mid  { animation: drift3 22s ease-in-out infinite alternate; }
+    .livedot   { animation: pulse 1.4s ease-out infinite; }
+    .livetag   { animation: tagpulse 2.6s ease-in-out infinite; }
+    .timer .colon { animation: blink 1s steps(1,end) infinite; }
+    .bars i { animation: eq 1.1s ease-in-out infinite; }
+    .bars i:nth-child(1){ animation-duration: .9s;  animation-delay: -.2s; }
+    .bars i:nth-child(2){ animation-duration: 1.3s; animation-delay: -.6s; }
+    .bars i:nth-child(3){ animation-duration: .7s;  animation-delay: -.1s; }
+    .bars i:nth-child(4){ animation-duration: 1.5s; animation-delay: -.9s; }
+    .bars i:nth-child(5){ animation-duration: .8s;  animation-delay: -.3s; }
+    .bars i:nth-child(6){ animation-duration: 1.2s; animation-delay: -.5s; }
+    .bars i:nth-child(7){ animation-duration: 1.0s; animation-delay: -.8s; }
+  }
+  @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-120px,80px) scale(1.12); } }
+  @keyframes drift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(140px,-90px) scale(1.1); } }
+  @keyframes drift3 { from { transform: translate(0,0); } to { transform: translate(-90px,-60px); } }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,.7); } 70% { box-shadow: 0 0 0 16px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
+  @keyframes tagpulse { 0%,100% { box-shadow: 0 14px 40px rgba(209,17,66,.30); } 50% { box-shadow: 0 14px 54px rgba(209,17,66,.6); } }
+  @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: .18; } }
+  @keyframes eq { 0%,100% { height: 22%; } 50% { height: 100%; } }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <div id="slide">
+      <div class="glow red"></div>
+      <div class="glow blue"></div>
+      <div class="glow mid"></div>
+      <div class="grid"></div>
+      <div class="vignette"></div>
+
+      <div class="frame">
+        <header>
+          <img class="logo" src="assets/logos/sbdc-maryland-reverse.png" alt="America's SBDC Maryland">
+          <div class="livetag"><span class="livedot"></span>STREAMING SOON</div>
+        </header>
+
+        <main>
+          <div class="eyebrow">We're starting soon</div>
+          <h1>Weekly <span class="accent">AI Co-Working</span> Session</h1>
+
+          <div class="timer" id="timer">05<span class="colon">:</span>00</div>
+          <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+          <div class="sub">Grab a coffee and settle in — we'll begin shortly.</div>
+
+          <div class="meta">
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg>
+              Mondays · 9:00 AM ET
+            </span>
+            <span class="dot"></span>
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Hosted by Your Name · Your Title
+            </span>
+          </div>
+        </main>
+
+        <footer>
+          <span class="left">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            marylandsbdc.org
+          </span>
+          <span class="rule"></span>
+          <span>@MarylandSBDC</span>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <div id="hint">Move the mouse for controls · Space = start/pause · R = restart</div>
+  <div id="controls">
+    <button id="toggle" class="primary">Pause</button>
+    <button id="restart">Restart</button>
+    <div class="sep"></div>
+    <span class="label">Length</span>
+    <button class="preset" data-min="1">1m</button>
+    <button class="preset" data-min="5">5m</button>
+    <button class="preset" data-min="10">10m</button>
+    <button class="preset" data-min="15">15m</button>
+  </div>
+
+  <script>
+    /* ---------- Scale the 1920×1080 slide to fit the viewport ---------- */
+    const slide = document.getElementById('slide');
+    function fit() {
+      const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      slide.style.transform = `translate(-50%, -50%) scale(${s})`;
+    }
+    window.addEventListener('resize', fit);
+    fit();
+
+    /* ---------- Countdown with localStorage persistence ---------- */
+    const KEY = 'sbdc-cowork-standby-v1';
+    const timerEl = document.getElementById('timer');
+    const toggleBtn = document.getElementById('toggle');
+    const restartBtn = document.getElementById('restart');
+
+    // state: durationSec, running, remainingSec (when paused), targetMs (when running)
+    let state = load() || { durationSec: 300, running: true, remainingSec: 300, targetMs: Date.now() + 300000 };
+
+    function load() {
+      try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; }
+    }
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+    function currentRemaining() {
+      if (state.running) return Math.max(0, Math.round((state.targetMs - Date.now()) / 1000));
+      return Math.max(0, state.remainingSec);
+    }
+
+    function render() {
+      const r = currentRemaining();
+      const m = Math.floor(r / 60);
+      const s = r % 60;
+      const mm = String(m).padStart(2, '0');
+      const ss = String(s).padStart(2, '0');
+      timerEl.innerHTML = `${mm}<span class="colon">:</span>${ss}`;
+
+      const live = (r <= 0);
+      slide.classList.toggle('is-live', live);
+      if (live) {
+        timerEl.innerHTML = `<span class="colon" style="animation:none">●</span> LIVE`;
+        timerEl.style.fontSize = '150px';
+        document.querySelector('.eyebrow').textContent = "We're live";
+        document.querySelector('.sub').textContent = "Welcome in — let's get to work.";
+        if (state.running) { state.running = false; state.remainingSec = 0; save(); }
+      } else {
+        timerEl.style.fontSize = '';
+      }
+      toggleBtn.textContent = state.running ? 'Pause' : (r <= 0 ? 'Restart' : 'Resume');
+      // reflect active preset
+      document.querySelectorAll('.preset').forEach(b => {
+        b.classList.toggle('active', Number(b.dataset.min) * 60 === state.durationSec);
+      });
+    }
+
+    function start() {
+      let r = currentRemaining();
+      if (r <= 0) r = state.durationSec;
+      // restore "starting soon" copy if we had gone live
+      document.querySelector('.eyebrow').textContent = "We're starting soon";
+      document.querySelector('.sub').textContent = "Grab a coffee and settle in — we'll begin shortly.";
+      state.running = true;
+      state.targetMs = Date.now() + r * 1000;
+      save(); render();
+    }
+    function pause() {
+      state.remainingSec = currentRemaining();
+      state.running = false;
+      save(); render();
+    }
+    function restart() {
+      state.remainingSec = state.durationSec;
+      document.querySelector('.eyebrow').textContent = "We're starting soon";
+      document.querySelector('.sub').textContent = "Grab a coffee and settle in — we'll begin shortly.";
+      if (state.running) state.targetMs = Date.now() + state.durationSec * 1000;
+      save(); render();
+    }
+    function setDuration(min) {
+      state.durationSec = min * 60;
+      state.remainingSec = state.durationSec;
+      if (state.running) state.targetMs = Date.now() + state.durationSec * 1000;
+      document.querySelector('.eyebrow').textContent = "We're starting soon";
+      document.querySelector('.sub').textContent = "Grab a coffee and settle in — we'll begin shortly.";
+      save(); render();
+    }
+
+    toggleBtn.addEventListener('click', () => { state.running ? pause() : start(); });
+    restartBtn.addEventListener('click', restart);
+    document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => setDuration(Number(b.dataset.min))));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') { e.preventDefault(); state.running ? pause() : start(); }
+      else if (e.key === 'r' || e.key === 'R') { restart(); }
+    });
+
+    render();
+    setInterval(render, 250);
+
+    /* ---------- Auto-hide controls ---------- */
+    const controls = document.getElementById('controls');
+    const hint = document.getElementById('hint');
+    let hideTimer;
+    function showControls() {
+      controls.classList.remove('hidden');
+      hint.classList.add('hidden');
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => controls.classList.add('hidden'), 3200);
+    }
+    window.addEventListener('mousemove', showControls);
+    window.addEventListener('keydown', showControls);
+    showControls();
+  </script>
+</body>
+</html>

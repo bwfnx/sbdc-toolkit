@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thanks for Joining — Weekly AI Co-Working Session</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root {
+    --navy: var(--sbdc-blue, #002d62);
+    --navy-deep: #001026;
+    --red: var(--sbdc-red, #d11142);
+    --disp: var(--font-display, 'Archivo', 'Helvetica Neue', Arial, sans-serif);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: #000; font-family: var(--disp); overflow: hidden; cursor: default; }
+
+  #stage { position: fixed; inset: 0; background: #000; }
+  #slide {
+    position: absolute; top: 50%; left: 50%;
+    width: 1920px; height: 1080px;
+    transform-origin: center center;
+    transform: translate(-50%, -50%) scale(1);
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 80% -10%, #0a3f86 0%, rgba(10,63,134,0) 55%),
+      radial-gradient(100% 80% at 0% 110%, #061c3d 0%, rgba(6,28,61,0) 60%),
+      linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #fff; isolation: isolate;
+  }
+
+  .glow { position: absolute; border-radius: 50%; filter: blur(140px); z-index: 0; pointer-events: none; will-change: transform; }
+  .glow.red  { width: 820px; height: 820px; background: var(--red);  top: -260px; right: -180px; opacity: .42; }
+  .glow.blue { width: 920px; height: 920px; background: #1d6fd0; bottom: -340px; left: -240px; opacity: .5; }
+  .glow.mid  { width: 560px; height: 560px; background: #0e4ea0; top: 38%; left: 44%; opacity: .35; }
+  .grid {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,.10) 1.4px, transparent 1.4px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(120% 120% at 50% 45%, #000 35%, transparent 78%);
+            mask-image: radial-gradient(120% 120% at 50% 45%, #000 35%, transparent 78%);
+    opacity: .5;
+  }
+  .vignette { position: absolute; inset: 0; z-index: 0; pointer-events: none; box-shadow: inset 0 0 360px 80px rgba(0,8,24,.6); }
+
+  .frame { position: relative; z-index: 2; height: 100%; padding: 84px 110px; display: flex; flex-direction: column; }
+  header { display: flex; align-items: flex-start; justify-content: space-between; }
+  .logo { height: 116px; width: auto; display: block; filter: drop-shadow(0 6px 20px rgba(0,0,0,.35)); }
+  .livetag {
+    display: inline-flex; align-items: center; gap: 16px;
+    background: var(--red); color: #fff; padding: 14px 26px;
+    font-weight: 800; font-size: 25px; letter-spacing: .18em; box-shadow: 0 14px 40px rgba(209,17,66,.35);
+  }
+
+  main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; margin-top: -10px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 18px; white-space: nowrap; color: #fff; font-weight: 700; font-size: 30px; letter-spacing: .34em; text-transform: uppercase; opacity: .92; }
+  .eyebrow::before, .eyebrow::after { content: ""; width: 64px; height: 3px; background: var(--red); display: inline-block; }
+  h1 { color: #fff; white-space: nowrap; font-weight: 900; letter-spacing: -.025em; line-height: .98; font-size: 132px; margin: 16px 0 2px; text-shadow: 0 10px 44px rgba(0,0,0,.4); }
+
+  .nextlabel { font-weight: 700; font-size: 24px; letter-spacing: .3em; text-transform: uppercase; color: var(--red); margin-top: 30px; }
+  .next { font-weight: 900; font-size: 80px; letter-spacing: -.01em; line-height: 1; margin: 10px 0 8px; white-space: nowrap; }
+  .next .accent { color: var(--red); }
+  .nextrule { height: 4px; width: 150px; background: var(--red); margin: 6px 0 0; }
+
+  .sub { font-family: var(--font-body, Arial, sans-serif); font-weight: 400; font-size: 30px; color: rgba(255,255,255,.82); margin-top: 30px; max-width: 1180px; text-wrap: balance; }
+
+  .meta { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 34px; }
+  .meta .item { display: inline-flex; align-items: center; gap: 14px; font-size: 27px; font-weight: 600; color: #fff; white-space: nowrap; }
+  .meta .item svg { width: 30px; height: 30px; stroke: var(--red); flex: none; }
+
+  footer { display: flex; align-items: center; justify-content: space-between; font-size: 25px; color: rgba(255,255,255,.7); font-weight: 600; }
+  footer .left { display: inline-flex; align-items: center; gap: 13px; }
+  footer .left svg { width: 27px; height: 27px; stroke: rgba(255,255,255,.7); }
+  footer .rule { height: 4px; width: 88px; background: var(--red); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .glow.red  { animation: drift1 26s ease-in-out infinite alternate; }
+    .glow.blue { animation: drift2 32s ease-in-out infinite alternate; }
+    .glow.mid  { animation: drift3 22s ease-in-out infinite alternate; }
+    .next .accent { animation: glowpulse 2.8s ease-in-out infinite; }
+  }
+  @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-120px,80px) scale(1.12); } }
+  @keyframes drift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(140px,-90px) scale(1.1); } }
+  @keyframes drift3 { from { transform: translate(0,0); } to { transform: translate(-90px,-60px); } }
+  @keyframes glowpulse { 0%,100% { text-shadow: 0 0 0 rgba(209,17,66,0); } 50% { text-shadow: 0 0 26px rgba(209,17,66,.55); } }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <div id="slide">
+      <div class="glow red"></div>
+      <div class="glow blue"></div>
+      <div class="glow mid"></div>
+      <div class="grid"></div>
+      <div class="vignette"></div>
+
+      <div class="frame">
+        <header>
+          <img class="logo" src="assets/logos/sbdc-maryland-reverse.png" alt="America's SBDC Maryland">
+          <div class="livetag">THAT'S A WRAP</div>
+        </header>
+
+        <main>
+          <div class="eyebrow">Thanks for joining</div>
+          <h1>Thank you!</h1>
+
+          <div class="nextlabel">See you next session</div>
+          <div class="next">Mondays <span class="accent">·</span> 9:00 AM ET</div>
+          <div class="nextrule"></div>
+
+          <div class="sub">Keep building this week — bring your wins, questions, and works-in-progress back to the next co-working session.</div>
+
+          <div class="meta">
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Hosted by Your Name · Your Title
+            </span>
+          </div>
+        </main>
+
+        <footer>
+          <span class="left">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            marylandsbdc.org
+          </span>
+          <span class="rule"></span>
+          <span>@MarylandSBDC</span>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const slide = document.getElementById('slide');
+    function fit() {
+      const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      slide.style.transform = `translate(-50%, -50%) scale(${s})`;
+    }
+    window.addEventListener('resize', fit);
+    fit();
+  </script>
+</body>
+</html>

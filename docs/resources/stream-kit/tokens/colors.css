@@ -1,0 +1,95 @@
+/* ===========================================================================
+   Maryland SBDC — Color Tokens
+   Source: MDSBDC Brand & Logo Identity Guidelines (2024), p.4
+   ===========================================================================
+   SBDC Red   Pantone 193          CMYK 0/100/63/13   RGB 209/18/66   #d11142
+   SBDC Blue  Pantone 282          CMYK 100/68/0/54    RGB 0/45/98     #002d62
+   Gray       Pantone Cool Gray 7  CMYK 0/0/0/37       RGB 173/175/178 #adafb2
+   =========================================================================== */
+
+:root {
+  /* ---- Brand core ---- */
+  --sbdc-red: #d11142;
+  --sbdc-blue: #002d62;
+  --sbdc-gray: #adafb2;
+
+  /* ---- Red ramp (derived from #d11142) ---- */
+  --red-50:  #fceef2;
+  --red-100: #f8d3dd;
+  --red-200: #f0a3b7;
+  --red-300: #e56a89;
+  --red-400: #db3c64;
+  --red-500: #d11142;  /* brand */
+  --red-600: #b00d38;
+  --red-700: #8c0a2c;
+  --red-800: #680720;
+  --red-900: #470516;
+
+  /* ---- Blue ramp (derived from #002d62) ---- */
+  --blue-50:  #e8eef5;
+  --blue-100: #c6d4e6;
+  --blue-200: #8ea9cc;
+  --blue-300: #4f7aad;
+  --blue-400: #1f5290;
+  --blue-500: #002d62;  /* brand */
+  --blue-600: #002752;
+  --blue-700: #001e40;
+  --blue-800: #00162e;
+  --blue-900: #000d1c;
+
+  /* ---- Neutral / gray ramp (anchored on Cool Gray 7) ---- */
+  --neutral-0:   #ffffff;
+  --neutral-50:  #f7f8f9;
+  --neutral-100: #eef0f2;
+  --neutral-200: #e2e4e7;
+  --neutral-300: #cdd0d4;
+  --neutral-400: #adafb2;  /* brand gray */
+  --neutral-500: #8b8e92;
+  --neutral-600: #6a6d71;
+  --neutral-700: #4c4f53;
+  --neutral-800: #313438;
+  --neutral-900: #1a1c1f;
+
+  /* ---- Functional accents (kept within the patriotic palette) ---- */
+  --success: #1f7a4d;
+  --warning: #c9821a;
+  --info: var(--blue-400);
+  --danger: var(--red-600);
+
+  /* =========================================================================
+     SEMANTIC ALIASES — reach for these in product code
+     ========================================================================= */
+
+  /* Text */
+  --text-strong: var(--blue-500);   /* headings, wordmark-adjacent */
+  --text-body: var(--neutral-800);  /* default paragraph */
+  --text-muted: var(--neutral-600);
+  --text-subtle: var(--neutral-500);
+  --text-on-brand: #ffffff;
+  --text-link: var(--red-500);
+  --text-link-hover: var(--red-700);
+
+  /* Surfaces */
+  --surface-page: var(--neutral-50);
+  --surface-card: var(--neutral-0);
+  --surface-sunken: var(--neutral-100);
+  --surface-brand: var(--blue-500);
+  --surface-brand-soft: var(--blue-50);
+  --surface-accent: var(--red-500);
+  --surface-accent-soft: var(--red-50);
+
+  /* Borders / lines */
+  --border-subtle: var(--neutral-200);
+  --border-default: var(--neutral-300);
+  --border-strong: var(--neutral-400);
+  --border-brand: var(--blue-500);
+  --focus-ring: var(--blue-400);
+
+  /* Component fills */
+  --btn-primary-bg: var(--red-500);
+  --btn-primary-bg-hover: var(--red-600);
+  --btn-primary-bg-active: var(--red-700);
+  --btn-secondary-bg: var(--blue-500);
+  --btn-secondary-bg-hover: var(--blue-600);
+  --btn-secondary-bg-active: var(--blue-700);
+}

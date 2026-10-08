@@ -1,0 +1,57 @@
+/* ===========================================================================
+   Maryland SBDC — Base element styling bound to tokens.
+   Optional layer consumers get for free; components never depend on it.
+   =========================================================================== */
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-body);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  line-height: var(--leading-snug);
+  margin: 0 0 var(--space-3);
+  text-wrap: balance;
+}
+h1 { font-size: var(--text-4xl); font-weight: var(--weight-black); letter-spacing: var(--tracking-tight); }
+h2 { font-size: var(--text-3xl); font-weight: var(--weight-extrabold); letter-spacing: var(--tracking-tight); }
+h3 { font-size: var(--text-2xl); font-weight: var(--weight-bold); }
+h4 { font-size: var(--text-xl); font-weight: var(--weight-bold); }
+
+p { margin: 0 0 var(--space-4); text-wrap: pretty; }
+
+a { color: var(--text-link); text-decoration: none; }
+a:hover { color: var(--text-link-hover); text-decoration: underline; }
+
+/* The brand "eyebrow": ALL-CAPS, wide-tracked, red — echoes AMERICA'S / MARYLAND */
+.sbdc-eyebrow {
+  font-family: var(--font-display);
+  font-weight: var(--eyebrow-weight);
+  letter-spacing: var(--eyebrow-tracking);
+  text-transform: uppercase;
+  font-size: var(--text-sm);
+  color: var(--sbdc-red);
+}
+
+/* The brand rule: a short solid accent bar used under section headers */
+.sbdc-rule {
+  display: block;
+  width: 56px;
+  height: var(--border-accent-width);
+  background: var(--sbdc-red);
+  border: 0;
+  margin: var(--space-3) 0 var(--space-5);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}

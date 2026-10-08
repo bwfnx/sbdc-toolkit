@@ -1,0 +1,530 @@
+<title>Process Teardown Worksheet</title>
+<style>
+  :root {
+    --paper: #ffffff;
+    --bg: #f5f8fc;
+    --ink: #17202c;
+    --muted: #505a6b;
+    --navy: #002d62;
+    --heading: #002d62;
+    --accent: #d11142;
+    --line: #c4d4e8;
+    --tint: #e8eef7;
+    --rule-strong: #002d62;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #131e2b;
+      --bg: #0d151f;
+      --ink: #e7eef7;
+      --muted: #9aa8bd;
+      --navy: #a8c4e8;
+      --heading: #cddff6;
+      --accent: #ff7391;
+      --line: #2b3c52;
+      --tint: #1a2735;
+      --rule-strong: #a8c4e8;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #131e2b;
+    --bg: #0d151f;
+    --ink: #e7eef7;
+    --muted: #9aa8bd;
+    --navy: #a8c4e8;
+    --heading: #cddff6;
+    --accent: #ff7391;
+    --line: #2b3c52;
+    --tint: #1a2735;
+    --rule-strong: #a8c4e8;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
+  }
+  .sheet {
+    max-width: 44rem;
+    margin: 0 auto;
+    background: var(--paper);
+    padding: 28px 20px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+  .eyebrow {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    font-size: 0.76rem;
+    color: var(--accent);
+  }
+  h1 {
+    font-size: clamp(1.9rem, 6vw, 2.6rem);
+    line-height: 1.08;
+    margin: 6px 0 10px;
+    color: var(--heading);
+    text-wrap: balance;
+    letter-spacing: -0.015em;
+  }
+  .dek { margin: 0; color: var(--muted); max-width: 34em; }
+  .thesis {
+    margin: 18px 0 0;
+    padding-left: 14px;
+    border-left: 3px solid var(--accent);
+    font-size: 1.12rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    color: var(--heading);
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .sec-note { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  .sec-head { border-top: 2px solid var(--rule-strong); padding-top: 12px; }
+
+  /* Numbered boxes */
+  .boxes { display: flex; flex-direction: column; gap: 22px; margin-top: 22px; }
+  .box { border: 1px solid var(--line); padding: 14px 16px 18px; }
+  .box > h3 {
+    font-size: 1.02rem;
+    margin: 0 0 2px;
+    color: var(--heading);
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .num {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .hint { margin: 2px 0 12px; color: var(--muted); font-size: 0.9rem; }
+
+  .writeline { border-bottom: 1px solid var(--line); height: 2.5rem; }
+  .writeline + .writeline { margin-top: 2px; }
+
+  /* Steps + J/R table */
+  table.steps { width: 100%; border-collapse: collapse; }
+  table.steps th {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-align: left;
+    padding: 0 0 6px;
+    font-weight: 600;
+  }
+  table.steps th.jr-col, table.steps td.jr-col { text-align: center; width: 108px; }
+  table.steps td {
+    border-bottom: 1px solid var(--line);
+    height: 46px;
+    padding: 0;
+    vertical-align: middle;
+  }
+  table.steps td.n {
+    width: 1.9rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .circles { display: flex; gap: 10px; justify-content: center; align-items: center; min-height: 44px; }
+  .circle {
+    width: 30px; height: 30px;
+    border: 1.5px solid var(--navy);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--navy);
+  }
+
+  /* Prompt skeleton */
+  .prompt {
+    font-family: ui-monospace, ui-monospace, monospace;
+    font-size: 0.95rem;
+    line-height: 2.1;
+    background: var(--tint);
+    padding: 14px 16px;
+    margin: 0;
+    white-space: normal;
+    overflow-x: auto;
+  }
+  .blank {
+    display: inline-block;
+    min-width: 9rem;
+    border-bottom: 1px solid var(--navy);
+  }
+  .blank.wide { min-width: 15rem; }
+  .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 16px;
+    align-items: center;
+  }
+  .tools .label {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-size: 0.98rem;
+  }
+  .tick { width: 22px; height: 22px; border: 1.5px solid var(--navy); flex: none; }
+
+  /* Examples */
+  .examples { display: flex; flex-direction: column; gap: 30px; margin-top: 22px; }
+  .ex { border: 1px solid var(--line); padding: 16px 16px 20px; }
+  .ex > h3 { font-size: 1.12rem; margin: 0 0 14px; color: var(--heading); text-wrap: balance; }
+  .field { margin-top: 16px; }
+  .field > .k {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0 0 4px;
+  }
+  .field p { margin: 0 0 8px; }
+  .field ol { margin: 0; padding-left: 1.4em; }
+  .field ol li { margin-bottom: 4px; }
+  .scroll { overflow-x: auto; }
+  table.jr { border-collapse: collapse; width: 100%; font-size: 0.94rem; min-width: 30rem; }
+  table.jr th {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-align: left;
+    padding: 0 10px 6px 0;
+  }
+  table.jr td { border-top: 1px solid var(--line); padding: 7px 10px 7px 0; vertical-align: top; }
+  table.jr td.v { width: 3.2rem; font-weight: 600; color: var(--navy); }
+  table.jr td.v.j { color: var(--accent); }
+  blockquote.paste {
+    margin: 0;
+    padding: 12px 14px;
+    background: var(--tint);
+    border-left: 3px solid var(--navy);
+    font-size: 0.97rem;
+  }
+  blockquote.paste p { margin: 0; }
+
+  /* Next step */
+  .next { border: 1px solid var(--line); background: var(--tint); padding: 18px 16px; }
+  .next h2 { margin-bottom: 8px; }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 20px;
+    margin-top: 12px;
+    background: var(--navy);
+    color: var(--paper);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .cta:hover, .cta:focus-visible { background: var(--accent); }
+  a { color: var(--accent); }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .fine { color: var(--muted); font-size: 0.92rem; margin: 12px 0 0; }
+
+  @media print {
+    :root {
+      --paper: #ffffff; --bg: #ffffff; --ink: #000000; --muted: #333333;
+      --navy: #000000; --heading: #000000; --accent: #000000;
+      --line: #999999; --tint: #ffffff; --rule-strong: #000000;
+    }
+    body { font-size: 10.5pt; background: #fff; }
+    .sheet { max-width: none; padding: 0; gap: 18px; }
+    .no-print { display: none; }
+    .examples-section { break-before: page; page-break-before: always; }
+    .ex, .box, .next { break-inside: avoid; }
+    .cta { background: none; color: #000; border: 1px solid #000; padding: 0 8px; min-height: 0; }
+    table.jr { min-width: 0; }
+  }
+</style>
+
+<div class="sheet">
+  <header>
+    <p class="eyebrow">Maryland SBDC &middot; VOSBTC26 &middot; September 17, 2026</p>
+    <h1>Process Teardown Worksheet</h1>
+    <p class="dek">Pick one thing you do over and over. Take it apart on this page. Fill in Section A now &mdash; the three worked examples in Section B show you what finished looks like.</p>
+    <p class="thesis">AI doesn't fix a process you can't describe.</p>
+  </header>
+
+  <section>
+    <div class="sec-head">
+      <h2>Section A &mdash; Your teardown</h2>
+      <p class="sec-note">One process. Five boxes. Fifteen minutes.</p>
+    </div>
+
+    <div class="boxes">
+      <div class="box">
+        <h3><span class="num">1</span> The process</h3>
+        <p class="hint">One sentence. "Every Friday I build the weekly status report for my prime."</p>
+        <div class="writeline"></div>
+        <div class="writeline"></div>
+      </div>
+
+      <div class="box">
+        <h3><span class="num">2&ndash;3</span> The steps, and J or R</h3>
+        <p class="hint">Four to eight lines, concrete: "pull last week's hours from three places," not "gather data." Then circle <strong>J</strong> for judgment or <strong>R</strong> for repetition next to each one.</p>
+        <table class="steps">
+          <thead>
+            <tr>
+              <th colspan="2">Step</th>
+              <th class="jr-col">J or R</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="n">1</td><td></td><td class="jr-col"><div class="circles"><span class="circle">J</span><span class="circle">R</span></div></td></tr>
+            <tr><td class="n">2</td><td></td><td class="jr-col"><div class="circles"><span class="circle">J</span><span class="circle">R</span></div></td></tr>
+            <tr><td class="n">3</td><td></td><td class="jr-col"><div class="circles"><span class="circle">J</span><span class="circle">R</span></div></td></tr>
+            <tr><td class="n">4</td><td></td><td class="jr-col"><div class="circles"><span class="circle">J</span><span class="circle">R</span></div></td></tr>
+            <tr><td class="n">5</td><td></td><td class="jr-col"><div class="circles"><span class="circle">J</span><span class="circle">R</span></div></td></tr>
+            <tr><td class="n">6</td><td></td><td class="jr-col"><div class="circles"><span class="circle">J</span><span class="circle">R</span></div></td></tr>
+            <tr><td class="n">7</td><td></td><td class="jr-col"><div class="circles"><span class="circle">J</span><span class="circle">R</span></div></td></tr>
+            <tr><td class="n">8</td><td></td><td class="jr-col"><div class="circles"><span class="circle">J</span><span class="circle">R</span></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="box">
+        <h3><span class="num">4</span> The first R step</h3>
+        <p class="hint">Pick one. Not the biggest &mdash; the first one you'd actually try.</p>
+        <div class="writeline"></div>
+        <div class="writeline"></div>
+      </div>
+
+      <div class="box">
+        <h3><span class="num">5</span> What I'd paste</h3>
+        <p class="hint">Fill the blanks in your own words. This works in any tool.</p>
+        <p class="prompt">Here is [<span class="blank wide"></span>]. Turn it into [<span class="blank"></span>] in this format: [<span class="blank wide"></span>]. Flag anything that looks off [<span class="blank"></span>].</p>
+        <div class="tools">
+          <span class="label">Tool I'll use</span>
+          <span class="tool"><span class="tick"></span>ChatGPT</span>
+          <span class="tool"><span class="tick"></span>Claude</span>
+          <span class="tool"><span class="tick"></span>Copilot</span>
+          <span class="tool"><span class="tick"></span>Gemini</span>
+          <span class="tool"><span class="tick"></span>Other <span class="blank"></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="examples-section">
+    <div class="sec-head no-print">
+      <h2>Section B &mdash; Three finished examples</h2>
+      <p class="sec-note">The same five boxes, filled in. Floor, middle, ceiling.</p>
+    </div>
+
+    <div class="examples">
+
+      <article class="ex">
+        <h3>Teardown 1 &mdash; Floor: compliance matrix from an RFP</h3>
+
+        <div class="field">
+          <p class="k">The process</p>
+          <p>Turning a solicitation's proposal instructions and evaluation criteria into a compliance matrix, before anybody writes a word of the proposal.</p>
+        </div>
+
+        <div class="field">
+          <p class="k">The steps</p>
+          <ol>
+            <li>Pull Section L and list every instruction on volumes, order, page counts, and format.</li>
+            <li>Pull Section M and list every evaluation factor and sub-factor.</li>
+            <li>Pull Section C or the SOW and list every "shall" statement as a separate requirement.</li>
+            <li>Line up each requirement against the Section L instruction that says where it goes and the Section M factor that says how it gets scored.</li>
+            <li>Build the outline: volume, section number, section title.</li>
+            <li>Mark each row Compliant / Intend to Comply / Partial Compliant / NON-COMPLIANT, with a risk level and a one-line justification.</li>
+            <li>Assign an owner and an action to every row that isn't already compliant.</li>
+            <li>Re-read the solicitation against the matrix and fix what you missed the first pass.</li>
+          </ol>
+        </div>
+
+        <div class="field">
+          <p class="k">J or R</p>
+          <div class="scroll">
+            <table class="jr">
+              <thead><tr><th>Step</th><th>J/R</th><th>Why</th></tr></thead>
+              <tbody>
+                <tr><td>1. List Section L instructions</td><td class="v">R</td><td>Transcription. Same job on every solicitation.</td></tr>
+                <tr><td>2. List Section M factors</td><td class="v">R</td><td>Transcription.</td></tr>
+                <tr><td>3. Pull every "shall" as a requirement</td><td class="v">R</td><td>Pattern-matching against a rulebook, not a call.</td></tr>
+                <tr><td>4. Map requirement &rarr; L instruction &rarr; M factor</td><td class="v">R</td><td>Mechanical once all three lists exist.</td></tr>
+                <tr><td>5. Build the outline</td><td class="v">R</td><td>Section L already dictated it.</td></tr>
+                <tr><td>6. Compliance status, risk, justification</td><td class="v j">J</td><td>This is you betting your bid. Nobody else.</td></tr>
+                <tr><td>7. Assign owner and action</td><td class="v j">J</td><td>You know who can actually write it by Thursday.</td></tr>
+                <tr><td>8. Second pass against the matrix</td><td class="v j">J</td><td>Judgment is the whole point of a review.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="field">
+          <p class="k">The first R step</p>
+          <p>Step 3 &mdash; pulling every "shall" out of the SOW. Not because it's the biggest. Because it's the one you're most likely to do badly at 11 p.m. and the one where missing a single line gets you thrown out on compliance before anyone reads your technical approach. It's also self-checking: you can spot-count the "shall" statements yourself and see whether the list is complete.</p>
+        </div>
+
+        <div class="field">
+          <p class="k">What I'd paste</p>
+          <blockquote class="paste"><p>Here is [Sections L, M, and C of a solicitation, pasted]. Turn it into [a proposal compliance matrix] in this format: [Outline # | Proposal Section Title | Section in Proposal | RFP Section L | Section # | RFP Section M | Section # | RFP Section C/SOW | Compliance Status | Risk Level | Justification | Action | Owner]. One row per requirement. Leave Compliance Status, Risk Level, Justification, Action, and Owner blank &mdash; I fill those in. Flag anything that looks off [conflicting page limits, a Section M factor with no matching Section L instruction, a "shall" you couldn't place anywhere].</p></blockquote>
+          <p style="margin-top:8px">That output drops straight into the compliance matrix template we hand out in the GovCon series. Same columns, same order.</p>
+        </div>
+
+        <div class="field">
+          <p class="k">What went sideways</p>
+          <p>The first version I ran filled in the Compliance Status column for me. Every row said "Compliant." It had no idea whether we could actually do any of it &mdash; it was pattern-matching on what a finished matrix looks like. That's why the prompt now says leave those columns blank. Second thing: it silently merged compound requirements. One "shall" with three clauses came back as one row, so three obligations shared one owner and one status. Now I ask it to split compound requirements into separate rows and I still eyeball the count.</p>
+        </div>
+      </article>
+
+      <article class="ex">
+        <h3>Teardown 2 &mdash; Middle: client follow-up</h3>
+
+        <div class="field">
+          <p class="k">The process</p>
+          <p>Following up on an invoice that's past due, without setting the relationship on fire.</p>
+        </div>
+
+        <div class="field">
+          <p class="k">The steps</p>
+          <ol>
+            <li>Pull the open invoices and the aging from the accounting file.</li>
+            <li>Pull the last email thread with that customer so you know what was already said and when.</li>
+            <li>Check what else is in play with them &mdash; open work, a pending change order, a renewal.</li>
+            <li>Draft the nudge.</li>
+            <li>Decide the tone, and decide whether this one escalates.</li>
+            <li>Send it.</li>
+            <li>Log the date and set the next touch.</li>
+          </ol>
+        </div>
+
+        <div class="field">
+          <p class="k">J or R</p>
+          <div class="scroll">
+            <table class="jr">
+              <thead><tr><th>Step</th><th>J/R</th><th>Why</th></tr></thead>
+              <tbody>
+                <tr><td>1. Pull open invoices and aging</td><td class="v">R</td><td>The report is the report.</td></tr>
+                <tr><td>2. Pull the last thread</td><td class="v">R</td><td>Retrieval.</td></tr>
+                <tr><td>3. Check what else is in play</td><td class="v">R</td><td>Look-up. You're gathering facts, not weighing them.</td></tr>
+                <tr><td>4. Draft the nudge</td><td class="v">R</td><td>Fourth time this month you've written this email.</td></tr>
+                <tr><td>5. Decide tone and whether to escalate</td><td class="v j">J</td><td>The single most expensive decision in the process.</td></tr>
+                <tr><td>6. Send</td><td class="v">R</td><td>Once you've decided, sending is sending.</td></tr>
+                <tr><td>7. Log it and set the next touch</td><td class="v">R</td><td>Bookkeeping.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="field">
+          <p class="k">The first R step</p>
+          <p>Step 4 &mdash; draft the nudge. It's the step you avoid, which is why the invoice is 45 days old instead of 20. Handing the draft to AI removes the reason you procrastinate: staring at a blank reply box trying to sound firm and friendly at the same time. You keep step 5 completely. The draft shows up, you read it, you decide whether this is a soft reminder to a good customer or the last email before you stop work.</p>
+        </div>
+
+        <div class="field">
+          <p class="k">What I'd paste</p>
+          <blockquote class="paste"><p>Here is [the invoice details: number, amount, date sent, days past due, and the last email thread with this customer]. Turn it into [a short follow-up email, four sentences maximum, in the tone I mark below] in this format: [one line of context, one line stating amount and original due date, one specific ask with a date, one line offering to talk]. Give me three versions: friendly reminder, firm, and final notice before we pause work. Flag anything that looks off [I already said something contradictory in the thread, the amount doesn't match what was quoted, there's an open dispute I'd be stepping on].</p></blockquote>
+          <p style="margin-top:8px">Three versions is the trick. You're not asking AI to pick the tone. You're asking it to lay out the options so your judgment call takes ten seconds instead of ten avoided days.</p>
+        </div>
+
+        <div class="field">
+          <p class="k">What went sideways</p>
+          <p>Two ways I've watched this go bad, both on the judgment step.</p>
+          <p>An owner in a cash crunch signed with an offshore working-capital lender. She was three days late on one payment. The lender's collection process &mdash; fully automated, no human deciding anything &mdash; called every customer it could find. That is what "automate the escalation decision" looks like at full scale.</p>
+          <p>The quieter version: an owner told me she'd been in the same tool so long that its voice had become her voice. Her customer emails were fluent and warm and completely generic. Automating the draft is fine. Automating the decision about <em>how you sound to a customer who owes you money</em> is not.</p>
+        </div>
+      </article>
+
+      <article class="ex">
+        <h3>Teardown 3 &mdash; Ceiling: weekly action report</h3>
+
+        <div class="field">
+          <p class="k">The process</p>
+          <p>Every Friday at 4 p.m., a scheduled job reads my week out of three systems and writes an entry to my action log so I stop losing track of my own open loops.</p>
+        </div>
+
+        <div class="field">
+          <p class="k">The steps</p>
+          <ol>
+            <li>Set the date range: Monday through today.</li>
+            <li>Pull the past seven days of email &mdash; sent and received &mdash; and note commitments, follow-ups, and decisions.</li>
+            <li>Pull the calendar for the week: who I met, what type of meeting, anything recurring.</li>
+            <li>Read my own AI session transcripts for the week: what got built, what changed, what got decided.</li>
+            <li>Write the entry in a fixed six-part shape: Synthesis, client meetings by day, email activity, sessions, personal, open loops.</li>
+            <li>Append it to the action log. Never overwrite &mdash; read the file, add to the bottom, write it back.</li>
+            <li>I read it Friday evening and correct it.</li>
+          </ol>
+        </div>
+
+        <div class="field">
+          <p class="k">J or R</p>
+          <div class="scroll">
+            <table class="jr">
+              <thead><tr><th>Step</th><th>J/R</th><th>Why</th></tr></thead>
+              <tbody>
+                <tr><td>1. Set the date range</td><td class="v">R</td><td>It's Monday through Friday. Every time.</td></tr>
+                <tr><td>2. Pull the week's email</td><td class="v">R</td><td>Retrieval, with a filter I already wrote down.</td></tr>
+                <tr><td>3. Pull the calendar</td><td class="v">R</td><td>Retrieval.</td></tr>
+                <tr><td>4. Read the session transcripts</td><td class="v">R</td><td>Retrieval.</td></tr>
+                <tr><td>5. Write the six sections</td><td class="v">R</td><td>Same shape every week, which is the only reason it works.</td></tr>
+                <tr><td>6. Append to the log</td><td class="v">R</td><td>And the rule is in writing: append, never overwrite.</td></tr>
+                <tr><td>7. Read it and correct it</td><td class="v j">J</td><td>The whole thing is worthless without this step.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="field">
+          <p class="k">The first R step</p>
+          <p>Step 3, the calendar pull. Smallest possible piece, one clean source, and I could check it in 30 seconds. That's where this started &mdash; not with the scheduled job. The scheduled job came later, once the manual version was boring.</p>
+        </div>
+
+        <div class="field">
+          <p class="k">What I'd paste</p>
+          <blockquote class="paste"><p>Here is [my calendar for this week and the past seven days of email]. Turn it into [a weekly action log entry] in this format: [Synthesis &mdash; one paragraph, three to five sentences; Client Meetings &mdash; one line per meeting grouped by day as Day: Name / Company &mdash; meeting type (brief context); Email Activity &mdash; one line each, skip routine; Sessions &mdash; one line each; Personal &mdash; one line each, skip if empty; Open Loops &mdash; one line each, things carrying into next week]. Plain language, no corporate filler, one line per bullet, not mini-paragraphs. Flag anything that looks off [a source that came back empty, a meeting you couldn't identify, a commitment with no owner].</p></blockquote>
+        </div>
+
+        <div class="field">
+          <p class="k">What went sideways</p>
+          <p>This took about six weeks to get right, and it is still not hands-off.</p>
+          <p>The instructions lived in two places &mdash; the copy the scheduler reads and the copy in version control &mdash; and nothing kept them in sync. They drifted. A related audit job ran six weeks behind while pointing at the wrong source folder, and nobody noticed, because a wrong answer looks exactly like a right answer in a file you skim on a Friday night.</p>
+          <p>The failure mode nobody warns you about: when the tool drops its connection, the job stops instead of guessing. Silence is not success.</p>
+          <p>Roughly 80% automated is where this lives. I'm not chasing the last 20%.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="next">
+    <h2>Section C &mdash; Next step</h2>
+    <p class="sec-note">Book a Triage appointment and bring this sheet. Thirty minutes, no charge, and we start from the process you just wrote down instead of from zero.</p>
+    <a class="cta" href="{{TRIAGE_BOOKING_URL}}">Book a Triage appointment</a>
+    <p class="fine">Want the hands-on mechanics &mdash; setting the tools up, wiring them together? That's the nClouds/AWS hands-on workshop, not this session.</p>
+  </section>
+</div>

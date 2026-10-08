@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thank You (with icons) — Weekly AI Co-Working Session</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root {
+    --navy: var(--sbdc-blue, #002d62);
+    --navy-deep: #001026;
+    --red: var(--sbdc-red, #d11142);
+    --disp: var(--font-display, 'Archivo', 'Helvetica Neue', Arial, sans-serif);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: #000; font-family: var(--disp); overflow: hidden; cursor: default; }
+
+  #stage { position: fixed; inset: 0; background: #000; }
+  #slide {
+    position: absolute; top: 50%; left: 50%;
+    width: 1920px; height: 1080px;
+    transform-origin: center center;
+    transform: translate(-50%, -50%) scale(1);
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 80% -10%, #0a3f86 0%, rgba(10,63,134,0) 55%),
+      radial-gradient(100% 80% at 0% 110%, #061c3d 0%, rgba(6,28,61,0) 60%),
+      linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #fff; isolation: isolate;
+  }
+
+  .glow { position: absolute; border-radius: 50%; filter: blur(140px); z-index: 0; pointer-events: none; will-change: transform; }
+  .glow.red  { width: 820px; height: 820px; background: var(--red);  top: -260px; right: -180px; opacity: .42; }
+  .glow.blue { width: 920px; height: 920px; background: #1d6fd0; bottom: -340px; left: -240px; opacity: .5; }
+  .glow.mid  { width: 560px; height: 560px; background: #0e4ea0; top: 38%; left: 44%; opacity: .35; }
+  .grid {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,.10) 1.4px, transparent 1.4px);
+    background-size: 46px 46px;
+    -webkit-mask-image: radial-gradient(120% 120% at 50% 45%, #000 35%, transparent 78%);
+            mask-image: radial-gradient(120% 120% at 50% 45%, #000 35%, transparent 78%);
+    opacity: .5;
+  }
+  .vignette { position: absolute; inset: 0; z-index: 0; pointer-events: none; box-shadow: inset 0 0 360px 80px rgba(0,8,24,.6); }
+
+  .frame { position: relative; z-index: 2; height: 100%; padding: 78px 110px; display: flex; flex-direction: column; }
+  header { display: flex; align-items: flex-start; justify-content: space-between; }
+  .logo { height: 116px; width: auto; display: block; filter: drop-shadow(0 6px 20px rgba(0,0,0,.35)); }
+  .livetag { display: inline-flex; align-items: center; gap: 16px; background: var(--red); color: #fff; padding: 14px 26px; font-weight: 800; font-size: 25px; letter-spacing: .18em; box-shadow: 0 14px 40px rgba(209,17,66,.35); }
+
+  main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin-top: -6px; }
+
+  .iconbadge {
+    width: 116px; height: 116px; border-radius: 50%;
+    display: grid; place-items: center; margin: 28px 0 4px;
+    background: rgba(255,255,255,.05);
+    border: 1.5px solid rgba(209,17,66,.55);
+    box-shadow: 0 10px 36px rgba(0,8,24,.45), inset 0 0 24px rgba(209,17,66,.08);
+    opacity: 1; transition: opacity .42s ease, transform .42s cubic-bezier(.22,.61,.36,1);
+  }
+  .iconbadge svg { width: 56px; height: 56px; stroke: var(--red); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .iconbadge.hide { opacity: 0; }
+
+  .thankyou { font-weight: 800; font-size: 56px; letter-spacing: -.01em; color: rgba(255,255,255,.92); line-height: 1; white-space: nowrap; }
+
+  .phrase-wrap { min-height: 210px; display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 4px; }
+  .phrase {
+    font-weight: 900; font-size: 98px; line-height: .98; letter-spacing: -.022em;
+    color: #fff; max-width: 1560px; text-wrap: balance;
+    text-shadow: 0 10px 50px rgba(0,0,0,.4);
+    opacity: 1; transition: opacity .42s ease, transform .42s cubic-bezier(.22,.61,.36,1);
+  }
+  .phrase.hide { opacity: 0; }
+
+  .rule { height: 6px; width: 168px; background: var(--red); border-radius: 2px; margin-top: 26px; }
+
+  .sub { font-family: var(--font-body, Arial, sans-serif); font-weight: 400; font-size: 29px; color: rgba(255,255,255,.82); margin-top: 30px; max-width: 1080px; text-wrap: balance; }
+  .meta { display: flex; align-items: center; gap: 14px; margin-top: 22px; font-size: 25px; font-weight: 600; color: rgba(255,255,255,.9); white-space: nowrap; }
+  .meta svg { width: 28px; height: 28px; stroke: var(--red); flex: none; }
+
+  footer { display: flex; align-items: center; justify-content: space-between; font-size: 25px; color: rgba(255,255,255,.7); font-weight: 600; }
+  footer .left { display: inline-flex; align-items: center; gap: 13px; }
+  footer .left svg { width: 27px; height: 27px; stroke: rgba(255,255,255,.7); }
+  footer .rule2 { height: 4px; width: 88px; background: var(--red); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .glow.red  { animation: drift1 26s ease-in-out infinite alternate; }
+    .glow.blue { animation: drift2 32s ease-in-out infinite alternate; }
+    .glow.mid  { animation: drift3 22s ease-in-out infinite alternate; }
+    .phrase.hide { transform: translateY(16px); }
+    .iconbadge.hide { transform: translateY(14px) scale(.94); }
+  }
+  @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-120px,80px) scale(1.12); } }
+  @keyframes drift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(140px,-90px) scale(1.1); } }
+  @keyframes drift3 { from { transform: translate(0,0); } to { transform: translate(-90px,-60px); } }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <div id="slide">
+      <div class="glow red"></div>
+      <div class="glow blue"></div>
+      <div class="glow mid"></div>
+      <div class="grid"></div>
+      <div class="vignette"></div>
+
+      <div class="frame">
+        <header>
+          <img class="logo" src="assets/logos/sbdc-maryland-reverse.png" alt="America's SBDC Maryland">
+          <div class="livetag">THAT'S A WRAP</div>
+        </header>
+
+        <main>
+          <div class="thankyou">Thank you for</div>
+          <div class="phrase-wrap"><div class="phrase" id="phrase">joining us today</div></div>
+          <div class="rule"></div>
+          <div class="iconbadge" id="badge"></div>
+
+          <div class="sub">From all of us at the Maryland SBDC — keep building, and we'll see you next session.</div>
+          <div class="meta">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg>
+            Mondays · 9:00 AM ET
+          </div>
+        </main>
+
+        <footer>
+          <span class="left">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            marylandsbdc.org
+          </span>
+          <span class="rule2"></span>
+          <span>Hosted by Your Name · @MarylandSBDC</span>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const slide = document.getElementById('slide');
+    function fit() {
+      const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      slide.style.transform = `translate(-50%, -50%) scale(${s})`;
+    }
+    window.addEventListener('resize', fit);
+    fit();
+
+    // Real Lucide line-icon inner SVG (2px stroke) — matches the design system's
+    // recommended icon set. Professional, not emoji/Webdings.
+    const ICONS = {
+      users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+      target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+      briefcase: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+      layers: '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>',
+      sunrise: '<path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/>',
+      message: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+      graduation: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+      lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+      userplus: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/>',
+      heart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+      trending: '<path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/>',
+      leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/>',
+      mappin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+      compass: '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+      monitor: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>',
+      star: '<polygon points="12,2.5 14.7,9 21.5,9.3 16.2,13.8 18,20.5 12,16.5 6,20.5 7.8,13.8 2.5,9.3 9.3,9"/>',
+      sparkles: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9Z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18Z"/>'
+    };
+
+    const PHRASES = [
+      { t: 'joining us today',               i: 'users' },
+      { t: 'betting on yourself',            i: 'target' },
+      { t: 'owning a business',              i: 'briefcase' },
+      { t: 'building something of your own', i: 'layers' },
+      { t: 'showing up and doing the work',  i: 'sunrise' },
+      { t: 'bringing your big questions',    i: 'message' },
+      { t: 'expanding what you know',        i: 'graduation' },
+      { t: 'chasing the bigger idea',        i: 'lightbulb' },
+      { t: 'creating jobs that matter',      i: 'userplus' },
+      { t: 'serving your community',         i: 'heart' },
+      { t: 'investing in your future',       i: 'trending' },
+      { t: 'starting, growing &amp; thriving',   i: 'leaf' },
+      { t: 'making Maryland stronger',       i: 'mappin' },
+      { t: 'turning a dream into a plan',    i: 'compass' },
+      { t: 'co-working with us',             i: 'monitor' },
+      { t: 'believing it&rsquo;s possible',      i: 'star' },
+      { t: 'being part of this',             i: 'sparkles' },
+    ];
+
+    const phraseEl = document.getElementById('phrase');
+    const badgeEl = document.getElementById('badge');
+    let order = [];
+    let pos = 0;
+
+    function paint(idx) {
+      const p = PHRASES[idx];
+      phraseEl.innerHTML = p.t;
+      badgeEl.innerHTML = '<svg viewBox="0 0 24 24">' + (ICONS[p.i] || '') + '</svg>';
+    }
+
+    function reshuffle() {
+      const rest = PHRASES.map((_, i) => i).slice(1);
+      for (let i = rest.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [rest[i], rest[j]] = [rest[j], rest[i]];
+      }
+      order = rest;
+      pos = 0;
+    }
+    reshuffle();
+    paint(0);
+
+    function nextPhrase() {
+      phraseEl.classList.add('hide');
+      badgeEl.classList.add('hide');
+      setTimeout(() => {
+        if (pos >= order.length) reshuffle();
+        paint(order[pos++]);
+        requestAnimationFrame(() => {
+          phraseEl.classList.remove('hide');
+          badgeEl.classList.remove('hide');
+        });
+      }, 430);
+    }
+
+    setTimeout(() => { nextPhrase(); setInterval(nextPhrase, 3400); }, 2600);
+  </script>
+</body>
+</html>

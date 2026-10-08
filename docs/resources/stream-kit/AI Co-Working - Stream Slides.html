@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Co-Working — Stream Slide Set</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--blue-50, #eef3fa);
+    font-family: var(--font-body, Arial, 'Helvetica Neue', sans-serif);
+    color: var(--text-body, #2d3744);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 64px 40px 80px; }
+
+  .eyebrow { font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--sbdc-red, #d11142); }
+  h1 { font-family: var(--font-display); font-weight: 900; letter-spacing: -.02em; font-size: 44px; color: var(--sbdc-blue, #002d62); margin: 10px 0 8px; }
+  .lede { font-size: 17px; line-height: 1.55; color: var(--text-muted, #5b6573); max-width: 720px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(248px, 1fr)); gap: 24px; margin-top: 44px; }
+
+  .card {
+    display: flex; flex-direction: column;
+    background: #fff; border: 1px solid var(--border-subtle, #e3e7ec);
+    border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit;
+    box-shadow: 0 2px 8px rgba(0,45,98,.06);
+    transition: transform .18s cubic-bezier(.22,.61,.36,1), box-shadow .18s;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,45,98,.16); }
+
+  .thumb { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #001026; border-bottom: 1px solid var(--border-subtle, #e3e7ec); }
+  .thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  .body { padding: 18px 20px 20px; }
+  .body .num { font-family: var(--font-display); font-weight: 800; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--sbdc-red, #d11142); }
+  .body h2 { font-family: var(--font-display); font-weight: 800; font-size: 21px; color: var(--sbdc-blue, #002d62); margin: 6px 0 6px; }
+  .body p { font-size: 14px; line-height: 1.5; color: var(--text-muted, #5b6573); margin: 0 0 14px; }
+  .open { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--sbdc-red, #d11142); }
+  .open svg { width: 16px; height: 16px; stroke: currentColor; }
+
+  .tips { margin-top: 46px; padding: 22px 26px; background: #fff; border: 1px solid var(--border-subtle, #e3e7ec); border-left: 4px solid var(--sbdc-blue, #002d62); border-radius: 10px; }
+  .tips h3 { font-family: var(--font-display); font-weight: 800; font-size: 15px; letter-spacing: .04em; text-transform: uppercase; color: var(--sbdc-blue, #002d62); margin-bottom: 12px; }
+  .tips ul { margin: 0; padding-left: 20px; }
+  .tips li { font-size: 14.5px; line-height: 1.7; color: var(--text-body, #2d3744); }
+  .tips kbd { font-family: var(--font-mono, monospace); font-size: 12.5px; background: var(--blue-50, #eef3fa); border: 1px solid var(--border-subtle, #e3e7ec); border-radius: 5px; padding: 1px 7px; color: var(--sbdc-blue, #002d62); }
+
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; max-width: 460px; } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Weekly AI Co-Working Session · Stream Kit</div>
+    <h1>Stream slide set</h1>
+    <p class="lede">Five full-screen, fully-branded holding slides for the livestream. Open any slide, then press <kbd>F11</kbd> for full-screen (or add it as a Browser source in OBS). Each scales to any resolution.</p>
+
+    <div class="grid">
+      <a class="card" href="Starting Soon - AI Co-Working.html">
+        <div class="thumb"><img src="assets/thumbs/starting-soon.png" alt="Starting Soon slide preview"></div>
+        <div class="body">
+          <div class="num">01 · Pre-show</div>
+          <h2>Starting Soon</h2>
+          <p>Restartable countdown to the start of the session, with day/time and host.</p>
+          <span class="open">Open slide <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a class="card" href="Be Right Back - AI Co-Working.html">
+        <div class="thumb"><img src="assets/thumbs/be-right-back.png" alt="Be Right Back slide preview"></div>
+        <div class="body">
+          <div class="num">02 · Intermission</div>
+          <h2>Be Right Back</h2>
+          <p>A "back in…" break timer for mid-session pauses. Same restart controls.</p>
+          <span class="open">Open slide <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a class="card" href="Thanks for Joining - AI Co-Working.html">
+        <div class="thumb"><img src="assets/thumbs/thanks.png" alt="Thanks for Joining slide preview"></div>
+        <div class="body">
+          <div class="num">03 · Outro</div>
+          <h2>Thanks for Joining</h2>
+          <p>Sign-off slide pointing viewers to the next Monday session. Static, no timer.</p>
+          <span class="open">Open slide <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a class="card" href="Thank You (Rotating) - AI Co-Working.html">
+        <div class="thumb"><img src="assets/thumbs/thank-you-rotating.png" alt="Thank You rotating slide preview"></div>
+        <div class="body">
+          <div class="num">04 · Outro · animated</div>
+          <h2>Rotating Thank You</h2>
+          <p>A warm “thank you for…” closer that gently cycles through a feel-good phrase bank.</p>
+          <span class="open">Open slide <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+
+      <a class="card" href="Thank You (Rotating + Icons) - AI Co-Working.html">
+        <div class="thumb"><img src="assets/thumbs/thank-you-icons.png" alt="Rotating thank you with icons preview"></div>
+        <div class="body">
+          <div class="num">05 · Outro · animated</div>
+          <h2>Rotating + Icons</h2>
+          <p>Same rotating closer, each phrase paired with a matching SBDC-red line icon.</p>
+          <span class="open">Open slide <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+        </div>
+      </a>
+    </div>
+
+    <div class="tips">
+      <h3>Quick tips</h3>
+      <ul>
+        <li><strong>Full-screen:</strong> open a slide and press <kbd>F11</kbd> (Windows) or <kbd>⌃⌘F</kbd> (Mac).</li>
+        <li><strong>Timer (Starting Soon &amp; Be Right Back):</strong> <kbd>Space</kbd> starts/pauses, <kbd>R</kbd> restarts; controls auto-hide and won't appear on stream.</li>
+        <li><strong>OBS:</strong> add each slide as a <em>Browser</em> source at 1920×1080 — it scales itself to fit.</li>
+        <li><strong>Edit text:</strong> host, day/time, and handle live near the top of each file.</li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SBDC AI Quick-Start</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* Maryland SBDC design tokens (from the design-system kit) */
+  :root{
+    --sbdc-red:#d11142; --sbdc-blue:#002d62;
+    --red-50:#fceef2; --red-700:#8c0a2c;
+    --blue-50:#e8eef5; --blue-100:#c6d4e6;
+    --neutral-0:#fff; --neutral-50:#f7f8f9; --neutral-100:#eef0f2;
+    --neutral-200:#e2e4e7; --neutral-300:#cdd0d4; --neutral-500:#8b8e92;
+    --neutral-600:#6a6d71; --neutral-800:#313438; --neutral-900:#1a1c1f;
+    --font-display:'Archivo','Helvetica Neue',Arial,sans-serif;
+    --font-body:Arial,'Helvetica Neue',Helvetica,sans-serif;
+    --font-mono:ui-monospace,'SFMono-Regular',Consolas,Menlo,monospace;
+    --radius:10px; --radius-sm:6px;
+    --shadow:0 4px 12px rgba(0,45,98,.10),0 2px 4px rgba(0,45,98,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--neutral-100);color:var(--neutral-800);
+    font-family:var(--font-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:880px;margin:24px auto;background:var(--neutral-0);
+    border:1px solid var(--neutral-200);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+
+  header{background:var(--sbdc-blue);color:#fff;padding:32px 40px;}
+  .eyebrow{font-family:var(--font-display);font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;font-size:13px;color:#fff;opacity:.85;}
+  header h1{font-family:var(--font-display);font-weight:900;letter-spacing:-.02em;
+    font-size:40px;line-height:1.05;margin:8px 0 6px;color:#fff;}
+  header p{margin:0;color:var(--blue-100);font-size:15px;}
+  .rulebar{height:4px;background:var(--sbdc-red);}
+
+  main{padding:32px 40px 40px;}
+  h2{font-family:var(--font-display);font-weight:800;color:var(--sbdc-blue);
+    font-size:22px;letter-spacing:-.01em;margin:0 0 4px;}
+  h2 .num{display:inline-block;width:30px;height:30px;line-height:30px;text-align:center;
+    background:var(--sbdc-red);color:#fff;border-radius:6px;font-size:16px;margin-right:10px;vertical-align:2px;}
+  .rule{width:56px;height:4px;background:var(--sbdc-red);margin:10px 0 16px;border-radius:2px;}
+  section{margin:0 0 30px;}
+  p{margin:0 0 12px;} strong{color:var(--sbdc-blue);}
+  .lead{font-size:17px;color:var(--neutral-800);}
+  ol,ul{margin:0 0 12px;padding-left:22px;} li{margin:0 0 7px;}
+
+  /* copy row: the two-overlapping-boxes button that actually works */
+  .copyrow{display:flex;align-items:stretch;border:1px solid var(--sbdc-blue);
+    border-radius:var(--radius-sm);overflow:hidden;background:var(--neutral-50);margin:8px 0 4px;}
+  .copyrow code{flex:1;padding:14px 16px;font-family:var(--font-mono);font-size:14px;
+    color:var(--neutral-900);white-space:pre-wrap;word-break:break-word;}
+  .copybtn{border:0;border-left:1px solid var(--neutral-200);background:var(--neutral-0);
+    color:var(--sbdc-red);cursor:pointer;padding:0 16px;font-size:15px;font-family:var(--font-body);
+    display:flex;align-items:center;gap:7px;font-weight:700;transition:background .15s,color .15s;}
+  .copybtn:hover{background:var(--sbdc-red);color:#fff;}
+  .copybtn svg{width:16px;height:16px;display:block;}
+  .copybtn.copied{background:#1f7a4d;color:#fff;border-left-color:#1f7a4d;}
+  .hint{font-size:12.5px;color:var(--neutral-600);margin:2px 0 0;}
+
+  .callout{background:var(--red-50);border:1px solid #f0a3b7;border-radius:var(--radius-sm);padding:18px 22px;}
+  .callout h2{color:var(--red-700);}
+  .callout .rule{background:var(--sbdc-red);}
+  .switch{background:var(--neutral-0);border:1px solid var(--neutral-200);border-radius:6px;padding:12px 16px;margin:10px 0;}
+  .switch b{color:var(--sbdc-blue);}
+
+  .words{display:grid;grid-template-columns:1fr;gap:10px;}
+  .word{border:1px solid var(--neutral-200);
+    border-radius:6px;padding:12px 16px;background:var(--neutral-50);}
+  .word .t{font-family:var(--font-display);font-weight:800;color:var(--sbdc-blue);font-size:16px;}
+
+  .try{border:1px solid var(--neutral-200);border-radius:6px;padding:14px 16px 6px;margin:0 0 12px;background:var(--neutral-50);}
+  .try .t{font-weight:700;color:var(--sbdc-blue);margin:0 0 6px;}
+
+  footer{background:var(--sbdc-blue);color:var(--blue-100);padding:18px 40px;font-size:12.5px;}
+  footer b{color:#fff;letter-spacing:.12em;text-transform:uppercase;font-family:var(--font-display);}
+  a{color:var(--sbdc-red);text-decoration:none;} a:hover{text-decoration:underline;}
+
+  @media print{
+    body{background:#fff;} .sheet{box-shadow:none;border:0;margin:0;max-width:none;}
+    .copybtn{display:none;} .copyrow code{border-right:0;}
+  }
+  @media (max-width:560px){ header,main{padding-left:22px;padding-right:22px;} header h1{font-size:32px;} }
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <header>
+      <div class="eyebrow">Maryland SBDC &middot; AI for Advisors</div>
+      <h1>The No-Jargon AI Quick-Start</h1>
+      <p>Everything you need to go from zero to your first useful AI tool &mdash; in about 10 minutes.</p>
+    </header>
+    <div class="rulebar"></div>
+
+    <main>
+      <p class="lead">You asked for a &ldquo;user&rsquo;s manual for dummies.&rdquo; Here it is. No coding, no GitHub knowledge needed &mdash; just copy, paste, and go. Use the <strong>Copy</strong> buttons; they put the text on your clipboard so you can paste it straight into ChatGPT or Claude.</p>
+
+      <!-- 1 -->
+      <section>
+        <h2><span class="num">1</span>Install my whole toolkit &mdash; pick your tool</h2>
+        <div class="rule"></div>
+
+        <div class="try">
+          <p class="t">Claude (Claude Code or Cowork) &mdash; two pastes</p>
+          <div class="copyrow">
+            <code id="cmd-claude-1">/plugin marketplace add https://github.com/bwfnx/sbdc-toolkit.git</code>
+            <button class="copybtn" data-copy="cmd-claude-1" aria-label="Copy Claude marketplace command"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="label">Copy</span></button>
+          </div>
+          <div class="copyrow">
+            <code id="cmd-claude-2">/plugin install sbdc-toolkit@maryland-sbdc</code>
+            <button class="copybtn" data-copy="cmd-claude-2" aria-label="Copy Claude install command"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="label">Copy</span></button>
+          </div>
+          <p class="hint">Paste the first line, wait for it to finish, then the second. If it asks, say yes.</p>
+        </div>
+
+        <div class="try">
+          <p class="t">ChatGPT &mdash; connect the GitHub repo</p>
+          <p>Settings &rarr; Connectors &rarr; <strong>GitHub</strong> &rarr; connect, and give it access to this repo:</p>
+          <div class="copyrow">
+            <code id="cmd-gpt-repo">github.com/bwfnx/SBDC-toolkit</code>
+            <button class="copybtn" data-copy="cmd-gpt-repo" aria-label="Copy repo address"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="label">Copy</span></button>
+          </div>
+          <p class="hint">Then in a chat, say &ldquo;use the skills in my connected SBDC-toolkit repo&rdquo; and name the task.</p>
+        </div>
+
+        <div class="try">
+          <p class="t">Neither works? Upload the files directly</p>
+          <p style="margin-bottom:6px;">Everything is also in the <a href="https://github.com/bwfnx/sbdc-toolkit/archive/refs/heads/main.zip">toolkit download on GitHub</a>. Download <strong>sbdc-toolkit-main.zip</strong> (or a single <code>.skill</code> file) and upload it into your chat or your tool&rsquo;s Skills settings.</p>
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section>
+        <h2><span class="num">2</span>The only 3 words you need to know</h2>
+        <div class="rule"></div>
+        <div class="words">
+          <div class="word"><span class="t">Skill</span> &mdash; a task you&rsquo;ve taught the AI to do the same way every time. You call it by name whenever you need it (like &ldquo;last 30 days&rdquo; or &ldquo;transcript to action plan&rdquo;).</div>
+          <div class="word"><span class="t">Plugin</span> &mdash; a bundle of skills that installs together. My toolkit is a plugin.</div>
+          <div class="word"><span class="t">Connector</span> &mdash; a live data source you plug into (like the Maryland Community Compass for funding). The data stays fresh because it&rsquo;s pulled live.</div>
+        </div>
+        <p class="hint" style="margin-top:10px;">Rule of thumb: a skill is a <em>task</em>, a plugin is a <em>bundle of tasks</em>, a connector is a <em>live data feed</em>.</p>
+      </section>
+
+      <!-- 3 safety -->
+      <section class="callout">
+        <h2>Before you upload anything: 2 safety switches</h2>
+        <div class="rule"></div>
+        <p>Do these once, today. They stop the AI from learning off your (and your clients&rsquo;) data.</p>
+        <div class="switch"><b>Claude:</b> Settings &rarr; Privacy &rarr; turn <b>OFF</b> &ldquo;Help improve our AI models.&rdquo;</div>
+        <div class="switch"><b>ChatGPT:</b> Settings &rarr; Data Controls &rarr; turn <b>OFF</b> &ldquo;Improve the model for everyone.&rdquo;</div>
+        <p style="margin-bottom:0;"><strong>And:</strong> only use your approved UMD accounts for client work. Names and costs are fine. <strong>Never</strong> upload tax returns or Social Security numbers, and never use a free account or Grok for anything client-related.</p>
+      </section>
+
+      <!-- 4 try these -->
+      <section>
+        <h2><span class="num">3</span>Try these first (copy &amp; paste)</h2>
+        <div class="rule"></div>
+
+        <div class="try">
+          <p class="t">Find funding for a client (Maryland Community Compass)</p>
+          <div class="copyrow">
+            <code id="cmd-compass">Use the Maryland Compass to find grant and funding programs for a [industry] business in [county], Maryland. Give me each program's eligibility, deadline, and how to apply.</code>
+            <button class="copybtn" data-copy="cmd-compass" aria-label="Copy funding prompt">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>
+              <span class="label">Copy</span>
+            </button>
+          </div>
+          <p class="hint">First add the connector at <a href="https://claude.ai/directory/maryland-compass">claude.ai/directory/maryland-compass</a>, then paste this.</p>
+        </div>
+
+        <div class="try">
+          <p class="t">Review a client contract (Claude &mdash; Legal plugin)</p>
+          <div class="copyrow">
+            <code id="cmd-legal">Evaluate this contract using your legal skills and give me a draft redline for my client that conforms to Maryland state law. This is business guidance, not legal advice.</code>
+            <button class="copybtn" data-copy="cmd-legal" aria-label="Copy contract prompt">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>
+              <span class="label">Copy</span>
+            </button>
+          </div>
+          <p class="hint">Attach the document first. Needs the Legal plugin in Claude; in ChatGPT drop &ldquo;using your legal skills&rdquo; and it still works, just without the checklist. A redline is a marked-up copy showing suggested changes. Always send the result to a real attorney &mdash; this just gets you prepared.</p>
+        </div>
+
+        <div class="try">
+          <p class="t">See what&rsquo;s trending in an industry (Claude &mdash; Last 30 Days skill)</p>
+          <div class="copyrow">
+            <code id="cmd-trends">Use the last 30 days skill to tell me what's trending right now for [topic or industry], and what it means for a small business owner.</code>
+            <button class="copybtn" data-copy="cmd-trends" aria-label="Copy trends prompt">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>
+              <span class="label">Copy</span>
+            </button>
+          </div>
+          <p class="hint">In ChatGPT, say &ldquo;search the web for the last 30 days&rdquo; instead of naming the skill.</p>
+        </div>
+      </section>
+
+      <!-- 5 help -->
+      <section>
+        <h2><span class="num">4</span>Where to get help</h2>
+        <div class="rule"></div>
+        <ul>
+          <li><strong>The SBDC wiki:</strong> Staff Connect &rarr; Director Workgroups &rarr; AI &rarr; the SBDC wiki link at the top.</li>
+          <li><strong>Ask the Second Brain:</strong> it answers SBDC questions the way an advisor would. Linked from the same AI page.</li>
+          <li><strong>Stuck?</strong> Drop into an AI Co-Working Hour and the team will walk you through it.</li>
+        </ul>
+        <p class="hint">You really can&rsquo;t break anything. If a chat goes sideways, delete it and start a new one.</p>
+      </section>
+    </main>
+
+    <footer>
+      <b>Maryland SBDC</b> &nbsp;&middot;&nbsp; AI for Advisors quick-start &nbsp;&middot;&nbsp; Prepared by the AI Co-Working team
+    </footer>
+  </div>
+
+<script>
+  // Real click-to-copy (works in a browser; degrades to select-text if clipboard API is blocked)
+  document.querySelectorAll('.copybtn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var el = document.getElementById(btn.getAttribute('data-copy'));
+      var text = el ? el.innerText : '';
+      var done = function(msg){
+        btn.classList.add('copied');
+        var lbl = btn.querySelector('.label'); var old = lbl.textContent;
+        lbl.textContent = msg || 'Copied!';
+        setTimeout(function(){ btn.classList.remove('copied'); lbl.textContent = old; }, 2200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){ done(); }).catch(function(){ fallback(el, done); });
+      } else { fallback(el, done); }
+    });
+  });
+  function fallback(el, done){
+    var r = document.createRange(); r.selectNodeContents(el);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    var ok = false;
+    try{ ok = document.execCommand('copy'); }catch(e){}
+    // text stays selected either way, so Ctrl+C works if the copy was blocked
+    done(ok ? 'Copied!' : 'Press Ctrl+C');
+  }
+</script>
+</body>
+</html>

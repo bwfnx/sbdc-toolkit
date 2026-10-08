@@ -1,0 +1,53 @@
+/* ===========================================================================
+   Maryland SBDC — Typography Tokens
+   Display/Headings: Archivo (Akzidenz Grotesk substitute)
+   Body: Arial / Helvetica system stack (per brand guideline)
+   =========================================================================== */
+
+:root {
+  /* ---- Families ---- */
+  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', Times, serif; /* editorial / magalog body */
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* ---- Weights ---- */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;   /* the SBDC wordmark register */
+
+  /* ---- Type scale (1.250 major-third, 16px base) ---- */
+  --text-2xs: 0.6875rem;  /* 11px — legal/footnotes */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.375rem;    /* 22px */
+  --text-2xl: 1.75rem;    /* 28px */
+  --text-3xl: 2.25rem;    /* 36px */
+  --text-4xl: 3rem;       /* 48px */
+  --text-5xl: 4rem;       /* 64px */
+  --text-6xl: 5.25rem;    /* 84px — hero display */
+
+  /* ---- Line heights ---- */
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  /* ---- Letter spacing ---- */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.12em;  /* eyebrows / ALL-CAPS labels, mirrors logo */
+
+  /* ---- Semantic roles ---- */
+  --display-weight: var(--weight-black);
+  --display-tracking: var(--tracking-tight);
+  --heading-weight: var(--weight-extrabold);
+  --eyebrow-weight: var(--weight-bold);
+  --eyebrow-tracking: var(--tracking-wider);
+}
