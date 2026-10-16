@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Transcript to Action Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: an ownership strip (you vs. the skill), then the animated stage with its step rail, and the plain-language card beside it. */
+:root {
+  --bg: #f6f7fa;
+  --surface: #ffffff;
+  --ink: #0c1f3d;
+  --muted: #4a5873;
+  --line: #d5dbe6;
+  --blue: #002d62;
+  --red: #d11142;
+  --soft: #eef1f7;
+  --ok: #1b7a4b;
+  --you: #002d62;
+  --you-bg: #e3ebf7;
+  --auto: #d11142;
+  --auto-bg: #fbe6ec;
+  --on-auto: #ffffff;
+  --display: 'Archivo', 'Arial Narrow', Arial, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+  --ease: cubic-bezier(.2,.8,.2,1);
+  --fs: 18px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #071327; --surface: #0e1f3a; --ink: #eef3fb; --muted: #a9b7cf; --line: #24395c;
+  --blue: #7fb0ff; --red: #ff5a7e; --soft: #13284a; --ok: #5fe3a1;
+  --you: #9cc2ff; --you-bg: #16305a; --auto: #ff6f8f; --auto-bg: #3a1526; --on-auto: #071327; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #071327; --surface: #0e1f3a; --ink: #eef3fb; --muted: #a9b7cf; --line: #24395c;
+  --blue: #7fb0ff; --red: #ff5a7e; --soft: #13284a; --ok: #5fe3a1;
+  --you: #9cc2ff; --you-bg: #16305a; --auto: #ff6f8f; --auto-bg: #3a1526; --on-auto: #071327; color-scheme: dark; }
+:root[data-contrast="high"] { --muted: var(--ink); --line: var(--ink); }
+
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 var(--fs)/1.55 var(--display); margin: 0; }
+.wrap { max-width: 1120px; margin-inline: auto; padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; border-radius: 6px; }
+
+header { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: end; justify-content: space-between; }
+.eyebrow { font: 500 .72em/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+h1 { font-size: clamp(2em, 5vw, 3.2em); line-height: 1; font-weight: 850; font-stretch: 75%; margin: 6px 0 8px; text-wrap: balance; }
+.sub { color: var(--muted); max-width: 54ch; margin: 0; }
+.prefs { display: flex; gap: 8px; flex-wrap: wrap; }
+.prefs button, .controls button {
+  font: 600 .82em var(--display); color: var(--ink); background: var(--surface);
+  border: 2px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; min-height: 44px; }
+.prefs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+/* Ownership chips */
+.who { display: inline-flex; align-items: center; gap: 6px; font: 600 .66em/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 5px 9px; border-radius: 999px; white-space: nowrap; }
+.who.you { background: var(--you-bg); color: var(--you); }
+.who.auto { background: var(--auto); color: var(--on-auto); }
+.who.auto::before { content: '⚡'; font-size: 1.1em; }
+.who.you::before { content: ''; width: .7em; height: .7em; border-radius: 50%; background: var(--you); }
+
+/* Ownership strip: the whole split at a glance */
+.split { margin-top: 22px; display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 10px 14px; align-items: center; background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 14px 18px; }
+.split p { margin: 0; font-size: .92em; }
+@media (max-width: 700px) { .split { grid-template-columns: auto 1fr; } }
+
+.layout { display: grid; grid-template-columns: 1.45fr 1fr; gap: 22px; margin-top: 18px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+
+/* ── Stage ── */
+.stage { position: relative; background: var(--surface); border: 2px solid var(--line); border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 11; max-width: 100%; }
+.stage[data-owner="auto"] { border-color: var(--auto); }
+.scene { position: absolute; inset: 0; padding: 44px 22px 22px; display: grid; place-items: center; opacity: 0; visibility: hidden; transition: opacity .5s var(--ease), visibility 0s .5s; }
+.scene.on { opacity: 1; visibility: visible; transition: opacity .5s var(--ease); }
+.tagline { position: absolute; left: 18px; top: 14px; font: 500 .68em var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.scene > .who { position: absolute; right: 14px; top: 10px; }
+@media (max-width: 560px) { .stage { aspect-ratio: auto; min-height: 460px; } }
+
+/* Scene 1: recording */
+.call { width: min(420px, 100%); display: grid; gap: 16px; }
+.people { display: flex; gap: 12px; justify-content: center; }
+.face { width: 92px; aspect-ratio: 1; border-radius: 16px; background: var(--soft); border: 2px solid var(--line); display: grid; place-items: center; font-weight: 800; font-size: 1.4em; color: var(--blue); position: relative; }
+.face small { position: absolute; bottom: 6px; font: 500 .45em var(--mono); color: var(--muted); letter-spacing: .06em; }
+.rec { display: flex; align-items: center; gap: 8px; justify-content: center; font: 600 .8em var(--mono); color: var(--red); letter-spacing: .08em; }
+.rec i { width: 12px; height: 12px; border-radius: 50%; background: var(--red); }
+.on .rec i { animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .2; } }
+.wave { display: flex; gap: 4px; height: 64px; align-items: center; }
+.wave b { flex: 1; height: 100%; border-radius: 3px; background: var(--blue); transform: scaleY(.15); }
+.on .wave b { animation: talk 1.2s ease-in-out infinite alternate; animation-delay: calc(var(--k) * -90ms); }
+@keyframes talk { 50% { transform: scaleY(var(--h)); } 100% { transform: scaleY(.2); } }
+.said { font-size: .8em; text-align: center; color: var(--muted); }
+.said b { color: var(--ink); }
+
+/* Scene 2: hand off to the skill */
+.upload { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; width: min(540px, 100%); }
+.file { width: 104px; height: 132px; border-radius: 10px; background: var(--surface); border: 2px solid var(--blue); padding: 12px 10px; display: grid; gap: 7px; align-content: start; }
+.file span { height: 6px; border-radius: 3px; background: var(--line); }
+.file em { font: 500 .58em var(--mono); color: var(--blue); font-style: normal; }
+.on .file { animation: fly 2.4s .6s var(--ease) forwards; }
+@keyframes fly { 60% { transform: translateX(150px) scale(.6) rotate(6deg); opacity: 1; } 100% { transform: translateX(170px) scale(.3); opacity: 0; } }
+.chat { border: 2px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 10px; background: var(--soft); }
+.chat .bar { font: 600 .72em var(--mono); color: var(--muted); }
+.drop { border: 2px dashed var(--blue); border-radius: 10px; padding: 14px 10px; text-align: center; font-size: .82em; color: var(--muted); }
+.on .drop { animation: fillDrop .4s 2.4s forwards; }
+@keyframes fillDrop { to { border-style: solid; background: var(--surface); color: var(--ink); } }
+.prompt { font-size: .82em; background: var(--surface); border-radius: 10px; padding: 10px 12px; border: 1px solid var(--line); opacity: 0; }
+.working { justify-self: start; opacity: 0; }
+.on .prompt { animation: rise .5s 2.9s var(--ease) forwards; }
+.on .working { animation: rise .5s 3.6s var(--ease) forwards; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* Scene 3: the skill sorts the meeting */
+.extract { width: 100%; display: grid; gap: 14px; }
+.raw { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.chip { font-size: .74em; padding: 6px 10px; border-radius: 8px; background: var(--soft); border: 1px solid var(--line); line-height: 1.3; }
+.bins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 560px) { .bins { grid-template-columns: 1fr; } }
+.bin { border: 2px solid var(--line); border-radius: 12px; padding: 10px; min-height: 96px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.bin h3 { margin: 0 0 2px; font: 600 .62em var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.bin.a { border-color: var(--auto); } .bin.n { border-color: var(--blue); } .bin.m { border-color: var(--ok); }
+.bin .chip { opacity: 0; background: var(--surface); }
+.hold { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; opacity: 0; }
+.hold .chip { border: 2px dashed var(--you); background: var(--you-bg); color: var(--you); font-weight: 600; }
+.on .raw .chip { animation: fade .4s calc(.4s + var(--k) * .5s) forwards; }
+@keyframes fade { to { opacity: .25; text-decoration: line-through; } }
+.on .bin .chip { animation: rise .45s calc(.6s + var(--k) * .5s) var(--ease) forwards; }
+.on .hold { animation: rise .5s 3.4s var(--ease) forwards; }
+
+/* Scene 4: Neoserra mapping */
+.neo { width: min(540px, 100%); border: 2px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); }
+.neo .top { background: var(--blue); color: var(--bg); font: 600 .72em var(--mono); padding: 9px 14px; letter-spacing: .06em; }
+.ms { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 9px 14px; border-top: 1px solid var(--line); font-size: .8em; opacity: 0; }
+.ms .k { font: 500 .78em var(--mono); color: var(--muted); display: block; letter-spacing: .05em; text-transform: uppercase; }
+.on .ms { animation: rise .45s calc(.4s + var(--k) * .5s) var(--ease) forwards; }
+.narr { padding: 10px 14px; border-top: 1px solid var(--line); font-size: .74em; color: var(--muted); display: grid; gap: 5px; }
+.narr i { display: block; height: 6px; border-radius: 3px; background: var(--line); width: 0; }
+.on .narr i { animation: grow 1s calc(1.9s + var(--k) * .3s) var(--ease) forwards; }
+@keyframes grow { to { width: var(--w); } }
+.confirm { display: flex; gap: 10px; align-items: center; padding: 10px 14px; border-top: 2px solid var(--you); background: var(--you-bg); color: var(--you); font-size: .8em; font-weight: 600; }
+.box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--you); display: grid; place-items: center; color: transparent; flex: none; }
+.on .confirm .box { animation: tick .35s 3.6s forwards; }
+@keyframes tick { to { background: var(--you); color: var(--you-bg); } }
+
+/* Scene 5: email + postbox */
+.mail { width: min(500px, 100%); border: 2px solid var(--line); border-radius: 14px; background: var(--surface); position: relative; }
+.mail .hd { padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: .76em; display: grid; gap: 2px; }
+.mail .hd b { font-weight: 600; }
+.mail .body { padding: 10px 14px; font-size: .76em; display: grid; gap: 4px; }
+.mail .body p { margin: 0; opacity: 0; }
+.mail .body .sec { font-weight: 700; margin-top: 4px; }
+.on .mail .body p { animation: rise .4s calc(.3s + var(--k) * .3s) forwards; }
+.foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 0 14px 12px; flex-wrap: wrap; }
+.send { padding: 8px 16px; border-radius: 999px; background: var(--you); color: var(--surface); font-weight: 700; font-size: .78em; opacity: 0; }
+.on .send { animation: rise .4s 3.4s forwards; }
+.stamp { position: absolute; right: 12px; top: -12px; padding: 5px 10px; border-radius: 999px; background: var(--ok); color: var(--surface); font: 600 .62em var(--mono); letter-spacing: .08em; text-transform: uppercase; opacity: 0; }
+.on .stamp { animation: stamp .45s 4.1s var(--ease) forwards; }
+@keyframes stamp { from { opacity: 0; transform: scale(1.6) rotate(-8deg); } to { opacity: 1; transform: rotate(-4deg); } }
+
+.progress { position: absolute; left: 0; bottom: 0; height: 5px; background: var(--red); width: 0; }
+
+/* ── Controls & rail ── */
+.controls { display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
+.controls .play { background: var(--ink); color: var(--bg); border-color: var(--ink); min-width: 110px; }
+.rail { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+@media (max-width: 560px) { .rail { grid-template-columns: 1fr; } }
+.rail button { width: 100%; height: 100%; text-align: left; background: var(--surface); border: 2px solid var(--line); border-radius: 12px; padding: 10px 12px; cursor: pointer; color: var(--ink); font: inherit; font-size: .78em; line-height: 1.3; min-height: 44px; display: grid; gap: 6px; align-content: start; }
+.rail button b { font: 600 .82em var(--mono); color: var(--muted); }
+.rail button .who { justify-self: start; font-size: .62em; }
+.rail button[aria-current="step"] { border-color: var(--red); background: var(--soft); }
+.rail button[aria-current="step"] b { color: var(--red); }
+
+/* ── Explainer card ── */
+.card { background: var(--surface); border: 2px solid var(--line); border-radius: 20px; padding: 22px; }
+.card .n { font: 600 .75em var(--mono); color: var(--muted); letter-spacing: .1em; text-transform: uppercase; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.card h2 { font-size: 1.6em; line-height: 1.1; margin: 10px 0 14px; font-stretch: 80%; font-weight: 800; text-wrap: balance; }
+.part { border-radius: 14px; padding: 12px 14px; margin-top: 10px; }
+.part h3 { margin: 0 0 6px; }
+.part.you { background: var(--you-bg); }
+.part.auto { background: var(--auto-bg); }
+.part p { margin: 0; max-width: 60ch; }
+.part ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.why { margin-top: 14px; color: var(--muted); font-size: .94em; }
+.copy { margin-top: 8px; display: grid; gap: 8px; }
+.copy code { font: 400 .78em/1.45 var(--mono); background: var(--surface); border: 1px solid var(--line); padding: 10px 12px; border-radius: 10px; display: block; white-space: pre-wrap; }
+.copy button { justify-self: start; font: 600 .78em var(--display); border: 2px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 14px; cursor: pointer; min-height: 40px; }
+.tip { margin-top: 14px; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); font-size: .92em; }
+.tip b { color: var(--red); }
+.example { margin-top: 14px; font: 500 .7em var(--mono); color: var(--muted); letter-spacing: .05em; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p style="margin:0 0 12px;"><a href="../transcript-to-action-plan.html" style="color:var(--ink);font-weight:600;">&larr; Back to the skill guide</a></p>
+  <header>
+    <div>
+      <div class="eyebrow">AI Co-Working Hour · Key Workflow 1</div>
+      <h1>Transcript to Action Plan</h1>
+      <p class="sub">See which parts you do and which parts the Transcript Action Plan skill does for you. Press play, or tap any step.</p>
+    </div>
+    <div class="prefs" role="group" aria-label="Display options">
+      <button id="textSize" type="button" aria-pressed="false">Larger text</button>
+      <button id="contrast" type="button" aria-pressed="false">High contrast</button>
+      <button id="dark" type="button" aria-pressed="false">Dark mode</button>
+    </div>
+  </header>
+
+  <div class="split" aria-label="Who does what">
+    <span class="who you">You</span>
+    <p>Record the meeting, hand over the transcript, confirm what the skill flags, and send.</p>
+    <span class="who auto">Skill</span>
+    <p>Everything in between: sorting, milestones, the Neoserra write-up, and the email draft.</p>
+  </div>
+
+  <div class="layout">
+    <section aria-label="Animated walkthrough">
+      <div class="stage" id="stage" data-owner="you">
+        <!-- 1 Record -->
+        <div class="scene on" data-i="0" aria-hidden="false">
+          <span class="tagline">Zoom · client meeting</span><span class="who you">You</span>
+          <div class="call">
+            <div class="people"><div class="face">BM<small>ADVISOR</small></div><div class="face">JR<small>CLIENT</small></div></div>
+            <div class="rec"><i></i> RECORDING · TRANSCRIPT ON</div>
+            <div class="wave" id="wave"></div>
+            <div class="said">Say it aloud so the transcript catches it:<br><b>client ID · next meeting date · resources you recommend</b></div>
+          </div>
+        </div>
+        <!-- 2 Hand off -->
+        <div class="scene" data-i="1" aria-hidden="true">
+          <span class="tagline">ChatGPT or Claude</span><span class="who you">You · one step</span>
+          <div class="upload">
+            <div class="file"><em>full-transcript.vtt</em><span></span><span></span><span style="width:70%"></span><span></span><span style="width:50%"></span><span></span></div>
+            <div class="chat">
+              <div class="bar">Transcript Action Plan skill</div>
+              <div class="drop">Drop the full transcript here</div>
+              <div class="prompt">Draft the action plan email for this meeting.</div>
+              <span class="who auto working">Skill takes it from here</span>
+            </div>
+          </div>
+        </div>
+        <!-- 3 Sort -->
+        <div class="scene" data-i="2" aria-hidden="true">
+          <span class="tagline">What the skill pulls out</span><span class="who auto">Skill</span>
+          <div class="extract">
+            <div class="raw">
+              <span class="chip" style="--k:0">"…I'll call the bank Monday…"</span>
+              <span class="chip" style="--k:1">"…here's how to price the catering menu…"</span>
+              <span class="chip" style="--k:2">"…we filed the LLC last week…"</span>
+              <span class="chip" style="--k:3">"…sales are up since the farmers market…"</span>
+            </div>
+            <div class="bins">
+              <div class="bin a"><h3>Next Steps</h3><span class="chip" style="--k:0">Call the bank Monday about the loan</span></div>
+              <div class="bin n"><h3>Notes checklist</h3><span class="chip" style="--k:1">Pricing: cost per plate + 30% margin</span></div>
+              <div class="bin m"><h3>Milestones</h3><span class="chip" style="--k:2">Business Established</span></div>
+            </div>
+            <div class="hold"><span class="who you">Held for you</span><span class="chip">Potential: Change in Sales? Needs a number</span></div>
+          </div>
+        </div>
+        <!-- 4 Neoserra -->
+        <div class="scene" data-i="3" aria-hidden="true">
+          <span class="tagline">Neoserra · ready to enter</span><span class="who auto">Skill drafts · you confirm</span>
+          <div class="neo">
+            <div class="top">NEOSERRA MAPPING · EXAMPLE CLIENT</div>
+            <div class="ms" style="--k:0"><span><span class="k">Milestone</span>Business Established</span><span class="who auto">Drafted</span></div>
+            <div class="ms" style="--k:1"><span><span class="k">Counseling areas</span>Financing · Pricing</span><span class="who auto">Drafted</span></div>
+            <div class="narr"><span>Session narrative, third person:</span><i style="--k:0;--w:96%"></i><i style="--k:1;--w:88%"></i><i style="--k:2;--w:62%"></i></div>
+            <div class="confirm"><span class="box">✓</span>You confirm the milestone and add your Prepare hours</div>
+          </div>
+        </div>
+        <!-- 5 Email -->
+        <div class="scene" data-i="4" aria-hidden="true">
+          <span class="tagline">Draft email · ready for your review</span><span class="who auto">Skill drafts · you send</span>
+          <div class="mail">
+            <span class="stamp">Logged via Neoserra postbox</span>
+            <div class="hd"><span><b>Subject:</b> SBDC Next Steps - Client ID - Example Bakery</span><span><b>Bcc:</b> your Neoserra "Email to Counseling" address</span></div>
+            <div class="body">
+              <p style="--k:0">Congratulations on getting the LLC filed. That's the foundation done.</p>
+              <p class="sec" style="--k:1">Next Steps-</p>
+              <p style="--k:2">Call the bank Monday about the startup loan.</p>
+              <p class="sec" style="--k:3">Notes-</p>
+              <p style="--k:4">Pricing checklist: cost per plate, then a 30% margin.</p>
+              <p class="sec" style="--k:5">Things We Have Accomplished Since Our Last Meeting-</p>
+              <p style="--k:6">Business Established</p>
+            </div>
+            <div class="foot"><span class="who you">You read it and edit</span><span class="send">Send</span></div>
+          </div>
+        </div>
+        <div class="progress" id="progress"></div>
+      </div>
+
+      <div class="controls">
+        <button class="play" id="play" type="button">▶ Play</button>
+        <button id="prev" type="button" aria-label="Previous step">← Back</button>
+        <button id="next" type="button" aria-label="Next step">Next →</button>
+      </div>
+
+      <ol class="rail" id="rail"></ol>
+    </section>
+
+    <aside class="card" aria-live="polite" id="card"></aside>
+  </div>
+</div>
+
+<script>
+// owner: 'you' | 'auto' | 'both'. The rail, stage border and card all read from this one list.
+const steps = [
+  { t: 'Record the client meeting', owner: 'you', chip: 'You',
+    you: 'Turn on Zoom recording and the transcript. In person, join Zoom from the room or use Apple Notes. Say the client ID, the next meeting date, and any resource you recommend out loud.',
+    why: 'The skill can only use what is in the transcript. Facts you say aloud end up in the email and the Neoserra note.',
+    tip: '<b>Not allowed:</b> Otter. Tell the client at the start that you are recording for your notes.' },
+  { t: 'Hand the transcript to the skill', owner: 'you', chip: 'You · one step',
+    you: 'Download the full transcript, not the short Zoom summary. Open a new chat in ChatGPT or Claude, attach it, and ask for the action plan email.',
+    auto: ['Reads the whole meeting, start to finish', 'Fixes misheard names of people, programs and organizations'],
+    prompt: 'Here is the transcript from my meeting with [client name]. Draft the action plan email.',
+    why: 'This is the last thing you type until review. No long prompt to write: the skill already knows the SBDC format.',
+    tip: '<b>Before you upload:</b> remove Social Security, card and bank account numbers. Use your UMD account.' },
+  { t: 'The skill sorts the meeting', owner: 'auto', chip: 'Skill',
+    auto: ['Next Steps: the client\'s concrete actions', 'Notes: detailed checklists of the advice you gave', 'Milestones: matched to Neoserra\'s exact category names', 'Relevant links, with the right URLs'],
+    you: 'Nothing yet. Uncertain milestones are held in a separate note for you, never put in the client email.',
+    why: 'This sorting is what used to take the most time, and it is where milestones most often got missed.',
+    tip: '<b>Guardrail built in:</b> if something does not match a Neoserra category, it goes in Notes, not Milestones.' },
+  { t: 'Map it to Neoserra', owner: 'both', chip: 'Skill drafts · you confirm',
+    auto: ['The milestone and counseling-area dropdown selections', 'A third-person session narrative that holds up to an SBA review'],
+    you: 'Pick the Neoserra option from the menu the skill offers. Confirm any flagged milestone, add your Prepare hours, and check good standing with the SDAT link it gives you.',
+    why: 'The record is audit-ready without you writing the narrative from scratch.',
+    tip: '<b>The skill never guesses:</b> no invented Prepare hours, no client ID it could not find, no milestone it could not confirm.' },
+  { t: 'Send the follow-up email', owner: 'both', chip: 'Skill drafts · you send',
+    auto: ['The full email in SBDC format, with a personal opening', 'A follow-up menu: capital-readiness scorecard, training plan, funding search, and more'],
+    you: 'Read it, edit anything that is off, and send it from your inbox. Bcc your Neoserra "Email to Counseling" address and the session logs itself.',
+    why: 'The client gets a clear written plan the same day. Advisors report saving about half an hour per session on notes and logging.',
+    tip: '<b>Always review:</b> you are the advisor. The skill drafts; you decide what goes out.' }
+];
+const DUR = 12000; // time on each step before autoplay advances
+const PACE = 0.6;  // scene animations run at 60% speed
+const ownerClass = { you: 'you', auto: 'auto', both: 'auto' };
+const scenes = [...document.querySelectorAll('.scene')];
+const stage = document.getElementById('stage');
+const rail = document.getElementById('rail'), card = document.getElementById('card');
+const playBtn = document.getElementById('play'), progress = document.getElementById('progress');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cur = 0, playing = false, start = 0, raf = 0;
+
+const wave = document.getElementById('wave');
+for (let k = 0; k < 32; k++) { const b = document.createElement('b'); b.style.setProperty('--k', k); b.style.setProperty('--h', (.3 + Math.abs(Math.sin(k * 1.7)) * .7).toFixed(2)); wave.appendChild(b); }
+
+steps.forEach((s, i) => {
+  const li = document.createElement('li');
+  li.innerHTML = `<button type="button" id="step${i}"><b>STEP ${i + 1}</b>${s.t}<span class="who ${ownerClass[s.owner]}">${s.chip}</span></button>`;
+  li.firstChild.addEventListener('click', () => { stop(); go(i); });
+  rail.appendChild(li);
+});
+
+const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+function go(i) {
+  cur = (i + steps.length) % steps.length;
+  scenes.forEach((el, j) => {
+    const on = j === cur;
+    el.classList.remove('on'); el.setAttribute('aria-hidden', String(!on));
+    if (on) { void el.offsetWidth; el.classList.add('on'); }
+  });
+  document.getAnimations?.().forEach(a => { a.playbackRate = PACE; });
+  rail.querySelectorAll('button').forEach((b, j) => j === cur ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current'));
+  const s = steps[cur];
+  stage.dataset.owner = s.owner === 'you' ? 'you' : 'auto';
+  const autoPart = s.auto ? `<div class="part auto"><h3><span class="who auto">The skill does</span></h3><ul>${s.auto.map(a => `<li>${a}</li>`).join('')}</ul></div>` : '';
+  const youPart = `<div class="part you"><h3><span class="who you">You do</span></h3><p>${s.you}</p>${s.prompt ? `<div class="copy"><code id="promptText">${esc(s.prompt)}</code><button type="button" id="copyBtn">Copy</button></div>` : ''}</div>`;
+  card.innerHTML = `<div class="n">Step ${['one','two','three','four','five'][cur]} of five</div>
+    <h2>${s.t}</h2>
+    ${s.owner === 'you' ? youPart + autoPart : autoPart + youPart}
+    <p class="why">${s.why}</p>
+    <div class="tip">${s.tip}</div>
+    <div class="example">Client details shown are an example.</div>`;
+  const cb = document.getElementById('copyBtn');
+  if (cb) cb.addEventListener('click', () => {
+    const p = navigator.clipboard?.writeText(s.prompt);
+    p ? p.then(() => { cb.textContent = 'Copied'; }, () => selectPrompt(cb)) : selectPrompt(cb);
+  });
+  start = performance.now();
+  progress.style.width = '0';
+}
+function selectPrompt(cb) { const r = document.createRange(); r.selectNodeContents(document.getElementById('promptText')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); cb.textContent = 'Selected, press Ctrl+C'; }
+
+function tick(now) {
+  const p = Math.min(1, (now - start) / DUR);
+  progress.style.width = (p * 100) + '%';
+  if (p >= 1) { if (cur === steps.length - 1) { stop(); return; } go(cur + 1); }
+  raf = requestAnimationFrame(tick);
+}
+function play() { if (cur === steps.length - 1) go(0); playing = true; playBtn.textContent = '❚❚ Pause'; start = performance.now(); raf = requestAnimationFrame(tick); }
+function stop() { playing = false; playBtn.textContent = '▶ Play'; cancelAnimationFrame(raf); progress.style.width = '0'; }
+playBtn.addEventListener('click', () => playing ? stop() : play());
+document.getElementById('prev').addEventListener('click', () => { stop(); go(cur - 1); });
+document.getElementById('next').addEventListener('click', () => { stop(); go(cur + 1); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') { stop(); go(cur + 1); }
+  if (e.key === 'ArrowLeft') { stop(); go(cur - 1); }
+});
+
+const root = document.documentElement;
+function pref(id, key, apply) {
+  const btn = document.getElementById(id);
+  let on = false; try { on = localStorage.getItem(key) === '1'; } catch (e) {}
+  const set = v => { on = v; btn.setAttribute('aria-pressed', String(v)); apply(v); try { localStorage.setItem(key, v ? '1' : '0'); } catch (e) {} };
+  btn.addEventListener('click', () => set(!on)); set(on);
+}
+const hostTheme = root.getAttribute('data-theme');
+pref('textSize', 'tap-text', v => root.style.setProperty('--fs', v ? '22px' : '18px'));
+pref('contrast', 'tap-contrast', v => v ? root.setAttribute('data-contrast', 'high') : root.removeAttribute('data-contrast'));
+pref('dark', 'tap-dark', v => v ? root.setAttribute('data-theme', 'dark') : (hostTheme ? root.setAttribute('data-theme', hostTheme) : root.removeAttribute('data-theme')));
+
+go(0);
+if (!reduce) play();
+</script>
+
+</body>
+</html>
