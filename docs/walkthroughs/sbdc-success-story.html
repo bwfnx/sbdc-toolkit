@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Success Story Walkthrough</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: ownership strip (you vs. the skill), animated stage with a six-step rail, plain-language card beside it. Same shell as the Transcript to Action Plan walkthrough. */
+:root {
+  --bg: #f6f7fa;
+  --surface: #ffffff;
+  --ink: #0c1f3d;
+  --muted: #4a5873;
+  --line: #d5dbe6;
+  --blue: #002d62;
+  --red: #d11142;
+  --soft: #eef1f7;
+  --ok: #1b7a4b;
+  --you: #002d62;
+  --you-bg: #e3ebf7;
+  --auto: #d11142;
+  --auto-bg: #fbe6ec;
+  --on-auto: #ffffff;
+  --display: 'Archivo', 'Arial Narrow', Arial, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+  --ease: cubic-bezier(.2,.8,.2,1);
+  --fs: 18px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #071327; --surface: #0e1f3a; --ink: #eef3fb; --muted: #a9b7cf; --line: #24395c;
+  --blue: #7fb0ff; --red: #ff5a7e; --soft: #13284a; --ok: #5fe3a1;
+  --you: #9cc2ff; --you-bg: #16305a; --auto: #ff6f8f; --auto-bg: #3a1526; --on-auto: #071327; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #071327; --surface: #0e1f3a; --ink: #eef3fb; --muted: #a9b7cf; --line: #24395c;
+  --blue: #7fb0ff; --red: #ff5a7e; --soft: #13284a; --ok: #5fe3a1;
+  --you: #9cc2ff; --you-bg: #16305a; --auto: #ff6f8f; --auto-bg: #3a1526; --on-auto: #071327; color-scheme: dark; }
+:root[data-contrast="high"] { --muted: var(--ink); --line: var(--ink); }
+
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 var(--fs)/1.55 var(--display); margin: 0; }
+.wrap { max-width: 1120px; margin-inline: auto; padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; border-radius: 6px; }
+
+header { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: end; justify-content: space-between; }
+.eyebrow { font: 500 .72em/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+h1 { font-size: clamp(2em, 5vw, 3.2em); line-height: 1; font-weight: 850; font-stretch: 75%; margin: 6px 0 8px; text-wrap: balance; }
+.sub { color: var(--muted); max-width: 56ch; margin: 0; }
+.prefs { display: flex; gap: 8px; flex-wrap: wrap; }
+.prefs button, .controls button {
+  font: 600 .82em var(--display); color: var(--ink); background: var(--surface);
+  border: 2px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; min-height: 44px; }
+.prefs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+.who { display: inline-flex; align-items: center; gap: 6px; font: 600 .66em/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 5px 9px; border-radius: 999px; white-space: nowrap; }
+.who.you { background: var(--you-bg); color: var(--you); }
+.who.auto { background: var(--auto); color: var(--on-auto); }
+.who.auto::before { content: '⚡'; font-size: 1.1em; }
+.who.you::before { content: ''; width: .7em; height: .7em; border-radius: 50%; background: var(--you); }
+
+.split { margin-top: 22px; display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 10px 14px; align-items: center; background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 14px 18px; }
+.split p { margin: 0; font-size: .92em; }
+@media (max-width: 700px) { .split { grid-template-columns: auto 1fr; } }
+
+.layout { display: grid; grid-template-columns: 1.45fr 1fr; gap: 22px; margin-top: 18px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+
+/* ── Stage ── */
+.stage { position: relative; background: var(--surface); border: 2px solid var(--line); border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 11; max-width: 100%; }
+.stage[data-owner="auto"] { border-color: var(--auto); }
+.scene { position: absolute; inset: 0; padding: 44px 22px 22px; display: grid; place-items: center; opacity: 0; visibility: hidden; transition: opacity .5s var(--ease), visibility 0s .5s; }
+.scene.on { opacity: 1; visibility: visible; transition: opacity .5s var(--ease); }
+.tagline { position: absolute; left: 18px; top: 14px; font: 500 .68em var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.scene > .who { position: absolute; right: 14px; top: 10px; }
+@media (max-width: 560px) { .stage { aspect-ratio: auto; min-height: 480px; } }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.chip { font-size: .74em; padding: 6px 10px; border-radius: 8px; background: var(--soft); border: 1px solid var(--line); line-height: 1.3; }
+.box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--you); display: grid; place-items: center; color: transparent; flex: none; }
+@keyframes tick { to { background: var(--you); color: var(--you-bg); } }
+
+/* Scene 1: release + Neoserra export */
+.prep { width: min(500px, 100%); display: grid; gap: 14px; }
+.neo { border: 2px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); }
+.neo .top { background: var(--blue); color: var(--bg); font: 600 .72em var(--mono); padding: 9px 14px; letter-spacing: .06em; }
+.neo .row { display: flex; justify-content: space-between; gap: 10px; padding: 9px 14px; border-top: 1px solid var(--line); font-size: .8em; }
+.export { justify-self: end; padding: 8px 14px; border-radius: 999px; border: 2px solid var(--you); color: var(--you); font: 600 .74em var(--display); background: var(--surface); }
+.on .export { animation: press 1s 1.4s both; }
+@keyframes press { 40% { transform: scale(.94); background: var(--you-bg); } 100% { transform: none; background: var(--you-bg); } }
+.release { display: flex; gap: 10px; align-items: center; padding: 10px 14px; border-radius: 12px; background: var(--you-bg); color: var(--you); font-size: .82em; font-weight: 600; }
+.on .release .box { animation: tick .35s .6s forwards; }
+
+/* Scene 2: upload */
+.upload { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; width: min(540px, 100%); }
+.file { width: 104px; height: 132px; border-radius: 10px; background: var(--surface); border: 2px solid var(--blue); padding: 12px 10px; display: grid; gap: 7px; align-content: start; }
+.file span { height: 6px; border-radius: 3px; background: var(--line); }
+.file em { font: 500 .56em var(--mono); color: var(--blue); font-style: normal; }
+.on .file { animation: fly 2.4s .6s var(--ease) forwards; }
+@keyframes fly { 60% { transform: translateX(150px) scale(.6) rotate(6deg); opacity: 1; } 100% { transform: translateX(170px) scale(.3); opacity: 0; } }
+.chat { border: 2px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 10px; background: var(--soft); }
+.chat .bar { font: 600 .72em var(--mono); color: var(--muted); }
+.drop { border: 2px dashed var(--blue); border-radius: 10px; padding: 14px 10px; text-align: center; font-size: .82em; color: var(--muted); }
+.on .drop { animation: fillDrop .4s 2.4s forwards; }
+@keyframes fillDrop { to { border-style: solid; background: var(--surface); color: var(--ink); } }
+.prompt { font-size: .82em; background: var(--surface); border-radius: 10px; padding: 10px 12px; border: 1px solid var(--line); opacity: 0; }
+.working { justify-self: start; opacity: 0; }
+.on .prompt { animation: rise .5s 2.9s var(--ease) forwards; }
+.on .working { animation: rise .5s 3.6s var(--ease) forwards; }
+
+/* Scene 3: extraction summary */
+.fields { width: min(540px, 100%); display: grid; gap: 7px; }
+.field { display: grid; grid-template-columns: 9.5em 1fr; gap: 10px; align-items: baseline; padding: 7px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-size: .78em; opacity: 0; }
+.field .k { font: 600 .82em var(--mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+.field.flag { border: 2px dashed var(--you); background: var(--you-bg); color: var(--you); }
+.on .field { animation: rise .4s calc(.3s + var(--k) * .45s) var(--ease) forwards; }
+.fields .confirm { display: flex; gap: 10px; align-items: center; font-size: .8em; font-weight: 600; color: var(--you); opacity: 0; }
+.on .fields .confirm { animation: rise .4s 3.4s forwards; }
+.on .fields .confirm .box { animation: tick .35s 3.9s forwards; }
+@media (max-width: 560px) { .field { grid-template-columns: 1fr; gap: 0; } }
+
+/* Scene 4: drafting with rules */
+.doc { width: min(520px, 100%); border: 2px solid var(--line); border-radius: 14px; background: var(--surface); padding: 14px 16px; display: grid; gap: 6px; font-size: .8em; }
+.doc h4 { margin: 0; font-size: 1.15em; font-stretch: 85%; }
+.doc .sec { font: 600 .74em var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 4px; opacity: 0; }
+.doc p { margin: 0; opacity: 0; }
+.on .doc .sec, .on .doc p { animation: rise .4s calc(.3s + var(--k) * .35s) forwards; }
+.fix { position: relative; display: inline-block; }
+.fix s { color: var(--red); text-decoration-thickness: 2px; }
+.fix ins { text-decoration: none; background: var(--auto-bg); color: var(--ink); padding: 0 3px; border-radius: 4px; opacity: 0; }
+.on .fix ins { animation: rise .35s calc(1.6s + var(--k) * .6s) forwards; }
+.on .fix s { animation: gone .35s calc(1.6s + var(--k) * .6s) forwards; }
+@keyframes gone { to { opacity: .35; } }
+.rules { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.rules .chip { font: 600 .9em var(--mono); text-transform: uppercase; letter-spacing: .04em; background: var(--auto-bg); border-color: var(--auto); color: var(--ink); opacity: 0; }
+.on .rules .chip { animation: rise .35s calc(2.8s + var(--k) * .3s) forwards; }
+
+/* Scene 5: follow-up menu */
+.menu { width: min(540px, 100%); display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 560px) { .menu { grid-template-columns: repeat(2, 1fr); } }
+.opt { border: 2px solid var(--line); border-radius: 12px; padding: 10px; background: var(--surface); display: grid; gap: 4px; font-size: .76em; opacity: 0; min-width: 0; }
+.opt b { font: 700 1.5em var(--mono); color: var(--auto); }
+.opt small { color: var(--muted); }
+.on .opt { animation: rise .4s calc(.3s + var(--k) * .3s) var(--ease) forwards; }
+.on .opt.pick { animation: rise .4s calc(.3s + var(--k) * .3s) var(--ease) forwards, picked .4s 3.4s forwards; }
+@keyframes picked { to { border-color: var(--you); background: var(--you-bg); box-shadow: 0 0 0 3px var(--you); } }
+
+/* Scene 6: legislative ladder */
+.ladder { width: min(540px, 100%); display: grid; gap: 8px; }
+.rung { display: grid; grid-template-columns: 5.5em 1fr auto; gap: 10px; align-items: center; padding: 9px 12px; border-radius: 12px; border: 2px solid var(--line); background: var(--surface); font-size: .78em; opacity: 0; }
+.rung .lvl { font: 600 .82em var(--mono); text-transform: uppercase; color: var(--muted); letter-spacing: .06em; }
+.rung .st { font: 600 .82em var(--mono); color: var(--muted); }
+.on .rung { animation: rise .4s calc(.3s + var(--k) * .35s) var(--ease) forwards; }
+.rung.now { border-color: var(--auto); }
+.rung.now .st { color: var(--auto); }
+.letter { margin-top: 4px; border: 2px solid var(--auto); padding: 8px 12px; background: var(--surface); border-radius: 10px; font-size: .76em; display: grid; gap: 4px; opacity: 0; }
+.on .letter { animation: rise .5s 2.4s forwards; }
+.letter i { display: block; height: 6px; border-radius: 3px; background: var(--line); }
+.sender { display: flex; gap: 8px; align-items: center; justify-content: flex-end; opacity: 0; }
+.on .sender { animation: rise .4s 3.6s forwards; }
+
+.progress { position: absolute; left: 0; bottom: 0; height: 5px; background: var(--red); width: 0; }
+
+/* ── Controls & rail ── */
+.controls { display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
+.controls .play { background: var(--ink); color: var(--bg); border-color: var(--ink); min-width: 110px; }
+.rail { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+@media (max-width: 560px) { .rail { grid-template-columns: 1fr; } }
+.rail button { width: 100%; height: 100%; text-align: left; background: var(--surface); border: 2px solid var(--line); border-radius: 12px; padding: 10px 12px; cursor: pointer; color: var(--ink); font: inherit; font-size: .78em; line-height: 1.3; min-height: 44px; display: grid; gap: 6px; align-content: start; }
+.rail button b { font: 600 .82em var(--mono); color: var(--muted); }
+.rail button .who { justify-self: start; font-size: .62em; }
+.rail button[aria-current="step"] { border-color: var(--red); background: var(--soft); }
+.rail button[aria-current="step"] b { color: var(--red); }
+
+/* ── Explainer card ── */
+.card { background: var(--surface); border: 2px solid var(--line); border-radius: 20px; padding: 22px; }
+.card .n { font: 600 .75em var(--mono); color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+.card h2 { font-size: 1.6em; line-height: 1.1; margin: 10px 0 14px; font-stretch: 80%; font-weight: 800; text-wrap: balance; }
+.part { border-radius: 14px; padding: 12px 14px; margin-top: 10px; }
+.part h3 { margin: 0 0 6px; }
+.part.you { background: var(--you-bg); }
+.part.auto { background: var(--auto-bg); }
+.part p { margin: 0; max-width: 60ch; }
+.part ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.why { margin-top: 14px; color: var(--muted); font-size: .94em; }
+.copy { margin-top: 8px; display: grid; gap: 8px; }
+.copy code { font: 400 .78em/1.45 var(--mono); background: var(--surface); border: 1px solid var(--line); padding: 10px 12px; border-radius: 10px; display: block; white-space: pre-wrap; }
+.copy button { justify-self: start; font: 600 .78em var(--display); border: 2px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 14px; cursor: pointer; min-height: 40px; }
+.tip { margin-top: 14px; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--line); font-size: .92em; }
+.tip b { color: var(--red); }
+.example { margin-top: 14px; font: 500 .7em var(--mono); color: var(--muted); letter-spacing: .05em; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p style="margin:0 0 12px;"><a href="../sbdc-success-story.html" style="color:var(--ink);font-weight:600;">&larr; Back to the skill guide</a></p>
+  <header>
+    <div>
+      <div class="eyebrow">SBDC Toolkit · Skill walkthrough</div>
+      <h1>Client Success Story</h1>
+      <p class="sub">One Neoserra report becomes a success story, then a press release, posts, and letters to elected officials. See which parts you do and which parts the skill does for you.</p>
+    </div>
+    <div class="prefs" role="group" aria-label="Display options">
+      <button id="textSize" type="button" aria-pressed="false">Larger text</button>
+      <button id="contrast" type="button" aria-pressed="false">High contrast</button>
+      <button id="dark" type="button" aria-pressed="false">Dark mode</button>
+    </div>
+  </header>
+
+  <div class="split" aria-label="Who does what">
+    <span class="who you">You</span>
+    <p>Get the signed release, upload the report, confirm the facts, pick what you want next, and hand letters to the client.</p>
+    <span class="who auto">Skill</span>
+    <p>Pulls the facts out of the report, writes the story by SBDC rules, offers the next pieces, and researches every elected official.</p>
+  </div>
+
+  <div class="layout">
+    <section aria-label="Animated walkthrough">
+      <div class="stage" id="stage" data-owner="you">
+        <!-- 1 Release + export -->
+        <div class="scene on" data-i="0" aria-hidden="false">
+          <span class="tagline">Neoserra · client record</span><span class="who you">You</span>
+          <div class="prep">
+            <div class="release"><span class="box">✓</span>Signed release from the client is on file</div>
+            <div class="neo">
+              <div class="top">EXAMPLE BAKERY · CLIENT RECORD</div>
+              <div class="row"><span>Sessions</span><span>Eight, since March</span></div>
+              <div class="row"><span>Milestones</span><span>Business Established · SBA loan</span></div>
+              <div class="row"><span>Report</span><span>All Activity by Client</span></div>
+            </div>
+            <span class="export">Export report</span>
+          </div>
+        </div>
+        <!-- 2 Upload -->
+        <div class="scene" data-i="1" aria-hidden="true">
+          <span class="tagline">ChatGPT or Claude</span><span class="who you">You · one step</span>
+          <div class="upload">
+            <div class="file"><em>all-activity-by-client.pdf</em><span></span><span></span><span style="width:70%"></span><span></span><span style="width:50%"></span><span></span></div>
+            <div class="chat">
+              <div class="bar">SBDC Success Story skill</div>
+              <div class="drop">Drop the Neoserra report here</div>
+              <div class="prompt">Write a success story from this client report.</div>
+              <span class="who auto working">Skill takes it from here</span>
+            </div>
+          </div>
+        </div>
+        <!-- 3 Extract -->
+        <div class="scene" data-i="2" aria-hidden="true">
+          <span class="tagline">What the skill found</span><span class="who auto">Skill reads · you confirm</span>
+          <div class="fields">
+            <div class="field" style="--k:0"><span class="k">Business</span><span>Example Bakery, Ellicott City</span></div>
+            <div class="field" style="--k:1"><span class="k">Why they came</span><span>Wanted a storefront; cash was tight</span></div>
+            <div class="field" style="--k:2"><span class="k">What we did</span><span>Cash flow plan, LivePlan, lender prep</span></div>
+            <div class="field" style="--k:3"><span class="k">Outcome</span><span>SBA loan approved, two hires</span></div>
+            <div class="field" style="--k:4"><span class="k">Client quote</span><span>"They made the bank meeting feel easy." · June 12 session</span></div>
+            <div class="field flag" style="--k:5"><span class="k">Flagged</span><span>No photo or website found. Add one?</span></div>
+            <div class="confirm"><span class="box">✓</span>You confirm the facts before it writes</div>
+          </div>
+        </div>
+        <!-- 4 Draft -->
+        <div class="scene" data-i="3" aria-hidden="true">
+          <span class="tagline">Success story draft</span><span class="who auto">Skill</span>
+          <div class="doc">
+            <h4>Example Bakery: From Farmers Market to Main Street</h4>
+            <div class="sec" style="--k:0">Challenges and Persistence</div>
+            <p style="--k:1">Her first year was a <span class="fix" style="--k:0"><s>journey</s> <ins>long stretch</ins></span> of early mornings and thin margins.</p>
+            <div class="sec" style="--k:2">SBDC Role</div>
+            <p style="--k:3">Her consultant built a cash flow plan with her in LivePlan.</p>
+            <div class="sec" style="--k:4">Growth and Results</div>
+            <p style="--k:5">She received <span class="fix" style="--k:1"><s>a $150,000 SBA loan</s> <ins>an SBA loan</ins></span> and hired two bakers.</p>
+            <div class="sec" style="--k:6">In Their Own Words</div>
+            <p style="--k:7">"They made the bank meeting feel easy." (June 12 session)</p>
+            <div class="rules"><span class="chip" style="--k:0">No dollar amounts</span><span class="chip" style="--k:1">Banned words removed</span><span class="chip" style="--k:2">Quotes sourced</span></div>
+          </div>
+        </div>
+        <!-- 5 Menu -->
+        <div class="scene" data-i="4" aria-hidden="true">
+          <span class="tagline">Follow-up menu · pick a letter</span><span class="who auto">Skill offers · you pick</span>
+          <div class="menu">
+            <div class="opt" style="--k:0"><b>A</b>Press release<small>For local media</small></div>
+            <div class="opt" style="--k:1"><b>B</b>Blog post<small>SBDC or client site</small></div>
+            <div class="opt" style="--k:2"><b>C</b>LinkedIn post<small>Short and shareable</small></div>
+            <div class="opt pick" style="--k:3"><b>D</b>Legislative letters<small>Local to federal</small></div>
+            <div class="opt" style="--k:4"><b>E</b>Chaotic good<small>An award nomination pitch</small></div>
+            <div class="opt" style="--k:5"><b>F</b>High value, minimum effort<small>A quote graphic caption</small></div>
+          </div>
+        </div>
+        <!-- 6 Legislative letters -->
+        <div class="scene" data-i="5" aria-hidden="true">
+          <span class="tagline">Legislative letters · one at a time</span><span class="who auto">Skill drafts · client sends</span>
+          <div class="ladder">
+            <div class="rung now" style="--k:0"><span class="lvl">Local</span><span>County council member</span><span class="st">Drafting</span></div>
+            <div class="rung" style="--k:1"><span class="lvl">State</span><span>Delegate and state senator</span><span class="st">Next</span></div>
+            <div class="rung" style="--k:2"><span class="lvl">Federal</span><span>U.S. House member, both senators</span><span class="st">Then</span></div>
+            <div class="letter"><span>In the client's voice, tied to this official's small-business priorities:</span><i style="width:94%"></i><i style="width:86%"></i><i style="width:58%"></i></div>
+            <div class="sender"><span class="who you">You send it to the client</span><span class="who you">Client edits and sends</span></div>
+          </div>
+        </div>
+        <div class="progress" id="progress"></div>
+      </div>
+
+      <div class="controls">
+        <button class="play" id="play" type="button">▶ Play</button>
+        <button id="prev" type="button" aria-label="Previous step">← Back</button>
+        <button id="next" type="button" aria-label="Next step">Next →</button>
+      </div>
+
+      <ol class="rail" id="rail"></ol>
+    </section>
+
+    <aside class="card" aria-live="polite" id="card"></aside>
+  </div>
+</div>
+
+<script>
+// owner: 'you' | 'auto' | 'both'. Rail chips, stage border and card all read from this one list.
+const steps = [
+  { t: 'Get the release and the report', owner: 'you', chip: 'You',
+    you: 'Confirm the client signed a release. Then open the client in Neoserra and export the "All Activity by Client" report.',
+    why: 'That one report usually holds everything the skill needs: sessions, notes, milestones, and anything the client said.',
+    tip: '<b>No release, no story.</b> The skill asks about the release first if you start without a report.' },
+  { t: 'Upload it to the skill', owner: 'you', chip: 'You · one step',
+    you: 'Open a new chat in ChatGPT or Claude, attach the report, and ask for a success story.',
+    auto: ['Skips the interview when a report is attached', 'With no report, type START and it asks its questions in two short rounds'],
+    prompt: 'Write a success story from this client report.',
+    why: 'This is the last thing you type until you review. The skill already knows the SBDC story format and rules.',
+    tip: '<b>Before you upload:</b> remove account numbers and anything the client did not agree to share.' },
+  { t: 'The skill pulls out the facts', owner: 'both', chip: 'Skill reads · you confirm',
+    auto: ['Business, contact, and why they came to the SBDC', 'What you did and what changed', 'Milestones, tools like LivePlan, and partner referrals', 'Client quotes, each with its session date'],
+    you: 'Read the bulleted summary and fix anything wrong. It waits for your OK before it writes a word.',
+    why: 'Checking the facts first saves a full rewrite later.',
+    tip: '<b>No quotes in the report?</b> The skill says so plainly and asks you for one. It never makes one up.' },
+  { t: 'The skill writes the story', owner: 'auto', chip: 'Skill',
+    auto: ['Writes it in sections: challenge, SBDC role, results, community, the client\'s own words', 'Removes dollar amounts: "an SBA loan," never the figure', 'Strips over-used words like "journey" and "game changer"', 'Marks any guess as [ASSUMPTION] so you can spot it'],
+    you: 'Nothing yet. You review the draft at the end.',
+    why: 'These are the SBDC writing rules people forget under deadline. The skill applies them every time.',
+    tip: '<b>Look for [ASSUMPTION] tags.</b> Each one is a spot where the report left a gap.' },
+  { t: 'Pick what to make next', owner: 'both', chip: 'Skill offers · you pick',
+    auto: ['Offers a lettered menu built from this client\'s story', 'Always includes one bold idea and one easy win'],
+    you: 'Reply with a letter. Press release, blog post, LinkedIn post, legislative letters, or the two wildcards.',
+    why: 'One report turns into a week of outreach without starting over each time.',
+    tip: '<b>Short on time?</b> The "high value, minimum effort" option is built for exactly that.' },
+  { t: 'Letters to elected officials', owner: 'both', chip: 'Skill drafts · client sends',
+    auto: ['Finds every official for the business address: county, state, and federal', 'Researches each one\'s priorities before writing', 'Drafts one letter at a time in the client\'s own voice, local first'],
+    you: 'Review each letter and send it to the client. The client edits it and sends it as their own.',
+    why: 'A letter tied to the official\'s own priorities gets read. A generic one gets filed.',
+    tip: '<b>Non-partisan by design.</b> Every letter thanks rather than asks, whatever the official\'s party.' }
+];
+const DUR = 12000; // time on each step before autoplay advances
+const PACE = 0.6;  // scene animations run at 60% speed
+const ownerClass = { you: 'you', auto: 'auto', both: 'auto' };
+const words = ['one','two','three','four','five','six'];
+const scenes = [...document.querySelectorAll('.scene')];
+const stage = document.getElementById('stage');
+const rail = document.getElementById('rail'), card = document.getElementById('card');
+const playBtn = document.getElementById('play'), progress = document.getElementById('progress');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cur = 0, playing = false, start = 0, raf = 0;
+
+steps.forEach((s, i) => {
+  const li = document.createElement('li');
+  li.innerHTML = `<button type="button" id="step${i}"><b>STEP ${i + 1}</b>${s.t}<span class="who ${ownerClass[s.owner]}">${s.chip}</span></button>`;
+  li.firstChild.addEventListener('click', () => { stop(); go(i); });
+  rail.appendChild(li);
+});
+
+const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+function go(i) {
+  cur = (i + steps.length) % steps.length;
+  scenes.forEach((el, j) => {
+    const on = j === cur;
+    el.classList.remove('on'); el.setAttribute('aria-hidden', String(!on));
+    if (on) { void el.offsetWidth; el.classList.add('on'); }
+  });
+  document.getAnimations?.().forEach(a => { a.playbackRate = PACE; });
+  rail.querySelectorAll('button').forEach((b, j) => j === cur ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current'));
+  const s = steps[cur];
+  stage.dataset.owner = s.owner === 'you' ? 'you' : 'auto';
+  const autoPart = s.auto ? `<div class="part auto"><h3><span class="who auto">The skill does</span></h3><ul>${s.auto.map(a => `<li>${a}</li>`).join('')}</ul></div>` : '';
+  const youPart = `<div class="part you"><h3><span class="who you">You do</span></h3><p>${s.you}</p>${s.prompt ? `<div class="copy"><code id="promptText">${esc(s.prompt)}</code><button type="button" id="copyBtn">Copy</button></div>` : ''}</div>`;
+  card.innerHTML = `<div class="n">Step ${words[cur]} of six</div>
+    <h2>${s.t}</h2>
+    ${s.owner === 'you' ? youPart + autoPart : autoPart + youPart}
+    <p class="why">${s.why}</p>
+    <div class="tip">${s.tip}</div>
+    <div class="example">Client details shown are an example.</div>`;
+  const cb = document.getElementById('copyBtn');
+  if (cb) cb.addEventListener('click', () => {
+    const p = navigator.clipboard?.writeText(s.prompt);
+    p ? p.then(() => { cb.textContent = 'Copied'; }, () => selectPrompt(cb)) : selectPrompt(cb);
+  });
+  start = performance.now();
+  progress.style.width = '0';
+}
+function selectPrompt(cb) { const r = document.createRange(); r.selectNodeContents(document.getElementById('promptText')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); cb.textContent = 'Selected, press Ctrl+C'; }
+
+function tick(now) {
+  const p = Math.min(1, (now - start) / DUR);
+  progress.style.width = (p * 100) + '%';
+  if (p >= 1) { if (cur === steps.length - 1) { stop(); return; } go(cur + 1); }
+  raf = requestAnimationFrame(tick);
+}
+function play() { if (cur === steps.length - 1) go(0); playing = true; playBtn.textContent = '❚❚ Pause'; start = performance.now(); raf = requestAnimationFrame(tick); }
+function stop() { playing = false; playBtn.textContent = '▶ Play'; cancelAnimationFrame(raf); progress.style.width = '0'; }
+playBtn.addEventListener('click', () => playing ? stop() : play());
+document.getElementById('prev').addEventListener('click', () => { stop(); go(cur - 1); });
+document.getElementById('next').addEventListener('click', () => { stop(); go(cur + 1); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') { stop(); go(cur + 1); }
+  if (e.key === 'ArrowLeft') { stop(); go(cur - 1); }
+});
+
+const root = document.documentElement;
+function pref(id, key, apply) {
+  const btn = document.getElementById(id);
+  let on = false; try { on = localStorage.getItem(key) === '1'; } catch (e) {}
+  const set = v => { on = v; btn.setAttribute('aria-pressed', String(v)); apply(v); try { localStorage.setItem(key, v ? '1' : '0'); } catch (e) {} };
+  btn.addEventListener('click', () => set(!on)); set(on);
+}
+const hostTheme = root.getAttribute('data-theme');
+pref('textSize', 'ssw-text', v => root.style.setProperty('--fs', v ? '22px' : '18px'));
+pref('contrast', 'ssw-contrast', v => v ? root.setAttribute('data-contrast', 'high') : root.removeAttribute('data-contrast'));
+pref('dark', 'ssw-dark', v => v ? root.setAttribute('data-theme', 'dark') : (hostTheme ? root.setAttribute('data-theme', hostTheme) : root.removeAttribute('data-theme')));
+
+go(0);
+if (!reduce) play();
+</script>
+
+</body>
+</html>
