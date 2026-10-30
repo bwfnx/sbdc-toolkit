@@ -1,6 +1,6 @@
 ---
 name: transcript-to-action-plan-client-email
-description: Turn a client meeting transcript into the professional follow-up email a Maryland SBDC consultant posts into Neoserra as the record of the meeting, with Next Steps, Notes, Things We Have Accomplished Since Our Last Meeting, and Relevant Links sections. Use whenever someone pastes, attaches, or describes a client consultation transcript, call recording, or meeting notes and wants a client-facing recap and action-plan email drafted from it — this is the client-facing deliverable, not internal meeting notes and not a re-engagement email to a lapsed client. Also trigger when asked to identify or flag Neoserra milestones from a conversation (certifications like 8(a), MBE, WBE, DBE, EDWOSB, WOSB, MDOT, SDB; business sales or expansion; legislative letters; AI tool adoption or AI-driven improvement; survey responses), to draft an SBDC next-steps or action-plan email, to summarize a client meeting into next steps and accomplishments, or to map a meeting to Neoserra/Nexus milestone and counseling dropdown selections.
+description: Turn a client meeting transcript into the professional follow-up email a Maryland SBDC consultant posts into Neoserra as the record of the meeting, with Next Steps, Notes, Things We Have Accomplished Since Our Last Meeting, and Relevant Links sections. Use whenever someone pastes, attaches, or describes a client consultation transcript, call recording, or meeting notes and wants a client-facing recap and action-plan email drafted from it — this is the client-facing deliverable, not internal meeting notes and not a re-engagement email to a lapsed client. Also trigger when asked to identify or flag Neoserra milestones from a conversation (certifications like 8(a), MBE, WBE, DBE, EDWOSB, WOSB, MDOT, SDB; business sales or expansion; legislative letters; AI tool adoption or AI-driven improvement; survey responses), to draft an SBDC next-steps or action-plan email, to summarize a client meeting into next steps and accomplishments, to map a meeting to Neoserra/Nexus milestone and counseling dropdown selections, or to state or check a client's SBA business status (pre-venture vs in business, business start).
 ---
 
 # Transcript to Action Plan & Client Email
@@ -40,6 +40,9 @@ Notes-
 [Detailed checklist(s) of any processes, methods, tactics, advice, or
 strategies discussed]
 
+Business status as of this meeting: [one sentence in SBA terms -- see
+"SBA business status" below]
+
 Things We Have Accomplished Since Our Last Meeting-
 [Milestones — see list below]
 
@@ -67,11 +70,64 @@ For the subject line, pull the client ID code and company name from the transcri
 
 **Next Steps** — the client's concrete next actions for their business.
 
-**Notes** — focus on what the client should do next, expressed as detailed checklists of any processes, methods, tactics, advice, or strategies that came up in the meeting. This is the section that carries the actual consulting content; don't compress it into a one-line summary.
+**Notes** — focus on what the client should do next, expressed as detailed checklists of any processes, methods, tactics, advice, or strategies that came up in the meeting. This is the section that carries the actual consulting content; don't compress it into a one-line summary. End Notes with the business status line (see "SBA business status" below).
 
 **Things We Have Accomplished Since Our Last Meeting** — milestones only (see below). The source instructions named this section two slightly different ways — "Accomplishments Since Our Last Meeting" in one place, "Things we have accomplished since our last meeting" in the worked example — and listed the four sections in a different order than the example used. This skill follows the worked example's wording and order (Next Steps, Notes, Things We Have Accomplished Since Our Last Meeting, Relevant Links) since that's the literal text meant for posting; flag this for Brandon if he prefers the other phrasing.
 
 Only **confirmed** milestones go in the client email. Partial, inferred, or "Potential" ones go in a short note to the consultant after the email, for them to verify — never mixed into the client-facing section. A first meeting usually has no accomplishments yet; say so plainly instead of leaving the section blank or padding it.
+
+## SBA business status (every email)
+
+The email is BCC'd into Neoserra as the session record, and the SBDC's program analysts validate business starts against it. They need the client's status at each session stated in SBA terms: **registration AND (sales OR hires OR investment OR operating expenses)**. Capture it every time so the consultant never has to add it by hand.
+
+**Record each criterion** from the transcript:
+
+| Criterion | What to record |
+|---|---|
+| Registration | Registered or not; entity type and date if stated |
+| Sales | Any revenue yet |
+| Hires | Any employees |
+| Investment | Any capital in, with its date relative to the first SBDC session |
+| Operating expenses | Any business spending |
+
+**Write it in two places:**
+
+- **Client email** — one neutral line at the end of Notes: `Business status as of this meeting: <status>.` Use plain SBA wording, e.g. "You have registered the business but do not yet have sales or hires and have not made any investment or business expenses." State only what the transcript supports.
+- **Consultant verification note** (after the email, with any potential milestones) — the criterion-by-criterion breakdown, each with its transcript evidence or `not mentioned`.
+
+**Never guess a criterion.** If the transcript is silent on one, mark it `not mentioned` in the verification note with "confirm with client", and leave it out of the client-email line rather than asserting "no sales."
+
+### Initial status (first sessions)
+
+Label the client **Pre-venture** only when the transcript shows no sales, no hires, no investment and no operating expenses. Otherwise the client is **In business**. If the consultant or transcript calls the client pre-venture but the transcript shows operating evidence (vehicles on the road, a signed contract, customers served, a first week of operations), flag it in the verification note: "Transcript shows the client operating (<evidence>). Initial status should likely be Start-up / In business, not Pre-venture."
+
+### Business Start rule
+
+Flag **Business Start Impact** as a *potential* milestone — verification note only, never the client email — only when all three hold:
+
+1. The client was Pre-venture at the first SBDC session.
+2. The client is now registered.
+3. At least one of sales, hires, investment or operating expenses is present now that was absent at intake.
+
+Name which criterion changed. Otherwise a newly registered entity is at most **Business Established**. A client who was in business at the first session never gets a Business Start.
+
+### Capital infusion timing
+
+For any investment the transcript mentions (TEDCO, angel, loan, grant):
+
+- **Secured before the first SBDC session** — not reportable. Mention it as background in Notes; never flag it as a milestone or capital infusion.
+- **Date unclear** — ask the consultant in the verification note to confirm timing before logging.
+- **Secured after the first session** — handle as a normal capital infusion.
+
+### Intake status on follow-up sessions
+
+On a follow-up, you need the first session's status to know which criteria are new. Check these sources in order and stop at the first that answers:
+
+1. **Uploaded Neoserra client file**, if attached. It is authoritative because it reflects any status corrections made in Neoserra.
+2. **Email search**, if a mail connector is available. Search the consultant's sent mail for prior session emails by the client ID exactly as it appears in this transcript or subject line, in whatever format the center uses (HO4158, MO1234, or another state's format). Never assume a center prefix or check the ID against a pattern. If there is no client ID, search by company and client name and flag the result as "matched by name — confirm it is the same client." Use the earliest matching email: its business status line, or for older emails without one, the operating evidence in its Notes.
+3. **Ask the consultant** one question: "What was the client's status at the first session?"
+
+In the verification note, name the source used (e.g. "Intake status from 03/12/26 email: operating, one truck, one contract"). If two sources disagree, show both and do not pick. Email search is optional — when there is no mail connector, or it finds nothing (a new client ID, or a session logged by another counselor), fall through to asking.
 
 ## Client-wins toggle (off by default)
 
@@ -106,7 +162,7 @@ Anything in the transcript that matches one of these gets pulled into the accomp
 - Bought Business
 - Business Established
 - Business Expansion
-- Business Start Impact
+- Business Start Impact — only per the Business Start rule above; always a potential milestone for the consultant to verify
 - Change in Export-related Staff
 - Change in Exports
 - Change in Full-Time Staff
@@ -148,6 +204,7 @@ Produce a copiable table with one row per milestone and these columns: Milestone
 - One row per milestone. If a single event carries more than one milestone, list them as separate rows.
 - Leave an unknown date as `[unknown]`, with a rough year where the file implies one.
 - Put partial, inferred, or ambiguous ("Potential") milestones in a **separate table for Consultant Verification** — never mix them with confirmed ones.
+- Survey-response review is non-reportable admin time, not a client session. Never present a survey review date as a follow-up session; a "Responded to Survey" milestone records the response, not a meeting.
 - Keep a running table of positive client testimonials found in the file — useful later for a success story.
 - Parse a long PDF **ten pages at a time**: extract the table for pages 1–10, give it to the consultant for review, then ask whether to continue through the next ten pages. Repeat until the file is done.
 
@@ -180,7 +237,7 @@ Build the menu from three kinds of options.
 
 The Neoserra-mapping option must always include a substantive, third-person, audit-grade session narrative that would survive an SBA Nexus / Form 641 review — not just the dropdown table. Include a header and then prose:
 
-- Header: client name + Neoserra client ID (HOxxxx) + center + counselor; session date; session type (Initial vs Follow-up — attach a returning/referred client to their existing HOxxxx); counseling method (In-Person / Telephone / Email / Online-Virtual); **Contact hours and Prepare hours recorded SEPARATELY** — leave Prepare for the consultant, never invent a figure; client stage; special designations (veteran/SDVOSB and demographic) when known; primary + secondary topic areas mapped to SBA/Neoserra categories.
+- Header: client name + Neoserra client ID (center code + number, e.g. HO4158, MO1234) + center + counselor; session date; session type (Initial vs Follow-up — attach a returning/referred client to their existing client ID); counseling method (In-Person / Telephone / Email / Online-Virtual); **Contact hours and Prepare hours recorded SEPARATELY** — leave Prepare for the consultant, never invent a figure; client stage (Pre-venture / In business, with the SBA business status and its source); special designations (veteran/SDVOSB and demographic) when known; primary + secondary topic areas mapped to SBA/Neoserra categories.
 - Narrative: an objective third-person account of the topics discussed, advice given, referrals made, and next steps. Exclude anything said after the client left and any subjective judgment about the client. Record referrals and any milestones or economic impact (jobs, capital, sales, business formed) as confirm-before-recording — never assert an unverified milestone.
 
 ## Guardrails
@@ -195,3 +252,8 @@ Every "never" in this skill, in one place:
 - Never deliver the Neoserra mapping as dropdowns alone — always with the full narrative.
 - Never invent Prepare hours; never include what was said after the client left, or a subjective judgment about the client, in the narrative.
 - Never use emojis, and never dump chronological notes in place of the template's sections.
+- Never leave out the business status line, and never guess a business-status criterion — mark it `not mentioned`.
+- Never flag a Business Start for a client who was in business at the first session, and never put a Business Start in the client email.
+- Never count a capital infusion secured before the first SBDC session.
+- Never assume a client-ID format or center prefix when searching for prior sessions.
+- Never treat survey-response review as a client session.
