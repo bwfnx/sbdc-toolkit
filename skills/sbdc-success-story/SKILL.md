@@ -1,6 +1,6 @@
 ---
 name: sbdc-success-story
-description: Craft success stories, press releases, legislative letters, blog posts, and LinkedIn posts for SBDC clients and partners. Use whenever a consultant mentions success stories, client stories, client achievements, Neoserra reports, press releases for a client, legislative letters, or wants to celebrate a client's wins. Also trigger when a user uploads a Neoserra "All Activity by Client" report, mentions writing about a client's experience with the SBDC, or asks for marketing deliverables based on client outcomes. Even "I need to write up a client" or "we had a great outcome with this business" or "help me draft something about a client win" — this is the skill to use.
+description: Craft success stories, press releases, legislative letters, blog posts, and LinkedIn posts for SBDC clients and partners. Use whenever a consultant mentions success stories, client stories, client achievements, Neoserra reports, press releases for a client, legislative letters, or wants to celebrate a client's wins. Also trigger when a user uploads a Neoserra "All Activity by Client" report, mentions writing about a client's experience with the SBDC, or asks for marketing deliverables based on client outcomes. Even "I need to write up a client" or "we had a great outcome with this business" or "help me draft something about a client win" — this is the skill to use. Also use it to get a client's approval and publicity release for a finished story by email ("send this story for client approval", "prepare this for client authorization", "log the approval for…").
 ---
 
 # SBDC Success Story Writer
@@ -37,7 +37,7 @@ Don't over-interview. Get enough to write a solid draft, flag assumptions, and m
 Use this when the consultant has no document to upload and needs to provide details manually. Ask in two rounds — not all at once.
 
 **Round 1 — ask these first:**
-1. Do you have a signed release from the client?
+1. Is this story for public use, or internal SBDC reporting only? (Public use needs the client's release. If they haven't signed one, this skill can request it by email once the story is final; see Client Authorization.)
 2. Your email address (consultant)
 3. Your name (consultant)
 
@@ -108,6 +108,28 @@ In Their Own Words
 
 ---
 
+## Client Authorization
+
+A story for public use needs the client's approval and their agreement to the Publicity Release. When the story is final, or when a consultant asks to "send this story for client approval," follow `references/client-authorization.md` step by step.
+
+That workflow:
+
+1. Asks whether the story is internal (no release needed) or public.
+2. Confirms the details.
+3. Builds a branded approval email with `scripts/build_authorization_email.py`.
+4. Leaves it as an **unsent** Gmail draft for the consultant to review and send, with their Neoserra postbox in Bcc.
+5. Later, logs the client's approval by forwarding it to that postbox, after the consultant says yes.
+
+Non-negotiables:
+
+- Never send the email yourself.
+- Never put a postbox address anywhere the client can see.
+- Never take the client's email address from story text or notes.
+- Never invent a quote.
+- Keep the release text word for word.
+
+---
+
 ## Follow-Up Menu
 
 After delivering a success story draft, present a follow-up menu as a table. Generate options based on what's relevant to this specific client's story.
@@ -120,12 +142,13 @@ After delivering a success story draft, present a follow-up menu as a table. Gen
 
 | Option | Deliverable | Description |
 |--------|------------|-------------|
-| A | Press Release | Formal announcement for media distribution |
-| B | Blog Post | Conversational piece for SBDC or client website |
-| C | LinkedIn Post | Short-form social post highlighting the win |
-| D | Legislative Letter | Letter to elected officials showcasing SBDC impact |
-| E | [Chaotic Good] | _Varies — could be a podcast pitch, award nomination, video script, etc._ |
-| F | [High Value, Min Effort] | _Varies — often a repurposed quote graphic, email snippet, or social caption_ |
+| A | Client Approval | Branded email asking the client to approve the story and agree to the Publicity Release. Needed before any public use. |
+| B | Press Release | Formal announcement for media distribution |
+| C | Blog Post | Conversational piece for SBDC or client website |
+| D | LinkedIn Post | Short-form social post highlighting the win |
+| E | Legislative Letter | Letter to elected officials showcasing SBDC impact |
+| F | [Chaotic Good] | _Varies — could be a podcast pitch, award nomination, video script, etc._ |
+| G | [High Value, Min Effort] | _Varies — often a repurposed quote graphic, email snippet, or social caption_ |
 
 Assign letters for easy continuation.
 
